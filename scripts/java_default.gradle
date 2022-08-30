@@ -1,0 +1,38 @@
+sourceSets {
+    main {
+        java['srcDirs'] = ['main/src']
+        resources['srcDirs'] = ['main/res']
+    }
+
+    test {
+        java['srcDirs'] = ['test/src']
+        resources['srcDirs'] = ['test/res']
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+clean {
+    delete file("out")
+}
+
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

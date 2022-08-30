@@ -1,0 +1,16 @@
+allprojects {
+    buildscript { // root project
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            // resolve kotlin plugin for short name 'kotlin'
+            // or 'org.jetbrains.kotlin.jvm'
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}

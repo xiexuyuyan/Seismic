@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply from: "${project.rootProject.projectDir}/scripts/java_default.gradle"
+apply plugin: 'kotlin'
+
+group 'com.yuyan'
+version '0.0.1'
+
+dependencies {
+    implementation(project(':tomcat'))
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
+    implementation 'com.google.code.gson:gson:2.9.1'
+}

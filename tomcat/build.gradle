@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+version '0.0.1'
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:8.5.23'
+}
+
+sourceSets {
+    main {
+        java['srcDirs'] = ['src']
+        resources['srcDirs'] = ['res']
+    }
+}
+
+task clearSourceJar(type: Delete) {
+    delete file(rootProject.projectDir.path
+            + "/out/libs/framework/"
+            + "${project.name}-${project.version}-${BUILD_VERSION_ALPHA}.jar")
+}
+clean.dependsOn(clearSourceJar)
+
+jar {
+    copy {
+        from('libs/tomcat-embed-core-8.5.23.jar')
+        into(rootProject.projectDir.path + '/out/libs/tomcat')
+    }
+
+    archiveClassifier.convention(BUILD_VERSION_ALPHA)
+    archiveClassifier.set(BUILD_VERSION_ALPHA)
+    destinationDirectory.set(file(rootProject.projectDir.path + "/out/libs/framework"))
+    manifest.attributes.put('Manifest-Version', project.version)
+
+    doLast {
+        println archiveFile.get()
+        // println "jar tf ${archiveFile.get()}".execute().text.trim()
+    }
+}
