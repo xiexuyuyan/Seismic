@@ -31,5 +31,6 @@ public class GsonTest {
         System.out.println("commandList = " + commandList);
         String jsonStrRevert = gson.toJson(commandList);
         System.out.println("jsonStrRevert = " + jsonStrRevert);
+        /* file system test 加密系统测试 */
     }
 }
