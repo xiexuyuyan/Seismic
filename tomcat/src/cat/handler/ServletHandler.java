@@ -13,11 +13,13 @@ public abstract class ServletHandler {
     public abstract boolean handle(ServletRequest req, ServletResponse res);
 
     public static String parsePackageName(String requestUrl){
-        return requestUrl.split("/")[1];
+        String[] args = requestUrl.split("/");
+        return args.length >= 2 ? args[1] : null;
     }
 
 
     protected static String parseUrl(String requestUrl) {
-        return requestUrl.split("/")[2];
+        String[] args = requestUrl.split("/");
+        return args.length >= 3 ? args[2] : null;
     }
 }

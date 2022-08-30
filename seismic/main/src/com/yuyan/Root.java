@@ -4,7 +4,7 @@ import cat.handler.ServletHandler;
 import cat.server.TomcatServer;
 import com.yuyan.model.Command;
 import com.yuyan.repository.CommandHelper;
-import com.yuyan.web.CommandListReader;
+import com.yuyan.web.CommandHandler;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -16,6 +16,7 @@ import java.util.Map;
 public class Root {
     public static final String GET_COMMAND_LIST_SIZE = "GET_COMMAND_LIST_SIZE";
     public static final String GET_COMMAND_BY_INDEX = "GET_COMMAND_BY_INDEX";
+    public static final String GET_COMMAND_ALL = "GET_COMMAND_ALL";
 
     public static void main(String[] args) {
         try {
@@ -34,11 +35,17 @@ public class Root {
             public boolean handle(ServletRequest req, ServletResponse res) {
                 HttpServletRequest request = (HttpServletRequest) req;
                 String requestUrl = request.getRequestURI();
+                String[] args = requestUrl.split("/");
+                System.out.println("args = " + Arrays.toString(args));
                 String requestPackageName = parsePackageName(requestUrl);
                 requestUrl = parseUrl(request.getRequestURI());
                 System.out.println("requestPackageName = " + requestPackageName);
                 System.out.println("requestUrl = " + requestUrl);
-                dispatch(requestUrl, req, res);
+                try {
+                    dispatch(requestUrl, req, res);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         };
@@ -46,7 +53,7 @@ public class Root {
         tomcatServer.startServer();
     }
 
-    void dispatch(String requestUrl, ServletRequest req, ServletResponse res) {
+    void dispatch(String requestUrl, ServletRequest req, ServletResponse res) throws IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         Map<String, String[]> argumentMap = request.getParameterMap();
         String[] argumentNames = new String[argumentMap.size()];
@@ -59,12 +66,13 @@ public class Root {
         }
         switch (requestUrl) {
             case GET_COMMAND_LIST_SIZE:
-                int size = CommandListReader.getSize();
-                System.out.println("size = " + size);
+                CommandHandler.getSize(req, res);
                 break;
             case GET_COMMAND_BY_INDEX:
-                Command command = CommandListReader.getCommand(0);
-                System.out.println("command = " + command);
+                CommandHandler.getCommandByIndex(req, res);
+                break;
+            case GET_COMMAND_ALL:
+                CommandHandler.getCommandAll(req, res);
                 break;
         }
     }

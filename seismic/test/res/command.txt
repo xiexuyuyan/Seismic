@@ -1,0 +1,5 @@
+curl "http://localhost:6699/com.yuyan.seismic/GET_COMMAND_ALL"
+
+http://localhost:6688/command.html
+
+http://localhost:6677/

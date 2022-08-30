@@ -3,6 +3,7 @@ package com.yuyan.model;
 import java.util.List;
 
 public class CommandList {
+    public int size;
     public String model;
     public String brand;
     public String manufacturer;
@@ -24,6 +25,7 @@ public class CommandList {
         commandListStr.append("]");
 
         return "{" + "\n"
+                + "\t" + "size: " + size + "\n"
                 + "\t" + "model: " + model + "\n"
                 + "\t" + "brand: " + brand + "\n"
                 + "\t" + "manufacturer: " + manufacturer + "\n"
