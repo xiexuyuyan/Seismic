@@ -4,7 +4,9 @@ import cat.handler.ServletHandler;
 import cat.server.TomcatServer;
 import com.yuyan.model.Command;
 import com.yuyan.repository.CommandHelper;
+import com.yuyan.tcp.TcpClientService;
 import com.yuyan.web.CommandHandler;
+import droid.message.Looper;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,6 +19,7 @@ public class Root {
     public static final String GET_COMMAND_LIST_SIZE = "GET_COMMAND_LIST_SIZE";
     public static final String GET_COMMAND_BY_INDEX = "GET_COMMAND_BY_INDEX";
     public static final String GET_COMMAND_ALL = "GET_COMMAND_ALL";
+    public static final String HANDLE_POST_COMMAND = "HANDLE_POST_COMMAND";
 
     public static void main(String[] args) {
         try {
@@ -27,6 +30,9 @@ public class Root {
     }
 
     private void run() throws IOException {
+        Looper.prepareMainLooper();
+
+        new TcpClientService().start();
         CommandHelper.read();
 
         TomcatServer tomcatServer = new TomcatServer();
@@ -54,16 +60,6 @@ public class Root {
     }
 
     void dispatch(String requestUrl, ServletRequest req, ServletResponse res) throws IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        Map<String, String[]> argumentMap = request.getParameterMap();
-        String[] argumentNames = new String[argumentMap.size()];
-        int i = 0;
-        for (String s : argumentMap.keySet()) {
-            argumentNames[i++] = s;
-            System.out.println("s = " + s);
-            String[] value = argumentMap.get(s);
-            System.out.println("value = " + Arrays.toString(value));
-        }
         switch (requestUrl) {
             case GET_COMMAND_LIST_SIZE:
                 CommandHandler.getSize(req, res);
@@ -73,6 +69,9 @@ public class Root {
                 break;
             case GET_COMMAND_ALL:
                 CommandHandler.getCommandAll(req, res);
+                break;
+            case HANDLE_POST_COMMAND:
+                CommandHandler.handlePostCommand(req, res);
                 break;
         }
     }
