@@ -13,3 +13,6 @@
 /tomcat.6699/
 
 /out/
+
+/seismic/web/.htaccess
+/seismic/web/nginx.htaccess

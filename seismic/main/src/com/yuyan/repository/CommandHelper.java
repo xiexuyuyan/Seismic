@@ -16,7 +16,7 @@ public enum CommandHelper {
 
     public Map<String, Command> commandMap;
 
-    public static void read() throws IOException {
+    public static void init() throws IOException {
         String filePath = "seismic/main/res/A311D2_medium_auto_test_command.json";
         File commandFile = new File(filePath);
         FileReader fileReader = new FileReader(commandFile);

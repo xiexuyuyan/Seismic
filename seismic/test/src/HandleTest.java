@@ -1,11 +1,6 @@
-import com.yuyan.tcp.TcpClientRunnable;
 import droid.message.Handler;
 import droid.message.Looper;
 import droid.message.Message;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.Socket;
 
 public class HandleTest {
 

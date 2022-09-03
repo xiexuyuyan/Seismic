@@ -2,24 +2,20 @@ package com.yuyan;
 
 import cat.handler.ServletHandler;
 import cat.server.TomcatServer;
-import com.yuyan.model.Command;
 import com.yuyan.repository.CommandHelper;
-import com.yuyan.tcp.TcpClientService;
 import com.yuyan.web.CommandHandler;
-import droid.message.Looper;
+import com.yuyan.web.ServletThreadMaintainer;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.Arrays;
-import java.util.Map;
 
 public class Root {
-    public static final String GET_COMMAND_LIST_SIZE = "GET_COMMAND_LIST_SIZE";
-    public static final String GET_COMMAND_BY_INDEX = "GET_COMMAND_BY_INDEX";
-    public static final String GET_COMMAND_ALL = "GET_COMMAND_ALL";
-    public static final String HANDLE_POST_COMMAND = "HANDLE_POST_COMMAND";
 
     public static void main(String[] args) {
         try {
@@ -30,27 +26,31 @@ public class Root {
     }
 
     private void run() throws IOException {
-        Looper.prepareMainLooper();
-
-        new TcpClientService().start();
-        CommandHelper.read();
+        CommandHelper.init();
 
         TomcatServer tomcatServer = new TomcatServer();
+
+        ThreadLocal<Socket> socketThreadLocal = new ThreadLocal<>();
         ServletHandler handler = new ServletHandler("com.yuyan.seismic") {
             @Override
             public boolean handle(ServletRequest req, ServletResponse res) {
-                HttpServletRequest request = (HttpServletRequest) req;
-                String requestUrl = request.getRequestURI();
-                String[] args = requestUrl.split("/");
-                System.out.println("args = " + Arrays.toString(args));
-                String requestPackageName = parsePackageName(requestUrl);
-                requestUrl = parseUrl(request.getRequestURI());
-                System.out.println("requestPackageName = " + requestPackageName);
-                System.out.println("requestUrl = " + requestUrl);
-                try {
-                    dispatch(requestUrl, req, res);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                Socket oldSock = socketThreadLocal.get();
+                if (oldSock == null) {
+                    System.out.println("[Coder Wu] prepare create socket.");
+                    Socket socket = createSocket("192.168.3.34", 53705);
+                    if (socket == null) {
+                        try {
+                            throw new Exception("Create a socket failed");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        socketThreadLocal.set(socket);
+                        new ServletThreadMaintainer(req, res, socket).start();
+                    }
+                } else {
+                    System.out.println("[Coder Wu] prepare use old socket.");
+                    new ServletThreadMaintainer(req, res, oldSock).start();
                 }
                 return true;
             }
@@ -59,20 +59,20 @@ public class Root {
         tomcatServer.startServer();
     }
 
-    void dispatch(String requestUrl, ServletRequest req, ServletResponse res) throws IOException {
-        switch (requestUrl) {
-            case GET_COMMAND_LIST_SIZE:
-                CommandHandler.getSize(req, res);
-                break;
-            case GET_COMMAND_BY_INDEX:
-                CommandHandler.getCommandByIndex(req, res);
-                break;
-            case GET_COMMAND_ALL:
-                CommandHandler.getCommandAll(req, res);
-                break;
-            case HANDLE_POST_COMMAND:
-                CommandHandler.handlePostCommand(req, res);
-                break;
+    private Socket createSocket(String ip, int port) {
+        String[] ipStr = ip.split("\\.");
+        byte[] ipBuf = new byte[4];
+        for(int i = 0; i < 4; i++){
+            ipBuf[i] = (byte)(Integer.parseInt(ipStr[i])&0xff);
         }
+
+        try {
+            System.out.println("[Coder Wu] create socket. at " + ip + ":" + port);
+            return new Socket(InetAddress.getByAddress(ipBuf),port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 }
