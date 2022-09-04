@@ -1,0 +1,348 @@
+{
+  "size": 84,
+  "model": "A311D2",
+  "brand": "SKG",
+  "manufacturer": "SKG",
+  "version": "0.0.1",
+  "date": "2022-08-26",
+  "author": "Coder Wu",
+  "board": "t7",
+  "commands": [
+    {"name": "GET_TEST_USB_NAME","description": "获取安卓usb","commandData": {
+      "name": "GET_TEST_USB_NAME","stringCode": "38303147833030300D","commandHexCode": {
+      "type": "47","code": "83","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_ETHERNET_CLOSE","description": "关闭有线网络","commandData": {
+      "name": "SET_TEST_ETHERNET_CLOSE","stringCode": "383031535D3030300D","commandHexCode": {
+      "type": "53","code": "5D","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_ETHERNET_OPEN","description": "打开有线网络","commandData": {
+      "name": "SET_TEST_ETHERNET_OPEN","stringCode": "383031535D3030310D","commandHexCode": {
+      "type": "53","code": "5D","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "GET_TEST_ETHERNET_DHCP_IP","description": "获取安卓ip","commandData": {
+      "name": "GET_TEST_ETHERNET_DHCP_IP","stringCode": "38303147763030300D","commandHexCode": {
+      "type": "47","code": "76","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_ADB_PERMISSIONS_ON","description": "打开adb调试权限","commandData": {
+      "name": "SET_TEST_ADB_PERMISSIONS_ON","stringCode": "38303153743030310D","commandHexCode": {
+      "type": "53","code": "74","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_RESET_DEFAULT","description": "复位","commandData": {
+      "name": "SET_TEST_RESET_DEFAULT","stringCode": "383031535A3030300D","commandHexCode": {
+      "type": "53","code": "5A","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_OPEN_HOTSPOT_SETTINGS","description": "打开热点设置界面","commandData": {
+      "name": "SET_TEST_OPEN_HOTSPOT_SETTINGS","stringCode": "383031535E3030320D","commandHexCode": {
+      "type": "53","code": "5E","commandValue": {
+      "type": "integer","min": "002","max": "002"}}}}
+  , {"name": "SET_TEST_HOTSPOT_OPEN","description": "打开热点","commandData": {
+      "name": "SET_TEST_HOTSPOT_OPEN","stringCode": "383031535E3030310D","commandHexCode": {
+      "type": "53","code": "5E","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_HOTSPOT_NAME","description": "自定义设置热点名字","commandData": {
+      "name": "SET_TEST_HOTSPOT_NAME","stringCode": "363031535BXX0D","commandHexCode": {
+      "type": "53","code": "5B","commandValue": {
+      "type": "string","min": "00","max": "FFFFFFFF"}}}}
+  , {"name": "SET_TEST_HOTSPOT_PASS","description": "自定义设置热点密码","commandData": {
+      "name": "SET_TEST_HOTSPOT_PASS","stringCode": "363031535CXX0D","commandHexCode": {
+      "type": "53","code": "5C","commandValue": {
+      "type": "string","min": "00","max": "FFFFFFFF"}}}}
+  , {"name": "SET_TEST_HOTSPOT_CLOSE","description": "关闭热点","commandData": {
+      "name": "SET_TEST_HOTSPOT_CLOSE","stringCode": "383031535E3030300D","commandHexCode": {
+      "type": "53","code": "5E","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_EDID_VERSION_1","description": "切换edid1.4","commandData": {
+      "name": "SET_TEST_EDID_VERSION_1","stringCode": "383031535F3030300D","commandHexCode": {
+      "type": "53","code": "5F","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_EDID_VERSION_2","description": "切换edid2.0","commandData": {
+      "name": "SET_TEST_EDID_VERSION_2","stringCode": "383031535F3030310D","commandHexCode": {
+      "type": "53","code": "5F","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "GET_TEST_MAC_ADDRESS","description": "获取mac地址","commandData": {
+      "name": "GET_TEST_MAC_ADDRESS","stringCode": "38303147843030300D","commandHexCode": {
+      "type": "47","code": "84","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_SERIAL_NUMBER","description": "获取序列号","commandData": {
+      "name": "GET_TEST_SERIAL_NUMBER","stringCode": "38303147773030300D","commandHexCode": {
+      "type": "47","code": "77","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_SYSTEM_VERSION","description": "获取软件版本","commandData": {
+      "name": "GET_TEST_SYSTEM_VERSION","stringCode": "38303147783030300D","commandHexCode": {
+      "type": "47","code": "78","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_KEYPAD_LOCK_ON","description": "进入测试模式","commandData": {
+      "name": "SET_TEST_KEYPAD_LOCK_ON","stringCode": "38303153723030310D","commandHexCode": {
+      "type": "53","code": "72","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_KEYPAD_LOCK_OFF","description": "退出测试模式","commandData": {
+      "name": "SET_TEST_KEYPAD_LOCK_OFF","stringCode": "38303153723030300D","commandHexCode": {
+      "type": "53","code": "72","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_KEYEVENT_LISTEN_ON","description": "进入监听模式","commandData": {
+      "name": "SET_TEST_KEYEVENT_LISTEN_ON","stringCode": "38303153713030310D","commandHexCode": {
+      "type": "53","code": "71","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_KEYEVENT_LISTEN_OFF","description": "退出监听模式","commandData": {
+      "name": "SET_TEST_KEYEVENT_LISTEN_OFF","stringCode": "38303153713030300D","commandHexCode": {
+      "type": "53","code": "71","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_BACKLIGHT_VALUE","description": "获取背光值","commandData": {
+      "name": "GET_TEST_BACKLIGHT_VALUE","stringCode": "38303147853030300D","commandHexCode": {
+      "type": "47","code": "85","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_BACKLIGHT_VALUE","description": "设置背光值","commandData": {
+      "name": "SET_TEST_BACKLIGHT_VALUE","stringCode": "38303153603X3X3X0D","commandHexCode": {
+      "type": "53","code": "60","commandValue": {
+      "type": "integer","min": "1","max": "100"}}}}
+  , {"name": "SET_TEST_AUTO_BACKLIGHT_ON","description": "打开自动背光","commandData": {
+      "name": "SET_TEST_AUTO_BACKLIGHT_ON","stringCode": "38303153733030310D","commandHexCode": {
+      "type": "53","code": "73","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_AUTO_BACKLIGHT_OFF","description": "关闭自动背光","commandData": {
+      "name": "SET_TEST_AUTO_BACKLIGHT_OFF","stringCode": "38303153733030300D","commandHexCode": {
+      "type": "53","code": "73","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_WIFI_LEVEL","description": "获取当前wifi强度","commandData": {
+      "name": "GET_TEST_WIFI_LEVEL","stringCode": "38303147863030300D","commandHexCode": {
+      "type": "47","code": "86","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_SOUND_EXTERNAL_OFF","description": "设置声音内置","commandData": {
+      "name": "SET_TEST_SOUND_EXTERNAL_OFF","stringCode": "38303153693030300D","commandHexCode": {
+      "type": "53","code": "69","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_SOUND_EXTERNAL_ON","description": "设置声音外置","commandData": {
+      "name": "SET_TEST_SOUND_EXTERNAL_ON","stringCode": "38303153693030310D","commandHexCode": {
+      "type": "53","code": "69","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_MUTE_ON","description": "静音","commandData": {
+      "name": "SET_TEST_MUTE_ON","stringCode": "38303153513030310D","commandHexCode": {
+      "type": "53","code": "51","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_MUTE_OFF","description": "关闭静音","commandData": {
+      "name": "SET_TEST_MUTE_OFF","stringCode": "38303153513030300D","commandHexCode": {
+      "type": "53","code": "51","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_VOLUME","description": "设置音量","commandData": {
+      "name": "SET_TEST_VOLUME","stringCode": "38303153503X3X3X0D","commandHexCode": {
+      "type": "53","code": "50","commandValue": {
+      "type": "integer","min": "1","max": "100"}}}}
+  , {"name": "GET_TEST_CURRENT_INPUT_SOURCE","description": "获取当前信源","commandData": {
+      "name": "GET_TEST_CURRENT_INPUT_SOURCE","stringCode": "38303147683030300D","commandHexCode": {
+      "type": "47","code": "68","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_AUTO_SOURCE_SWITCH_ON","description": "打开信源自动跳转","commandData": {
+      "name": "SET_TEST_AUTO_SOURCE_SWITCH_ON","stringCode": "38303153673030310D","commandHexCode": {
+      "type": "53","code": "67","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_AUTO_SOURCE_SWITCH_OFF","description": "关闭信源自动跳转","commandData": {
+      "name": "SET_TEST_AUTO_SOURCE_SWITCH_OFF","stringCode": "38303153673030300D","commandHexCode": {
+      "type": "53","code": "67","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_HDMI_OUT_4K","description": "设置信源4k","commandData": {
+      "name": "SET_TEST_HDMI_OUT_4K","stringCode": "38303153683030310D","commandHexCode": {
+      "type": "53","code": "68","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "GET_TEST_TOUCH_VERSION","description": "获取触摸框版本","commandData": {
+      "name": "GET_TEST_TOUCH_VERSION","stringCode": "383031477B3030300D","commandHexCode": {
+      "type": "47","code": "7B","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_SCREEN_PARAMETERS","description": "获取屏参信息","commandData": {
+      "name": "GET_TEST_SCREEN_PARAMETERS","stringCode": "38303147873030300D","commandHexCode": {
+      "type": "47","code": "87","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_BRIGHTNESS_VALUE","description": "设置亮度","commandData": {
+      "name": "SET_TEST_BRIGHTNESS_VALUE","stringCode": "38303153443X3X3X0D","commandHexCode": {
+      "type": "53","code": "44","commandValue": {
+      "type": "integer","min": "1","max": "100"}}}}
+  , {"name": "GET_TEST_BRIGHTNESS_VALUE","description": "获取亮度","commandData": {
+      "name": "GET_TEST_BRIGHTNESS_VALUE","stringCode": "38303147623030300D","commandHexCode": {
+      "type": "47","code": "62","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_OPEN_NFC","description": "打开nfc","commandData": {
+      "name": "SET_TEST_OPEN_NFC","stringCode": "383031536A3030310D","commandHexCode": {
+      "type": "53","code": "6A","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "GET_TEST_NFC_STATE","description": "获取nfc状态","commandData": {
+      "name": "GET_TEST_NFC_STATE","stringCode": "383031477D3030300D","commandHexCode": {
+      "type": "47","code": "7D","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_OPEN_WHITEBOARD","description": "打开白板","commandData": {
+      "name": "SET_TEST_OPEN_WHITEBOARD","stringCode": "383031536B3030310D","commandHexCode": {
+      "type": "53","code": "6B","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_CLOSE_WHITEBOARD","description": "退出白板","commandData": {
+      "name": "SET_TEST_CLOSE_WHITEBOARD","stringCode": "383031536B3030300D","commandHexCode": {
+      "type": "53","code": "6B","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_ANDROID","description": "跳转安卓","commandData": {
+      "name": "SET_TEST_SOURCE_TO_ANDROID","stringCode": "38303153423031310D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "011","max": "011"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_HDMI","description": "跳转前置HDMI","commandData": {
+      "name": "SET_TEST_SOURCE_TO_HDMI","stringCode": "38303153423030340D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "004","max": "004"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_HDMI1","description": "跳转HDMI1","commandData": {
+      "name": "SET_TEST_SOURCE_TO_HDMI1","stringCode": "38303153423031340D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "014","max": "014"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_HDMI2","description": "跳转HDMI2","commandData": {
+      "name": "SET_TEST_SOURCE_TO_HDMI2","stringCode": "38303153423032340D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "024","max": "024"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_DP","description": "跳转DP","commandData": {
+      "name": "SET_TEST_SOURCE_TO_DP","stringCode": "38303153423030390D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "009","max": "009"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_OPS","description": "跳转OPS","commandData": {
+      "name": "SET_TEST_SOURCE_TO_OPS","stringCode": "38303153423030370D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "007","max": "007"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_VGA","description": "跳转VGA","commandData": {
+      "name": "SET_TEST_SOURCE_TO_VGA","stringCode": "38303153423030360D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "006","max": "006"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_YPBPR","description": "跳转YPBYR","commandData": {
+      "name": "SET_TEST_SOURCE_TO_YPBPR","stringCode": "38303153423030330D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "003","max": "003"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_AV","description": "跳转AV","commandData": {
+      "name": "SET_TEST_SOURCE_TO_AV","stringCode": "38303153423030310D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_SOURCE_TO_TYPEC","description": "跳转typec","commandData": {
+      "name": "SET_TEST_SOURCE_TO_TYPEC","stringCode": "38303153423031330D","commandHexCode": {
+      "type": "53","code": "42","commandValue": {
+      "type": "hex","min": "013","max": "013"}}}}
+  , {"name": "SET_TEST_SCREENSHOTS","description": "截屏","commandData": {
+      "name": "SET_TEST_SCREENSHOTS","stringCode": "383031536F3030300D","commandHexCode": {
+      "type": "53","code": "6F","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_CAMERA_OFF","description": "关闭摄像头","commandData": {
+      "name": "SET_TEST_CAMERA_OFF","stringCode": "383031536E3030300D","commandHexCode": {
+      "type": "53","code": "6E","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_CAMERA_ON","description": "打开摄像头","commandData": {
+      "name": "SET_TEST_CAMERA_ON","stringCode": "383031536E3030310D","commandHexCode": {
+      "type": "53","code": "6E","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_SCREEN_SOFTWARE_OFF","description": "关闭投屏软件","commandData": {
+      "name": "SET_TEST_SCREEN_SOFTWARE_OFF","stringCode": "38303153703030300D","commandHexCode": {
+      "type": "53","code": "70","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_SCREEN_SOFTWARE_ON","description": "打开投屏软件","commandData": {
+      "name": "SET_TEST_SCREEN_SOFTWARE_ON","stringCode": "38303153703030310D","commandHexCode": {
+      "type": "53","code": "70","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_OPEN_WIFI_SETTINGS","description": "打开WiFi设置界面","commandData": {
+      "name": "SET_TEST_OPEN_WIFI_SETTINGS","stringCode": "38303153643030320D","commandHexCode": {
+      "type": "53","code": "64","commandValue": {
+      "type": "integer","min": "002","max": "002"}}}}
+  , {"name": "SET_TEST_WIFI_OPEN","description": "打开wifi","commandData": {
+      "name": "SET_TEST_WIFI_OPEN","stringCode": "38303153643030310D","commandHexCode": {
+      "type": "53","code": "64","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_WIFI_CLOSE","description": "关闭wifi","commandData": {
+      "name": "SET_TEST_WIFI_CLOSE","stringCode": "38303153643030300D","commandHexCode": {
+      "type": "53","code": "64","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_CONNECT_FIXED_WIFI1","description": "连接wifiA","commandData": {
+      "name": "SET_TEST_CONNECT_FIXED_WIFI1","stringCode": "38303153653030300D","commandHexCode": {
+      "type": "53","code": "65","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_CONNECT_FIXED_WIFI2","description": "连接wifiB","commandData": {
+      "name": "SET_TEST_CONNECT_FIXED_WIFI2","stringCode": "38303153653030310D","commandHexCode": {
+      "type": "53","code": "65","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_CONNECT_CUSTOM_WIFI","description": "连接自定义wifi","commandData": {
+      "name": "SET_TEST_CONNECT_CUSTOM_WIFI","stringCode": "3630315366XX0D","commandHexCode": {
+      "type": "53","code": "66","commandValue": {
+      "type": "string","min": "00","max": "FFFFFFFF"}}}}
+  , {"name": "GET_TEST_WIFI_MAC","description": "获取WiFiMAC","commandData": {
+      "name": "GET_TEST_WIFI_MAC","stringCode": "383031477E3030300D","commandHexCode": {
+      "type": "47","code": "7E","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_BLUETOOTH_MAC","description": "获取蓝牙MAC","commandData": {
+      "name": "GET_TEST_BLUETOOTH_MAC","stringCode": "38303147883030300D","commandHexCode": {
+      "type": "47","code": "88","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_WIFI_CONNECT_STATE","description": "获取wifi连接状态","commandData": {
+      "name": "GET_TEST_WIFI_CONNECT_STATE","stringCode": "38303147813030300D","commandHexCode": {
+      "type": "47","code": "81","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_OPEN_BLUETOOTH_SETTINGS","description": "打开蓝牙设置界面","commandData": {
+      "name": "SET_TEST_OPEN_BLUETOOTH_SETTINGS","stringCode": "383031536C3030320D","commandHexCode": {
+      "type": "53","code": "6C","commandValue": {
+      "type": "integer","min": "002","max": "002"}}}}
+  , {"name": "SET_TEST_OPEN_BLUETOOTH","description": "打开蓝牙","commandData": {
+      "name": "SET_TEST_OPEN_BLUETOOTH","stringCode": "383031536C3030310D","commandHexCode": {
+      "type": "53","code": "6C","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_CLOSE_BLUETOOTH","description": "关闭蓝牙","commandData": {
+      "name": "SET_TEST_CLOSE_BLUETOOTH","stringCode": "383031536C3030300D","commandHexCode": {
+      "type": "53","code": "6C","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_CONNECT_BLUETOOTH","description": "连接自定义MAC地址蓝牙","commandData": {
+      "name": "SET_TEST_CONNECT_BLUETOOTH","stringCode": "363031536DXX0D","commandHexCode": {
+      "type": "53","code": "6D","commandValue": {
+      "type": "string","min": "00","max": "FFFFFFFF"}}}}
+  , {"name": "GET_TEST_BLUETOOTH_CONNECT_STATE","description": "获取当前蓝牙连接状态","commandData": {
+      "name": "GET_TEST_BLUETOOTH_CONNECT_STATE","stringCode": "38303147823030300D","commandHexCode": {
+      "type": "47","code": "82","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "UNDEFINED_01","description": "判断当前信源的画面与产线提供的对应的信源的标准画面一致（图片由宋英郡提供）","commandData": {
+      "name": "UNDEFINED_01","stringCode": "38303153773030300D","commandHexCode": {
+      "type": "53","code": "77","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_TOUCH_DRIVER_VERSION","description": "获取Touch Driver Version","commandData": {
+      "name": "GET_TEST_TOUCH_DRIVER_VERSION","stringCode": "38303147803030300D","commandHexCode": {
+      "type": "47","code": "80","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_PLAY_USB_AUDIO_FILE_ON","description": "打开U盘MP3文件","commandData": {
+      "name": "SET_TEST_PLAY_USB_AUDIO_FILE_ON","stringCode": "38303153753030310D","commandHexCode": {
+      "type": "53","code": "75","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_PLAY_USB_AUDIO_FILE_OFF","description": "关闭打开的MP3文件","commandData": {
+      "name": "SET_TEST_PLAY_USB_AUDIO_FILE_OFF","stringCode": "38303153753030300D","commandHexCode": {
+      "type": "53","code": "75","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "SET_TEST_PLAY_USB_VIDEO_FILE_ON","description": "打开U盘MP4文件","commandData": {
+      "name": "SET_TEST_PLAY_USB_VIDEO_FILE_ON","stringCode": "38303153763030310D","commandHexCode": {
+      "type": "53","code": "76","commandValue": {
+      "type": "integer","min": "001","max": "001"}}}}
+  , {"name": "SET_TEST_PLAY_USB_VIDEO_FILE_OFF","description": "关闭打开的MP4文件","commandData": {
+      "name": "SET_TEST_PLAY_USB_VIDEO_FILE_OFF","stringCode": "38303153763030300D","commandHexCode": {
+      "type": "53","code": "76","commandValue": {
+      "type": "integer","min": "000","max": "000"}}}}
+  , {"name": "GET_TEST_WIFI_STATUS","description": "获取无线网是否打开","commandData": {
+      "name": "GET_TEST_WIFI_STATUS","stringCode": "383031475D3030320D","commandHexCode": {
+      "type": "47","code": "5D","commandValue": {
+      "type": "integer","min": "002","max": "002"}}}}
+  , {"name": "GET_TEST_ETHERNET_STATUS","description": "查询有线网打开状态","commandData": {
+      "name": "GET_TEST_ETHERNET_STATUS","stringCode": "38303147643030330D","commandHexCode": {
+      "type": "47","code": "64","commandValue": {
+      "type": "integer","min": "003","max": "003"}}}}
+  , {"name": "GET_TEST_HOTSPOT_STATUS","description": "获取热点是否正常打开","commandData": {
+      "name": "GET_TEST_HOTSPOT_STATUS","stringCode": "383031475E3030330D","commandHexCode": {
+      "type": "47","code": "5E","commandValue": {
+      "type": "integer","min": "003","max": "003"}}}}
+  , {"name": "GET_TEST_BLUETOOTH_STATUS","description": "获取蓝牙是否正常打开","commandData": {
+      "name": "GET_TEST_BLUETOOTH_STATUS","stringCode": "383031476C3030330D","commandHexCode": {
+      "type": "47","code": "6C","commandValue": {
+      "type": "integer","min": "003","max": "003"}}}}
+  , {"name": "SET_TEST_PICTURE_CUSTOM_MODE","description": "打开图像模式自定义模式","commandData": {
+      "name": "SET_TEST_PICTURE_CUSTOM_MODE","stringCode": "38303153713031300D","commandHexCode": {
+      "type": "53","code": "71","commandValue": {
+      "type": "integer","min": "010","max": "010"}}}}
+  , {"name": "SET_TEST_PICTURE_STANDARD_MODE","description": "打开图像模式标准模式","commandData": {
+      "name": "SET_TEST_PICTURE_STANDARD_MODE","stringCode": "38303153713031310D","commandHexCode": {
+      "type": "53","code": "71","commandValue": {
+      "type": "integer","min": "011","max": "011"}}}}
+  , {"name": "SET_TEST_CONTRAST","description": "设置对比度","commandData": {
+      "name": "SET_TEST_CONTRAST","stringCode": "38303153433X3X3X0D","commandHexCode": {
+      "type": "53","code": "43","commandValue": {
+      "type": "integer","min": "1","max": "100"}}}}
+  ]
+}
