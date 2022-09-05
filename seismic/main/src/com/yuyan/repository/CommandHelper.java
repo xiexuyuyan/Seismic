@@ -19,18 +19,20 @@ public enum CommandHelper {
     public static void init() throws IOException {
         init("seismic/main/res/A311D2_medium_auto_test_command.json");
     }
+
     public static void init(String filePath) throws IOException {
         File commandFile = new File(filePath);
-        FileReader fileReader = new FileReader(commandFile);
+        init(Files.newInputStream(commandFile.toPath()));
+    }
+
+    public static void init(InputStream inputStream) throws IOException {
         Reader reader = new InputStreamReader(
-                Files.newInputStream(commandFile.toPath())
-                , StandardCharsets.UTF_8);
+                inputStream, StandardCharsets.UTF_8);
         int ch = 0;
         StringBuilder stringBuilder = new StringBuilder();
         while ((ch = reader.read()) != -1) {
             stringBuilder.append((char) ch);
         }
-        fileReader.close();
         reader.close();
         String jsonStr = stringBuilder.toString();
 

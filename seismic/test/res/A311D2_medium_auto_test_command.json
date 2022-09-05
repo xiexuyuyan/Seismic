@@ -179,43 +179,43 @@
   , {"name": "SET_TEST_SOURCE_TO_ANDROID","description": "跳转安卓","commandData": {
       "name": "SET_TEST_SOURCE_TO_ANDROID","stringCode": "38303153423031310D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "011","max": "011"}}}}
+      "type": "integer","min": "011","max": "011"}}}}
   , {"name": "SET_TEST_SOURCE_TO_HDMI","description": "跳转前置HDMI","commandData": {
       "name": "SET_TEST_SOURCE_TO_HDMI","stringCode": "38303153423030340D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "004","max": "004"}}}}
+      "type": "integer","min": "004","max": "004"}}}}
   , {"name": "SET_TEST_SOURCE_TO_HDMI1","description": "跳转HDMI1","commandData": {
       "name": "SET_TEST_SOURCE_TO_HDMI1","stringCode": "38303153423031340D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "014","max": "014"}}}}
+      "type": "integer","min": "014","max": "014"}}}}
   , {"name": "SET_TEST_SOURCE_TO_HDMI2","description": "跳转HDMI2","commandData": {
       "name": "SET_TEST_SOURCE_TO_HDMI2","stringCode": "38303153423032340D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "024","max": "024"}}}}
+      "type": "integer","min": "024","max": "024"}}}}
   , {"name": "SET_TEST_SOURCE_TO_DP","description": "跳转DP","commandData": {
       "name": "SET_TEST_SOURCE_TO_DP","stringCode": "38303153423030390D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "009","max": "009"}}}}
+      "type": "integer","min": "009","max": "009"}}}}
   , {"name": "SET_TEST_SOURCE_TO_OPS","description": "跳转OPS","commandData": {
       "name": "SET_TEST_SOURCE_TO_OPS","stringCode": "38303153423030370D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "007","max": "007"}}}}
+      "type": "integer","min": "007","max": "007"}}}}
   , {"name": "SET_TEST_SOURCE_TO_VGA","description": "跳转VGA","commandData": {
       "name": "SET_TEST_SOURCE_TO_VGA","stringCode": "38303153423030360D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "006","max": "006"}}}}
+      "type": "integer","min": "006","max": "006"}}}}
   , {"name": "SET_TEST_SOURCE_TO_YPBPR","description": "跳转YPBYR","commandData": {
       "name": "SET_TEST_SOURCE_TO_YPBPR","stringCode": "38303153423030330D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "003","max": "003"}}}}
+      "type": "integer","min": "003","max": "003"}}}}
   , {"name": "SET_TEST_SOURCE_TO_AV","description": "跳转AV","commandData": {
       "name": "SET_TEST_SOURCE_TO_AV","stringCode": "38303153423030310D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "001","max": "001"}}}}
+      "type": "integer","min": "001","max": "001"}}}}
   , {"name": "SET_TEST_SOURCE_TO_TYPEC","description": "跳转typec","commandData": {
       "name": "SET_TEST_SOURCE_TO_TYPEC","stringCode": "38303153423031330D","commandHexCode": {
       "type": "53","code": "42","commandValue": {
-      "type": "hex","min": "013","max": "013"}}}}
+      "type": "integer","min": "013","max": "013"}}}}
   , {"name": "SET_TEST_SCREENSHOTS","description": "截屏","commandData": {
       "name": "SET_TEST_SCREENSHOTS","stringCode": "383031536F3030300D","commandHexCode": {
       "type": "53","code": "6F","commandValue": {
