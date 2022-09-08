@@ -5,6 +5,16 @@ public class Command {
     public String description;
     public CommandData commandData;
 
+    public Command(Command command) {
+        this.name = command.name;
+        this.description = command.description;
+        this.commandData = command.commandData;
+    }
+
+    public Command() {
+
+    }
+
     @Override
     public String toString() {
         return "{" + "\n"

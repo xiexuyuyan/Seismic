@@ -1,7 +1,6 @@
 import com.yuyan.model.Command;
 import com.yuyan.repository.CommandHelper;
 import com.yuyan.repository.CommandResolver;
-import com.yuyan.repository.DecodeUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -20,24 +19,16 @@ public class TcpClientTest {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            new TcpClientTest().startTcpClient();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Test
     public void toDelete() {
-        for (int i = 0; i < 100; i++) {
-            int randomInt = new Random().nextInt(256);
-            String s = Integer.toString(randomInt, 16);
-            System.out.println("s = " + s);
-            int d = DecodeUtils.inputFormat(s);
-            System.out.println("d = " + d);
-            byte b = DecodeUtils.sendFormat(d);
+        for (int i = 0; i < 256; i++) {
+            String a = Integer.toString(i, 16);
+            System.out.println("a = " + a);
+            byte b = (byte) Integer.parseInt(a, 16);
             System.out.println("b = " + b);
+
+
+            System.out.println();
         }
     }
 
@@ -73,12 +64,20 @@ public class TcpClientTest {
 
         for (int i = 0; i < commandHexCode.length(); i+=2) {
             String s = commandHexCode.substring(i, i+2);
-            int d = DecodeUtils.inputFormat(s);
-            byte b = DecodeUtils.sendFormat(d);
+            int d = Integer.parseInt(s, 16);
+            byte b = (byte) d;
             re[i/2] = b;
         }
 
         return re;
+    }
+
+    public static void main(String[] args) {
+        try {
+            new TcpClientTest().startTcpClient();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void startTcpClient() throws IOException {
@@ -92,6 +91,7 @@ public class TcpClientTest {
         Socket socket = new Socket(InetAddress.getByAddress(ipBuf),53705);
         Log.i(TAG, "[Coder Wu] startTcpClient: " + socket.getRemoteSocketAddress());
         OutputStream outputStream = socket.getOutputStream();
+        InputStream inputStream = socket.getInputStream();
 
         while (true) {
             try {
@@ -99,10 +99,32 @@ public class TcpClientTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            String s = createCommands(10);
+            // String s = createCommands(10);
+            String s = "38303147853030300D38303153603031300D";
+            // String s = "38303153FF3031300D";
             byte[] b = sendStringToByte(s);
             outputStream.write(b);
+
+            byte[] buff = new byte[1024];
+            int readLen = inputStream.read(buff, 0, 1024);
+            System.out.println("readLen = " + readLen);
+            String buffStr = receiveByteToString(buff, readLen);
+            System.out.println("buffStr = " + buffStr);
         }
         // Log.i(TAG, "[Coder Wu] startTcpClient: stage 3");
+    }
+
+    private static String receiveByteToString(final byte[] buff, int len) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            byte b = buff[i];
+            int d = (b & 0x00_00_00_FF);
+            String s = Integer.toString(d, 16);
+            if (s.length() == 1) {
+                s = "0" + s;
+            }
+            builder.append(s.toUpperCase());
+        }
+        return builder.toString();
     }
 }

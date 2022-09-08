@@ -1,6 +1,7 @@
 package com.yuyan.repository;
 
 import com.yuyan.model.Command;
+import com.yuyan.model.CommandRecv;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +103,28 @@ public class CommandResolver {
         }
 
         return re;
+    }
+
+    public static List<CommandRecv> checkUnitRecv(final String commandSrc, List<Command> commandList) {
+        List<CommandRecv> matchCommands = new ArrayList<>();
+
+        for (Command command : commandList) {
+            String regex = formatRegexString(command);
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(commandSrc);
+
+            while (matcher.find()) {
+                // todo(duplicate)
+                String matchT = matcher.group();
+                String checkT = checkIllegalLen(matchT);
+                if (checkT != null) {
+                    CommandRecv commandRecv = new CommandRecv(checkT, command);
+                    matchCommands.add(commandRecv);
+                }
+            }
+        }
+
+        return matchCommands;
     }
 
 }

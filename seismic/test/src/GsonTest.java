@@ -1,10 +1,14 @@
 import com.google.gson.Gson;
+import com.yuyan.model.Command;
 import com.yuyan.model.CommandList;
+import com.yuyan.model.CommandRecv;
+import com.yuyan.repository.CommandHelper;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 
 public class GsonTest {
 
@@ -32,5 +36,20 @@ public class GsonTest {
         String jsonStrRevert = gson.toJson(commandList);
         System.out.println("jsonStrRevert = " + jsonStrRevert);
         /* file system test 加密系统测试 */
+    }
+
+    @Test
+    public void toDelete() throws IOException {
+        String path = this.getClass().getClassLoader().getResource(
+                "A311D2_medium_auto_test_command.json").getPath();
+
+        CommandHelper.init(path);
+        List<Command> commandList = CommandHelper.INSTANCE.commandList.commands;
+
+        Command a = commandList.get(0);
+        System.out.println("a = " + a);
+
+        CommandRecv recv = new CommandRecv(a);
+        System.out.println("recv = " + recv);
     }
 }

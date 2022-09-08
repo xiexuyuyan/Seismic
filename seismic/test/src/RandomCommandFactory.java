@@ -1,5 +1,4 @@
 import com.yuyan.model.Command;
-import com.yuyan.repository.DecodeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,10 +80,7 @@ public class RandomCommandFactory {
         int prefixTimes = new Random().nextInt(maxSize) + 1;
         for (int i = 0; i < prefixTimes; i++) {
             int randomInt = new Random().nextInt(256);
-            String str = DecodeUtils.outputStringFormat(
-                    DecodeUtils.receiveFormat(
-                            DecodeUtils.sendFormat(
-                                    DecodeUtils.inputFormat(randomInt))));
+            String str = Integer.toString(randomInt, 16);
             builder.append(str);
         }
         return builder.toString();
