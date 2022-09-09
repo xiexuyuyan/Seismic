@@ -19,13 +19,13 @@ function requestAllCommandStr(parseJsonDataFunc){
     });
 }
 
-function requestSendCommand(commandObject, value, type){
+function requestSendCommand(commandObject, value){
     $.ajax({
         type: "POST",
-        url: "http://localhost:6699/com.yuyan.seismic/HANDLE_POST_COMMAND",
+        url: "http://localhost:6699/com.yuyan.seismic/POST_COMMAND",
         data:{
-            'type': type,
-            'command_data_name': commandObject.commandData.name
+            'command_data_name': commandObject.commandData.name,
+            'value': value
         },
         success: function (result) {
             console.log("success: " + result)
@@ -77,8 +77,8 @@ function onSubmitStableInteger(commandSubmitValueId) {
     const commandDataName = commandSubmitValueId.split('id_value_')[1];
     const commandObject = gJsonData.get(commandDataName);
     const valueObject = $("#" + "id_value_" + commandObject.commandData.name)
-    console.log(commandDataName);
-    requestSendCommand(commandObject, commandDataName, "STABLE_INTEGER");
+    console.log("click on: " + commandDataName);
+    requestSendCommand(commandObject, commandObject.commandData.stringCode);
 }
 
 function formatTrStableInteger(commandObject) {
@@ -100,7 +100,25 @@ function onSubmitInteger(commandSubmitValueId) {
     const valueObject = $("#" + "id_value_" + commandObject.commandData.name);
     const currentValueText = valueObject.text();
     const currentValue = Number(currentValueText);
-    console.log(currentValue);
+
+    const stringCode = commandObject.commandData.stringCode;
+    const minString = commandObject.commandData.commandHexCode.commandValue.min;
+    const maxString = commandObject.commandData.commandHexCode.commandValue.max;
+
+    const prefixCode = stringCode.substring(0, 10);
+    let builder = "";
+    let offset = maxString.length - currentValueText.length;
+    for(let i = 0; i < maxString.length; i++) {
+        builder = builder + "3";
+        if (i >= (offset)) {
+            builder = builder + currentValueText[i - offset];
+        } else {
+            builder = builder + "0";
+        }
+    }
+    const value = prefixCode + builder + "0D";
+    console.log("click on: " + commandDataName + ", " + value);
+    requestSendCommand(commandObject, value);
 }
 
 function formatTrInteger(commandObject) {

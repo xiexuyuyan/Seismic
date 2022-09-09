@@ -3,17 +3,14 @@ package com.yuyan;
 import cat.handler.ServletHandler;
 import cat.server.TomcatServer;
 import com.yuyan.repository.CommandHelper;
-import com.yuyan.web.CommandHandler;
 import com.yuyan.web.ServletThreadMaintainer;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
+import java.net.SocketException;
 
 public class Root {
 
@@ -35,9 +32,9 @@ public class Root {
             @Override
             public boolean handle(ServletRequest req, ServletResponse res) {
                 Socket oldSock = socketThreadLocal.get();
-                if (oldSock == null) {
+                if (oldSock == null || oldSock.isClosed()) {
                     System.out.println("[Coder Wu] prepare create socket.");
-                    Socket socket = createSocket("192.168.3.34", 53705);
+                    Socket socket = createSocket("192.168.18.235", 53705);
                     if (socket == null) {
                         try {
                             throw new Exception("Create a socket failed");
