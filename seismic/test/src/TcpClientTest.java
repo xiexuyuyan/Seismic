@@ -43,7 +43,7 @@ public class TcpClientTest {
         int sum = new Random().nextInt(max) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
-        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList);
+        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList, false);
         List<String> checkA = RandomCommandFactory.toConfirm(matchedCommands, originCommands);
         List<String> checkB = RandomCommandFactory.toConfirm(originCommands, matchedCommands);
 

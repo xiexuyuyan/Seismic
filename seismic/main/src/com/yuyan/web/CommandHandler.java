@@ -2,7 +2,9 @@ package com.yuyan.web;
 
 import com.google.gson.Gson;
 import com.yuyan.model.Command;
+import com.yuyan.model.CommandRecv;
 import com.yuyan.repository.CommandHelper;
+import com.yuyan.repository.CommandResolver;
 import droid.message.Message;
 
 import javax.servlet.ServletRequest;
@@ -14,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class CommandHandler {
@@ -88,6 +91,28 @@ public class CommandHandler {
 
         System.out.println("[Coder Wu] readLen = " + readLen
                 + ", " + receiveByteToString(buff, readLen));
+
+        String reply = receiveByteToString(buff, readLen);
+        List<Command> commandList = CommandHelper.INSTANCE.commandList.commands;
+        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
+        if (commandRecvList.size() > 0) {
+            CommandRecv commandRecv = commandRecvList.get(0);
+            String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
+            StatMessage statMessage = new StatMessage(commandRecv.commandData.name, replyValueString);
+            Gson gson = new Gson();
+            String stateString = gson.toJson(statMessage);
+            res.getWriter().println(stateString);
+        }
+    }
+
+    static class StatMessage {
+        String name;
+        String value;
+
+        public StatMessage(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
     }
 
     private static byte[] sendStringToByte(String commandHexCode) {

@@ -49,7 +49,7 @@ public class GsonTest {
         Command a = commandList.get(0);
         System.out.println("a = " + a);
 
-        CommandRecv recv = new CommandRecv(a);
+        CommandRecv recv = new CommandRecv("a receive code", a);
         System.out.println("recv = " + recv);
     }
 }

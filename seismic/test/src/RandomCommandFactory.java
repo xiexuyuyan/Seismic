@@ -1,4 +1,5 @@
 import com.yuyan.model.Command;
+import com.yuyan.model.CommandHexCode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class RandomCommandFactory {
 
         String[] commandStrList = new String[sum];
         for (int i = 0; i < commandStrList.length; i++) {
-            commandStrList[i] = setRandomCommandValue(commands[i]);
+            commandStrList[i] = setRandomCommandValue(commands[i], false);
         }
 
         for (int i = 0; i < commandStrList.length; i++) {
@@ -48,7 +49,7 @@ public class RandomCommandFactory {
         return fromErr;
     }
 
-    private static String randomCommand(final int level, final String[] commands) {
+    public static String randomCommand(final int level, final String[] commands) {
         int _level = level;
         int[] complexIndex = new int[]{1, 3, 5, 9, 15, 30};
 
@@ -86,27 +87,29 @@ public class RandomCommandFactory {
         return builder.toString();
     }
 
-    private static String setRandomCommandValue(final Command command) {
-        String codeValueType = command.commandData.commandHexCode.commandValue.type;
-        if (codeValueType.equals("integer") | codeValueType.equals("string")) {
-            String id = /*"3031"; */formatRandomHexIntegerValue("01", "99");
-            String type = command.commandData.commandHexCode.type;
-            String code = command.commandData.commandHexCode.code;
-            String min = command.commandData.commandHexCode.commandValue.min;
-            String max = command.commandData.commandHexCode.commandValue.max;
-            String value;
-            if (codeValueType.equals("integer")) {
-                value = formatRandomHexIntegerValue(min, max);
-            } else {
-                value = formatRandomHexStringValue(min, max);
-            }
-
-            String header = Integer.toString((0x35) + value.length() / 2, 16);
-            return header + id + type + code + value + "0D";
+    public static String setRandomCommandValue(final Command command, boolean reply) {
+        CommandHexCode commandHexCode;
+        if (reply) {
+            commandHexCode = command.commandData.replyHexCode;
         } else {
-            String commandString = command.commandData.stringCode;
-            return commandString.replace('X', '0');
+            commandHexCode = command.commandData.commandHexCode;
         }
+
+        String codeValueType = commandHexCode.commandValue.type;
+        String id = /*"3031"; */formatRandomHexIntegerValue("01", "99");
+        String type = commandHexCode.type;
+        String code = commandHexCode.code;
+        String min = commandHexCode.commandValue.min;
+        String max = commandHexCode.commandValue.max;
+        String value;
+        if (codeValueType.equals("integer")) {
+            value = formatRandomHexIntegerValue(min, max);
+        } else {
+            value = formatRandomHexStringValue(min, max);
+        }
+
+        String header = Integer.toString((0x35) + value.length() / 2, 16);
+        return header + id + type + code + value + "0D";
     }
 
 
@@ -188,6 +191,8 @@ public class RandomCommandFactory {
         if (maxLen != maxStr.length()) {
             // occupancy-width
             if (maxStr.equals(minStr)) {
+                maxLen = maxStr.length();
+            } else if (maxStr.length() == minStr.length()) {
                 maxLen = maxStr.length();
             }
         }

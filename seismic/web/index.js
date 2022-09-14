@@ -78,7 +78,29 @@ function onSubmitStableInteger(commandSubmitValueId) {
     const commandObject = gJsonData.get(commandDataName);
     const valueObject = $("#" + "id_value_" + commandObject.commandData.name)
     console.log("click on: " + commandDataName);
-    requestSendCommand(commandObject, commandObject.commandData.stringCode);
+
+    const valueType = commandObject.commandData.commandHexCode.commandValue.type;
+    const maxString = commandObject.commandData.commandHexCode.commandValue.max;
+
+    if (valueType != "integer") {
+        return;
+    }
+
+    let builder = "";
+    for(let i = 0; i < maxString.length; i++) {
+        builder = builder + "3";
+        builder = builder + maxString[i];
+    }
+
+    const commandType = commandObject.commandData.commandHexCode.type;
+    const commandCode = commandObject.commandData.commandHexCode.code;
+
+    const prefixCode = "3031" + commandType + commandCode;
+    let value = prefixCode + builder + "0D";
+    const head = (value.length/2 + 0x30).toString(16);
+    value = head + value;
+    // console.log("value = " + value);
+    requestSendCommand(commandObject, value);
 }
 
 function formatTrStableInteger(commandObject) {
@@ -101,11 +123,13 @@ function onSubmitInteger(commandSubmitValueId) {
     const currentValueText = valueObject.text();
     const currentValue = Number(currentValueText);
 
-    const stringCode = commandObject.commandData.stringCode;
     const minString = commandObject.commandData.commandHexCode.commandValue.min;
     const maxString = commandObject.commandData.commandHexCode.commandValue.max;
 
-    const prefixCode = stringCode.substring(0, 10);
+    const commandType = commandObject.commandData.commandHexCode.type;
+    const commandCode = commandObject.commandData.commandHexCode.code;
+
+    const prefixCode = "3031" + commandType + commandCode;
     let builder = "";
     let offset = maxString.length - currentValueText.length;
     for(let i = 0; i < maxString.length; i++) {
@@ -116,7 +140,9 @@ function onSubmitInteger(commandSubmitValueId) {
             builder = builder + "0";
         }
     }
-    const value = prefixCode + builder + "0D";
+    let value = prefixCode + builder + "0D";
+    const head = (value.length/2 + 0x30).toString(16);
+    value = head + value;
     console.log("click on: " + commandDataName + ", " + value);
     requestSendCommand(commandObject, value);
 }
@@ -169,8 +195,10 @@ function appendOnline(commandObject) {
     const trSuffix = "</tr>";
     const trMain = `
         <td>...</td>
-        <td>${commandObject.commandData.name}</br>${commandObject.description}</td>
-        <td>${commandObject.commandData.stringCode}</td>
+        <td class="name-width">${commandObject.commandData.name}</br>${commandObject.description}</td>
+    `;
+    const trExecuteEcho = `
+        <td>...</td>
     `;
 
     let trValue = "";
@@ -181,7 +209,7 @@ function appendOnline(commandObject) {
         trValue = formatTrInteger(commandObject);
     }
 
-    const trLine = trPrefix + trMain + trValue + trSuffix;
+    const trLine = trPrefix + trMain + trValue + trExecuteEcho + trSuffix;
 
     $("#commandTable").append(trLine);
 }

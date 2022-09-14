@@ -1,7 +1,10 @@
 allprojects {
     buildscript { // root project
         repositories {
-            mavenCentral()
+            // mavenCentral()
+            maven {
+                url "https://maven.aliyun.com/repository/public"
+            }
         }
         dependencies {
             // resolve kotlin plugin for short name 'kotlin'
@@ -11,6 +14,9 @@ allprojects {
     }
 
     repositories {
-        mavenCentral()
+        // mavenCentral()
+        maven {
+            url "https://maven.aliyun.com/repository/public"
+        }
     }
 }
