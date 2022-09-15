@@ -1,5 +1,5 @@
 {
-  "size": 84,
+  "size": 85,
   "model": "A311D2",
   "brand": "SKG",
   "manufacturer": "SKG",
@@ -725,6 +725,31 @@
         "replyHexCode": {
           "type": "52",
           "code": "51",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "GET_TEST_VOLUME",
+      "description": "获取音量",
+      "commandData": {
+        "name": "GET_TEST_VOLUME",
+        "commandHexCode": {
+          "type": "47",
+          "code": "52",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "52",
+          "code": "52",
           "commandValue": {
             "type": "integer",
             "min": "000",

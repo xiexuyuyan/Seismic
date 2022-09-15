@@ -28,22 +28,67 @@ function requestSendCommand(commandObject, value){
             'value': value
         },
         success: function (result) {
-            console.log("success: " + result)
+            console.log("success: " + result);
+            echoExecute(result);
         },
         error: function (result) {
-            console.log("failed: " + result)
+            console.log("failed: " + result);
         }
     });
 }
 
+function echoExecute(rawResultStr) {
+    const rawResult = JSON.parse(rawResultStr);
+    const commandDataName = rawResult.name;
+    const commandObject = gJsonData.get(commandDataName);
+    const commandValue = rawResult.value;
+
+    const echoObject = $("#" + "id_exec_echo_" + commandObject.commandData.name);
+    echoObject.text(commandValue);
+}
+
+function inputStringBlur(inputStringId) {
+    const commandDataName = inputStringId.split('id_string_input_')[1];
+    const commandObject = gJsonData.get(commandDataName);
+
+    const inputObject = $("#" + inputStringId);
+    const inputString = inputObject.val();
+    const codeString = valueWrapper(commandObject, inputString);
+    const commandStringObject = $("#" + "id_command_string_" + commandDataName);
+    commandStringObject.text(codeString);
+    const stringValueObject = $("#" + "id_string_value_" + commandDataName);
+    stringValueObject.text(inputString);
+    console.log("commandDataName = " + commandDataName + ", inputObject = " + inputString + ", codeString = " + codeString);
+}
+
+function onSubmitString(commandSubmitId) {
+    const commandDataName = commandSubmitId.split('id_submit_')[1];
+    const commandObject = gJsonData.get(commandDataName);
+
+    const commandStringObject = $("#" + "id_command_string_" + commandDataName);
+    const currentCodeString = commandStringObject.text();
+    console.log("currentCodeString = " + currentCodeString);
+    requestSendCommand(commandObject, currentCodeString);
+}
+
 function formatTrString(commandObject) {
+    const sample = "ABC123";
+    let codeString = valueWrapper(commandObject, sample);
+    const commandDataName = commandObject.commandData.name;
+
     const trString = `
-        <td colspan="5"><input type="text" style="width: calc(100% - 8px)"></td>
+        <td colspan="5">
+            <input id="id_string_input_${commandDataName}" onBlur="inputStringBlur(this.id)" type="text" style="width: calc(100% - 8px)">
+            </br>
+            <span id="id_string_value_${commandDataName}">${sample}</span>
+            &brvbar;
+            <span id="id_command_string_${commandDataName}">${codeString}</span>
+        </td>
     `;
 
     const trSubmit = `
-        <td><button id="id_value_${commandObject.commandData.name}" style="width: 100%"
-                onclick="onSubmitStableInteger(this.id)">send</button></td>
+        <td><button id="id_submit_${commandObject.commandData.name}" style="width: 100%"
+                onclick="onSubmitString(this.id)">send</button></td>
     `;
 
     return trString + trSubmit;
@@ -71,80 +116,105 @@ function changeCommandValue(commandButtonId, op) {
     }
     valueObject.text(setTo);
     progressObject.val(setTo);
+
+    let codeString = valueWrapper(commandObject, String(setTo));
+    const commandStringObject = $("#" + "id_command_string_" + commandDataName);
+    commandStringObject.text(codeString);
 }
 
 function onSubmitStableInteger(commandSubmitValueId) {
-    const commandDataName = commandSubmitValueId.split('id_value_')[1];
+    const commandDataName = commandSubmitValueId.split('id_submit_')[1];
     const commandObject = gJsonData.get(commandDataName);
     const valueObject = $("#" + "id_value_" + commandObject.commandData.name)
     console.log("click on: " + commandDataName);
 
-    const valueType = commandObject.commandData.commandHexCode.commandValue.type;
     const maxString = commandObject.commandData.commandHexCode.commandValue.max;
+    let value = valueWrapper(commandObject, maxString);
 
-    if (valueType != "integer") {
-        return;
-    }
-
-    let builder = "";
-    for(let i = 0; i < maxString.length; i++) {
-        builder = builder + "3";
-        builder = builder + maxString[i];
-    }
-
-    const commandType = commandObject.commandData.commandHexCode.type;
-    const commandCode = commandObject.commandData.commandHexCode.code;
-
-    const prefixCode = "3031" + commandType + commandCode;
-    let value = prefixCode + builder + "0D";
-    const head = (value.length/2 + 0x30).toString(16);
-    value = head + value;
-    // console.log("value = " + value);
     requestSendCommand(commandObject, value);
 }
 
 function formatTrStableInteger(commandObject) {
+    const commandDataName = commandObject.commandData.name;
+
+    const maxString = commandObject.commandData.commandHexCode.commandValue.max;
+    let codeString = valueWrapper(commandObject, maxString);
+
     const trString = `
-        <td colspan="5"></td>
+        <td colspan="5"><span id="id_command_string_${commandDataName}">${codeString}</span></td>
     `;
 
     const trSubmit = `
-        <td><button id="id_value_${commandObject.commandData.name}" style="width: 100%"
+        <td><button id="id_submit_${commandObject.commandData.name}" style="width: 100%"
                 onclick="onSubmitStableInteger(this.id)">send</button></td>
     `;
 
     return trString + trSubmit;
 }
 
-function onSubmitInteger(commandSubmitValueId) {
-    const commandDataName = commandSubmitValueId.split('id_value_')[1];
-    const commandObject = gJsonData.get(commandDataName);
-    const valueObject = $("#" + "id_value_" + commandObject.commandData.name);
-    const currentValueText = valueObject.text();
-    const currentValue = Number(currentValueText);
-
-    const minString = commandObject.commandData.commandHexCode.commandValue.min;
+function valueWrapper(commandObject, valueText) {
+    const valueType = commandObject.commandData.commandHexCode.commandValue.type;
     const maxString = commandObject.commandData.commandHexCode.commandValue.max;
+    const minString = commandObject.commandData.commandHexCode.commandValue.min;
+
+    let valueLength = 0;
+    if (maxString.length == minString.length) {
+        valueLength = maxString.length
+    } else {
+        valueLength = valueText.length;
+        if (valueType == "string") {
+            valueLength = valueLength * 2;
+        }
+    }
+
+
+    let builder = "";
+    if (valueType == "integer") {
+        let offset = valueLength - valueText.length;
+        for(let i = 0; i < valueLength; i++) {
+            builder = builder + "3";
+            if (i >= (offset)) {
+                builder = builder + valueText[i - offset];
+            } else {
+                builder = builder + "0";
+            }
+        }
+    } else if (valueType == "string") {
+        valueLength = valueLength / 2;
+        let offset = valueLength - valueText.length;
+        for(let i = 0; i < valueLength; i++) {
+            if (i >= (offset)) {
+                builder = builder + valueText.charCodeAt(i - offset).toString(16);
+            } else {
+                builder = builder + "00";
+            }
+        }
+    }
 
     const commandType = commandObject.commandData.commandHexCode.type;
     const commandCode = commandObject.commandData.commandHexCode.code;
 
     const prefixCode = "3031" + commandType + commandCode;
-    let builder = "";
-    let offset = maxString.length - currentValueText.length;
-    for(let i = 0; i < maxString.length; i++) {
-        builder = builder + "3";
-        if (i >= (offset)) {
-            builder = builder + currentValueText[i - offset];
-        } else {
-            builder = builder + "0";
-        }
-    }
+
     let value = prefixCode + builder + "0D";
-    const head = (value.length/2 + 0x30).toString(16);
+    const head = (value.length/2 + 0x30).toString(16).toUpperCase();
     value = head + value;
-    console.log("click on: " + commandDataName + ", " + value);
-    requestSendCommand(commandObject, value);
+    const commandDataName = commandObject.commandData.name;
+
+    return value;
+}
+
+function onSubmitInteger(commandSubmitValueId) {
+    const commandDataName = commandSubmitValueId.split('id_submit_')[1];
+    const commandObject = gJsonData.get(commandDataName);
+    const valueObject = $("#" + "id_value_" + commandObject.commandData.name);
+    const currentValueText = valueObject.text();
+    const currentValue = Number(currentValueText);
+
+    let codeString = valueWrapper(commandObject, currentValueText);
+
+    console.log("click on: " + commandDataName + ", value = " + currentValue + ", code = " + codeString);
+    requestSendCommand(commandObject, codeString);
 }
 
 function formatTrInteger(commandObject) {
@@ -160,6 +230,9 @@ function formatTrInteger(commandObject) {
 
     let valueRandom = Math.random() * (maxValue - minValue) + minValue;
     valueRandom = parseInt(valueRandom);
+
+    let codeString = valueWrapper(commandObject, valueRandom+"");
+
     const trInteger = `
         <td><button id="id_bt_${commandDataName}"
                     onclick="changeCommandValue(this.id, -10)">-10</button></td>
@@ -170,7 +243,12 @@ function formatTrInteger(commandObject) {
         <td><progress id="id_progress_${commandDataName}"
                     value="${valueRandom}"
                     min="${minValue}" max="${maxValue}"
-                    style="max-width: 100px"></progress></td>
+                    style="max-width: 100px"></progress>
+                    <label id="id_value_${commandObject.commandData.name}"
+                        for="id_progress_${commandDataName}"
+                    >${valueRandom}</label></br>
+                    <span id="id_command_string_${commandDataName}">${codeString}</span>
+                    </td>
 
         <td><button id="id_bt_${commandDataName}"
                     onclick="changeCommandValue(this.id, +1)">+1</button></td>
@@ -183,8 +261,8 @@ function formatTrInteger(commandObject) {
 
 
     const trSubmit = `
-        <td><button id="id_value_${commandObject.commandData.name}" style="width: 100%"
-                onclick="onSubmitInteger(this.id)">${valueRandom}</button></td>
+        <td><button id="id_submit_${commandObject.commandData.name}" style="width: 100%"
+                onclick="onSubmitInteger(this.id)">send</button></td>
     `;
 
     return trInteger + trSubmit;
@@ -198,7 +276,7 @@ function appendOnline(commandObject) {
         <td class="name-width">${commandObject.commandData.name}</br>${commandObject.description}</td>
     `;
     const trExecuteEcho = `
-        <td>...</td>
+        <td id="id_exec_echo_${commandObject.commandData.name}">...</td>
     `;
 
     let trValue = "";
@@ -216,6 +294,7 @@ function appendOnline(commandObject) {
 
 function parseJsonData(jsonStr) {
     const jsonObject = JSON.parse(jsonStr);
+
     console.log(jsonObject.size);
     jsonObject.commands.forEach(function (command) {
         appendOnline(command);
