@@ -1,6 +1,6 @@
 import com.yuyan.model.Command;
-import com.yuyan.repository.CommandHelper;
-import com.yuyan.repository.CommandResolver;
+import com.yuyan.driver.local.CommandRepository;
+import com.yuyan.driver.local.CommandResolver;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -35,11 +35,11 @@ public class TcpClientTest {
 
     public static String createCommands(int max) {
         try {
-            CommandHelper.init("seismic/test/res/A311D2_medium_auto_test_command.json");
+            CommandRepository.init("seismic/test/res/A311D2_medium_auto_test_command.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<Command> commandList = CommandHelper.INSTANCE.commandList.commands;
+        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
         int sum = new Random().nextInt(max) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);

@@ -2,7 +2,7 @@ import com.google.gson.Gson;
 import com.yuyan.model.Command;
 import com.yuyan.model.CommandList;
 import com.yuyan.model.CommandRecv;
-import com.yuyan.repository.CommandHelper;
+import com.yuyan.driver.local.CommandRepository;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -43,8 +43,8 @@ public class GsonTest {
         String path = this.getClass().getClassLoader().getResource(
                 "A311D2_medium_auto_test_command.json").getPath();
 
-        CommandHelper.init(path);
-        List<Command> commandList = CommandHelper.INSTANCE.commandList.commands;
+        CommandRepository.init(path);
+        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
 
         Command a = commandList.get(0);
         System.out.println("a = " + a);

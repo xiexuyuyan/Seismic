@@ -1,8 +1,9 @@
-package com.yuyan.repository;
+package com.yuyan.driver.local;
 
 import com.google.gson.Gson;
 import com.yuyan.model.Command;
 import com.yuyan.model.CommandList;
+import com.yuyan.utils.Log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -10,17 +11,23 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum CommandHelper {
+public enum CommandRepository {
     INSTANCE;
+
+    private static final String TAG = "CommandRepository";
+
     public CommandList commandList;
 
     public Map<String, Command> commandMap;
 
     public static void init() throws IOException {
-        init("seismic/main/res/A311D2_medium_auto_test_command.json");
+        String defaultFilePath = "seismic/main/res/A311D2_medium_auto_test_command.json";
+        Log.i(TAG, "[Coder Wu] init: Default file path");
+        init(defaultFilePath);
     }
 
     public static void init(String filePath) throws IOException {
+        Log.i(TAG, "[Coder Wu] init: File path: " + filePath);
         File commandFile = new File(filePath);
         init(Files.newInputStream(commandFile.toPath()));
     }

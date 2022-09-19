@@ -1,14 +1,13 @@
-package com.yuyan.web;
+package com.yuyan.driver.remote;
 
 import com.google.gson.Gson;
+import com.yuyan.driver.local.CommandRepository;
+import com.yuyan.driver.local.CommandResolver;
 import com.yuyan.model.Command;
 import com.yuyan.model.CommandRecv;
-import com.yuyan.repository.CommandHelper;
-import com.yuyan.repository.CommandResolver;
-import droid.message.Message;
+import com.yuyan.utils.Log;
+import com.yuyan.web.model.SimpleStat;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,52 +18,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class CommandHandler {
-    public static final String GET_COMMAND_ALL = "GET_COMMAND_ALL";
-    public static final String POST_COMMAND = "POST_COMMAND";
+public class Function {
+    private static final String TAG = "Function";
 
-
-
-    public static void dispatch(ServletRequest req, ServletResponse res, Socket socket) {
-        HttpServletResponse response = (HttpServletResponse) res;
-        HttpServletRequest request = (HttpServletRequest) req;
-        System.out.println("[Coder Wu] req.getRequestURI() = " + request.getRequestURI());
-        String[] uriArray = request.getRequestURI().split("/");
-        String action = uriArray.length > 2 ? uriArray[2] : null;
-        System.out.println("[Coder Wu] action = " + action);
-        if (action != null) {
-            try {
-                switch (action) {
-                    case GET_COMMAND_ALL:
-                        CommandHandler.getCommandAll(request, response);
-                        break;
-                    case POST_COMMAND:
-                        CommandHandler.postCommand(request, response, socket);
-                        break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-    public static void reloadCommandList(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        CommandHelper.init();
-    }
-
-    public static void getSize(HttpServletRequest req, HttpServletResponse res) {
-        int size = CommandHelper.INSTANCE.commandList.commands.size();
-    }
-
-    public static void getCommandByIndex(HttpServletRequest req, HttpServletResponse res) {
-        Command command = CommandHelper.INSTANCE.commandList.commands.get(0);
-    }
 
     public static void getCommandAll(HttpServletRequest req, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
-        String jsonStr = gson.toJson(CommandHelper.INSTANCE.commandList);
+        String jsonStr = gson.toJson(CommandRepository.INSTANCE.commandList);
         response.getWriter().println(jsonStr);
     }
 
@@ -72,7 +32,7 @@ public class CommandHandler {
         Map<String, String[]> parameterMap = req.getParameterMap();
         for (String s : parameterMap.keySet()) {
             String[] values = parameterMap.get(s);
-            System.out.println("\t" + s + ":" + Arrays.toString(values));
+            Log.i(TAG, "[Coder Wu] postCommand: \t" + s + ":" + Arrays.toString(values));
         }
 
         String valueCodeString = parameterMap.get("value")[0];
@@ -84,37 +44,41 @@ public class CommandHandler {
         int readLen = inputStream.read(buff, 0, 1024);
 
         if (readLen == -1) {
-            System.out.println("[Coder Wu] " +
+            Log.i(TAG, "[Coder Wu] postCommand: " +
                     "we received -1 in socket input, so closed the socket");
             socket.close();
         }
 
-        System.out.println("[Coder Wu] readLen = " + readLen
+        Log.i(TAG, "[Coder Wu] postCommand: " +
+                "readLen = " + readLen
                 + ", " + receiveByteToString(buff, readLen));
 
         String reply = receiveByteToString(buff, readLen);
-        List<Command> commandList = CommandHelper.INSTANCE.commandList.commands;
+        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
         List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
         if (commandRecvList.size() > 0) {
             CommandRecv commandRecv = commandRecvList.get(0);
             String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
-            StatMessage statMessage = new StatMessage(commandRecv.commandData.name, replyValueString);
+            SimpleStat statMessage = new SimpleStat(commandRecv.commandData.name, replyValueString);
             Gson gson = new Gson();
             String stateString = gson.toJson(statMessage);
             res.getWriter().println(stateString);
         }
     }
 
-    static class StatMessage {
-        String name;
-        String value;
 
-        public StatMessage(String name, String value) {
-            this.name = name;
-            this.value = value;
-        }
-    }
 
+
+
+
+
+
+
+
+
+
+
+    /*------------------------------------------------------------------*/
     private static byte[] sendStringToByte(String commandHexCode) {
         if ((commandHexCode.length() % 2) == 1) {
             commandHexCode = commandHexCode.substring(0, commandHexCode.length()-1);
@@ -145,4 +109,5 @@ public class CommandHandler {
         }
         return builder.toString();
     }
+    /*------------------------------------------------------------------*/
 }
