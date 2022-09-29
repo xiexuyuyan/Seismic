@@ -80,7 +80,7 @@ public class TcpClientTest {
         }
     }
 
-    public void startTcpClient() throws IOException {
+    public void startTcpClient() throws IOException, InterruptedException {
         Log.i(TAG, "[Coder Wu] startTcpClient: start");
         String[] ipStr = "192.168.18.235".split("\\.");
         byte[] ipBuf = new byte[4];
@@ -100,10 +100,61 @@ public class TcpClientTest {
                 e.printStackTrace();
             }
             // String s = createCommands(10);
-            String s = "38303147853030300D38303153603031300D";
+            String s1  = "2d";
+            String s38 = "38353453";
+            String s42 = "423030390D";
+            String s45 = "4597";
+            String s68 = "6899";
+            String s0b = "0b";
+            String sb8 = "b855cd";
+            String s41 = "41383633";
+            String s53 = "53513030300D0ff7";
+            String s3  = "3838";
+            String s33 = "335376";
+            String s30 = "3030300D86d9";
+            String s7a = "7abd";
             // String s = "38303153FF3031300D";
-            byte[] b = sendStringToByte(s);
-            outputStream.write(b);
+            byte[] b1 = sendStringToByte(s1);
+            byte[] b38 = sendStringToByte(s38);
+            byte[] b42 = sendStringToByte(s42);
+            byte[] b45 = sendStringToByte(s45);
+            byte[] b68 = sendStringToByte(s68);
+            byte[] b0b = sendStringToByte(s0b);
+            byte[] bb8 = sendStringToByte(sb8);
+            byte[] b41 = sendStringToByte(s41);
+            byte[] b53 = sendStringToByte(s53);
+            byte[] b3 = sendStringToByte(s3);
+            byte[] b33 = sendStringToByte(s33);
+            byte[] b30 = sendStringToByte(s30);
+            byte[] b7a = sendStringToByte(s7a);
+
+            outputStream.write(b1);
+            Thread.sleep(500);
+            outputStream.write(b1);
+            Thread.sleep(500);
+            outputStream.write(b38);
+            Thread.sleep(500);
+            outputStream.write(b42);
+            Thread.sleep(500);
+            outputStream.write(b45);
+            Thread.sleep(500);
+            outputStream.write(b68);
+            Thread.sleep(500);
+            outputStream.write(b0b);
+            Thread.sleep(500);
+            outputStream.write(bb8);
+            Thread.sleep(500);
+            outputStream.write(b41);
+            Thread.sleep(500);
+            outputStream.write(b53);
+            Thread.sleep(500);
+            outputStream.write(b3);
+            Thread.sleep(500);
+            outputStream.write(b33);
+            Thread.sleep(500);
+            outputStream.write(b30);
+            Thread.sleep(500);
+            outputStream.write(b7a);
 
             byte[] buff = new byte[1024];
             int readLen = inputStream.read(buff, 0, 1024);

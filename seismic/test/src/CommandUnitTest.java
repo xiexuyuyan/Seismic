@@ -38,4 +38,23 @@ public class CommandUnitTest {
 
         System.out.println("matchedCommands = " + Arrays.toString(matchedCommands));
     }
+
+
+    public static void __main(String[] args) throws IOException {
+        CommandRepository.init("seismic/test/res/A311D2_medium_auto_test_command.json");
+        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
+
+        String randomHexCode = "d439b1f638373053673030300Da8a135540a0e66738383053643030310Ddc38303747863030300D77a7";
+        // [38303747863030300D, 38373053673030300D, 38383053643030310D]
+        // [38373053673030300D, 38383053643030310D, 38303747863030300D]
+        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList, false);
+
+        for (String matchedCommand : matchedCommands) {
+            int i = randomHexCode.indexOf(matchedCommand);
+            System.out.println(i);
+        }
+        StringBuilder builder = new StringBuilder();
+
+        System.out.println("matchedCommands = " + Arrays.toString(matchedCommands));
+    }
 }

@@ -2,6 +2,25 @@ function print_success() {
     console.log("success");
 }
 
+const availableCommands = new Array(
+        "GET_TEST_BACKLIGHT_VALUE"
+        ,"SET_TEST_BACKLIGHT_VALUE"
+        ,"GET_TEST_VOLUME"
+        ,"SET_TEST_VOLUME"
+        ,"SET_TEST_HOTSPOT_NAME"
+        ,"GET_TEST_MAC_ADDRESS");
+
+function attrCommandDisabledCheck(commandDataName) {
+    for (let i = 0; i < availableCommands.length; i++) {
+        if (availableCommands[i] != commandDataName) {
+            continue;
+        } else {
+            return "";
+        }
+    }
+    return "disabled";
+}
+
 const gJsonData = new Map();
 
 
@@ -85,9 +104,9 @@ function formatTrString(commandObject) {
             <span id="id_command_string_${commandDataName}">${codeString}</span>
         </td>
     `;
-
+    const attrDisabled = attrCommandDisabledCheck(commandDataName);
     const trSubmit = `
-        <td><button id="id_submit_${commandObject.commandData.name}" style="width: 100%"
+        <td><button ${attrDisabled} id="id_submit_${commandDataName}" style="width: 100%"
                 onclick="onSubmitString(this.id)">send</button></td>
     `;
 
@@ -144,8 +163,9 @@ function formatTrStableInteger(commandObject) {
         <td colspan="5"><span id="id_command_string_${commandDataName}">${codeString}</span></td>
     `;
 
+    const attrDisabled = attrCommandDisabledCheck(commandDataName);
     const trSubmit = `
-        <td><button id="id_submit_${commandObject.commandData.name}" style="width: 100%"
+        <td><button ${attrDisabled} id="id_submit_${commandDataName}" style="width: 100%"
                 onclick="onSubmitStableInteger(this.id)">send</button></td>
     `;
 
@@ -259,9 +279,9 @@ function formatTrInteger(commandObject) {
 
     `;
 
-
+    const attrDisabled = attrCommandDisabledCheck(commandDataName);
     const trSubmit = `
-        <td><button id="id_submit_${commandObject.commandData.name}" style="width: 100%"
+        <td><button ${attrDisabled} id="id_submit_${commandDataName}" style="width: 100%"
                 onclick="onSubmitInteger(this.id)">send</button></td>
     `;
 

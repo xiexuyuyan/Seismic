@@ -82,6 +82,9 @@ public class RandomCommandFactory {
         for (int i = 0; i < prefixTimes; i++) {
             int randomInt = new Random().nextInt(256);
             String str = Integer.toString(randomInt, 16);
+            if ((str.length() % 2) == 1) {
+                builder.append("0");
+            }
             builder.append(str);
         }
         return builder.toString();
