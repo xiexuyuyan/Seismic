@@ -18,7 +18,7 @@ HANDLE yuyan::Serialport::open_inner(
         , const int stopbit) {
     int err = 0;
 
-    DWORD asyncFlag = (async) ? FILE_FLAG_OVERLAPPED : 0;
+    DWORD asyncFlag = (async) ? FILE_ATTRIBUTE_NORMAL : 0;
 
     HANDLE hCom = CreateFileA(portname
                     , GENERIC_READ | GENERIC_WRITE
@@ -26,7 +26,7 @@ HANDLE yuyan::Serialport::open_inner(
 
     if (hCom == (HANDLE)-1) {
         loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
-    	return NULL;
+        return NULL;
     }
 
     err = configureCommonHandle(
@@ -59,44 +59,45 @@ int yuyan::Serialport::configureCommonHandle(
         return -1;
     }
 
-	DCB configure;
-	memset(&configure, 0, sizeof(configure));
-	configure.DCBlength = sizeof(configure);
-	configure.BaudRate = baudrate;
-	configure.ByteSize = databit;
+    DCB configure;
+    memset(&configure, 0, sizeof(configure));
+    GetCommState(hCom, &configure);
+    configure.DCBlength = sizeof(configure);
+    configure.BaudRate = baudrate;
+    configure.ByteSize = databit;
 
-	switch (parity) {
-	    case 0:
-	    	configure.Parity = NOPARITY;
-	    	break;
-	    case 1:
-	    	configure.Parity = ODDPARITY;
-	    	break;
-	    case 2:
-	    	configure.Parity = EVENPARITY;
-	    	break;
-	    case 3:
-	    	configure.Parity = MARKPARITY;
-	    	break;
-	}
+    switch (parity) {
+        case 0:
+            configure.Parity = NOPARITY;
+            break;
+        case 1:
+            configure.Parity = ODDPARITY;
+            break;
+        case 2:
+            configure.Parity = EVENPARITY;
+            break;
+        case 3:
+            configure.Parity = MARKPARITY;
+            break;
+    }
 
-	switch (stopbit) {
-	    case 1:
-	    	configure.StopBits = ONESTOPBIT;
-	    	break;
-	    case 2:
-	    	configure.StopBits = TWOSTOPBITS;
-	    	break;
-	    case 3:
-	    	configure.StopBits = ONE5STOPBITS;
-	    	break;
-	}
+    switch (stopbit) {
+        case 1:
+            configure.StopBits = ONESTOPBIT;
+            break;
+        case 2:
+            configure.StopBits = TWOSTOPBITS;
+            break;
+        case 3:
+            configure.StopBits = ONE5STOPBITS;
+            break;
+    }
 
     err = SetCommState(hCom, &configure);
-	if (!err) {
-	    loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
-		return -1;
-	}
+    if (!err) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        return -1;
+    }
 
     COMMTIMEOUTS commTimeouts;
     commTimeouts.ReadIntervalTimeout = MAXDWORD;
@@ -108,8 +109,16 @@ int yuyan::Serialport::configureCommonHandle(
     err = SetCommTimeouts(hCom, &commTimeouts);
     if (!err) {
         loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
-    	return -1;
+        return -1;
     }
 
-	return 0;
+    err = PurgeComm(hCom
+        , PURGE_RXCLEAR | PURGE_TXCLEAR
+        | PURGE_RXABORT | PURGE_TXABORT);
+    if (!err) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        return -1;
+    }
+
+    return 0;
 }

@@ -8,6 +8,20 @@
 #include <WinSock2.h>
 
 /************************************************************************/
+#define CreateErrorMsg(errno, errMsgBuff)          \
+          FormatMessage(                           \
+                  FORMAT_MESSAGE_ALLOCATE_BUFFER | \
+                  FORMAT_MESSAGE_FROM_SYSTEM |     \
+                  FORMAT_MESSAGE_IGNORE_INSERTS,   \
+                  NULL,                            \
+                  errno,                         \
+                  0,                               \
+                  (LPTSTR) & (errMsgBuff),           \
+                  0,                               \
+                  NULL                             \
+                 ),                                \
+          ((WCHAR *)errMsgBuff)[wcslen((WCHAR *)errMsgBuff)-2] = '\0'
+/************************************************************************/
 #define BAUDRATE_9600      9600L
 #define BAUDRATE_115200    115200L
 
@@ -61,7 +75,7 @@ namespace yuyan {
         Serialport(const char* portname) {
             mPortname = portname;
             mAsync = SYNCHRONIC_ASYNC;
-            mBaudrate = BAUDRATE_9600;
+            mBaudrate = BAUDRATE_115200;
             mParity = S_PARITY_NONE;
             mDatabit = DATABIT_8;
             mStopbit = STOPBIT_1;
