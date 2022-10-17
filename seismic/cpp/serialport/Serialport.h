@@ -70,6 +70,12 @@ namespace yuyan {
             , const char* errnoStr) {
             printf("%s %s():%d Failed cause: %s.\n", tag, function, line, errnoStr);
         }
+        void logi(const char* tag
+            , const char* function
+            , const int line
+            , const char* errnoStr) {
+            printf("%s %s():%d Info: %s.\n", tag, function, line, errnoStr);
+        }
 
     public:
         Serialport(const char* portname) {
@@ -82,6 +88,9 @@ namespace yuyan {
         }
 
         HANDLE open();
+        void close(HANDLE hCom);
+
+        int readBlocked(char buff[], HANDLE hCom);
     };
 }
 

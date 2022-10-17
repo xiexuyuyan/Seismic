@@ -10,6 +10,18 @@ int main() {
     HANDLE hCom = serialport->open();
     printf("Open fd = %d\n", hCom);
 
+    char buff[1024];
+    int readLen = serialport->readBlocked(buff, hCom);
+
+    char ch = '\0';
+    int i = 0 ;
+    while((ch = buff[i]) != '\0') {
+        printf("%c", ch);
+        i++;
+    }
+    printf("[%s], readLen = %d, actual len is %d", buff, readLen, i);
+
+/*
     // BYTE byte;
     char buff[1024];
     DWORD dwNumBytesRead;
@@ -31,7 +43,7 @@ int main() {
             CreateErrorMsg(GetLastError(), lpMsgBuf);
             printf("Error %s\n", lpMsgBuf);
         }
-    }
+    }*/
     CloseHandle(hCom);
     return 0;
 }

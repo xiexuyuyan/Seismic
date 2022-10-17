@@ -1,30 +1,20 @@
 package com.yuyan.driver.serialport;
 
-import java.io.*;
-
 public class Serialport {
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private native int nativeOpen();
+    private native int nativeClose();
+    private native int nativeRead(byte[] buff);
 
-    private native FileDescriptor nativeOpen();
-    private native int nativeReadByte();
-
-    public void open() {
-        FileDescriptor mFd = nativeOpen();
-        inputStream = new SerialportInputStream() {
-            @Override
-            public int read() throws IOException {
-                return nativeReadByte();
-            }
-        };
+    public int open() {
+        return nativeOpen();
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public int close() {
+        return nativeClose();
     }
 
-    public OutputStream getOutputStream() {
-        return outputStream;
+    public int read(byte[] buff) {
+        return nativeRead(buff);
     }
 
     static {

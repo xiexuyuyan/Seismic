@@ -10,16 +10,26 @@ extern "C" {
 /*
  * Class:     com_yuyan_driver_serialport_Serialport
  * Method:    nativeOpen
- * Signature: ()Ljava/io/FileDescriptor;
+ * Signature: ()I
  */
-JNIEXPORT jobject JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeOpen(JNIEnv* env, jobject o);
+JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeOpen
+  (JNIEnv *, jobject);
 
 /*
  * Class:     com_yuyan_driver_serialport_Serialport
- * Method:    nativeReadByte
+ * Method:    nativeClose
  * Signature: ()I
  */
-JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeReadByte(JNIEnv* env, jobject o);
+JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeClose
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeRead
+ * Signature: ([B)I
+ */
+JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeRead
+  (JNIEnv *, jobject, jbyteArray);
 
 #ifdef __cplusplus
 }

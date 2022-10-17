@@ -5,8 +5,14 @@
 
 
 HANDLE yuyan::Serialport::open() {
+    logi(TAG, __FUNCTION__, __LINE__, "Open!");
     return open_inner(mPortname, mAsync
             , mBaudrate, mParity, mDatabit, mStopbit);
+}
+
+void yuyan::Serialport::close(HANDLE hCom) {
+    logi(TAG, __FUNCTION__, __LINE__, "Close!");
+    CloseHandle(hCom);
 }
 
 HANDLE yuyan::Serialport::open_inner(
@@ -100,12 +106,12 @@ int yuyan::Serialport::configureCommonHandle(
     }
 
     COMMTIMEOUTS commTimeouts;
-    commTimeouts.ReadIntervalTimeout = MAXDWORD;
+    commTimeouts.ReadIntervalTimeout = 10;
     commTimeouts.ReadTotalTimeoutMultiplier = 0;
     commTimeouts.ReadTotalTimeoutConstant = 0;
 
-    commTimeouts.WriteTotalTimeoutMultiplier = 1;
-    commTimeouts.WriteTotalTimeoutConstant = 1;
+    commTimeouts.WriteTotalTimeoutMultiplier = 0;
+    commTimeouts.WriteTotalTimeoutConstant = 0;
     err = SetCommTimeouts(hCom, &commTimeouts);
     if (!err) {
         loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
@@ -121,4 +127,30 @@ int yuyan::Serialport::configureCommonHandle(
     }
 
     return 0;
+}
+
+int yuyan::Serialport::readBlocked(char _buff[], HANDLE hCom) {
+    int err = 0;
+    char buff[1024];
+    DWORD dwNumBytesRead = 0;
+    int readLen = 0;
+
+    err = ReadFile(hCom, &buff, sizeof(buff), &dwNumBytesRead, NULL);
+
+    if(err && (dwNumBytesRead != 0)) {
+        char ch = '\0';
+        int i = 0;
+        while ((ch = buff[i]) != '\0') {
+            _buff[i] = buff[i];
+            i++;
+        }
+        _buff[i] = '\0';
+        readLen = i;
+    } else {
+        LPCWSTR lpMsgBuf;
+        CreateErrorMsg(GetLastError(), lpMsgBuf);
+        printf("Error %s\n", lpMsgBuf);
+    }
+
+    return (readLen != 0) ? readLen : err;
 }
