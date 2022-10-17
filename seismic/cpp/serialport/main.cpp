@@ -10,6 +10,9 @@ int main() {
     HANDLE hCom = serialport->open();
     printf("Open fd = %d\n", hCom);
 
+
+    while(1) {
+
     char buff[1024];
     int readLen = serialport->readBlocked(buff, hCom);
 
@@ -19,7 +22,11 @@ int main() {
         printf("%c", ch);
         i++;
     }
-    printf("[%s], readLen = %d, actual len is %d", buff, readLen, i);
+    printf("[%s], readLen = %d, actual len is %d\n", buff, readLen, i);
+
+    serialport->write(buff, 1, hCom);
+
+    }
 
 /*
     // BYTE byte;

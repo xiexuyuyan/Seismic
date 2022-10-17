@@ -129,28 +129,62 @@ int yuyan::Serialport::configureCommonHandle(
     return 0;
 }
 
+int yuyan::Serialport::refreshRead(HANDLE hCom) {
+    int err = PurgeComm(hCom
+        , PURGE_RXCLEAR | PURGE_RXABORT);
+    if (!err) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        return -1;
+    }
+
+    return err;
+}
+
+int yuyan::Serialport::refreshWrite(HANDLE hCom) {
+    int err = PurgeComm(hCom
+        , PURGE_TXCLEAR | PURGE_TXABORT);
+    if (!err) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        return -1;
+    }
+
+    return err;
+}
+
 int yuyan::Serialport::readBlocked(char _buff[], HANDLE hCom) {
     int err = 0;
     char buff[1024];
-    DWORD dwNumBytesRead = 0;
-    int readLen = 0;
+    DWORD actualLen = 0;
 
-    err = ReadFile(hCom, &buff, sizeof(buff), &dwNumBytesRead, NULL);
+    err = ReadFile(hCom, &buff, sizeof(buff), &actualLen, NULL);
 
-    if(err && (dwNumBytesRead != 0)) {
-        char ch = '\0';
-        int i = 0;
-        while ((ch = buff[i]) != '\0') {
+    if(err && (actualLen != 0)) {
+        for(int i = 0; i < actualLen; i++) {
             _buff[i] = buff[i];
-            i++;
         }
-        _buff[i] = '\0';
-        readLen = i;
+        _buff[actualLen] = '\0';
     } else {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
         LPCWSTR lpMsgBuf;
         CreateErrorMsg(GetLastError(), lpMsgBuf);
         printf("Error %s\n", lpMsgBuf);
     }
 
-    return (readLen != 0) ? readLen : err;
+    return (actualLen > 0) ? actualLen : err;
+}
+
+int yuyan::Serialport::write(char buff[], int len, HANDLE hCom) {
+    int err = 0;
+    DWORD actualLen = 0;
+
+    err = WriteFile(hCom, buff, len, &actualLen, NULL);
+
+    if(!err) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        LPCWSTR lpMsgBuf;
+        CreateErrorMsg(GetLastError(), lpMsgBuf);
+        printf("Error %s\n", lpMsgBuf);
+    }
+
+    return (actualLen > 0) ? actualLen : err;
 }

@@ -31,6 +31,14 @@ JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeClose
 JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeRead
   (JNIEnv *, jobject, jbyteArray);
 
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeWrite
+ * Signature: ([BI)I
+ */
+JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeWrite
+  (JNIEnv *, jobject, jbyteArray, jint);
+
 #ifdef __cplusplus
 }
 #endif

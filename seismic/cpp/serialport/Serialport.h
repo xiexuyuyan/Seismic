@@ -91,6 +91,9 @@ namespace yuyan {
         void close(HANDLE hCom);
 
         int readBlocked(char buff[], HANDLE hCom);
+        int write(char buff[], int len, HANDLE hCom);
+        int refreshRead(HANDLE hCom);
+        int refreshWrite(HANDLE hCom);
     };
 }
 
