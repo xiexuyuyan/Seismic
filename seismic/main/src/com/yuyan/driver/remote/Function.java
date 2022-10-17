@@ -1,6 +1,7 @@
 package com.yuyan.driver.remote;
 
 import com.google.gson.Gson;
+import com.yuyan.Root;
 import com.yuyan.driver.local.CommandRepository;
 import com.yuyan.driver.local.CommandResolver;
 import com.yuyan.model.Command;
@@ -28,7 +29,7 @@ public class Function {
         response.getWriter().println(jsonStr);
     }
 
-    public static void postCommand(HttpServletRequest req, HttpServletResponse res, Socket socket) throws IOException {
+    public static void postCommandRemote(HttpServletRequest req, HttpServletResponse res, Socket socket) throws IOException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         for (String s : parameterMap.keySet()) {
             String[] values = parameterMap.get(s);
@@ -42,6 +43,47 @@ public class Function {
         InputStream inputStream = socket.getInputStream();
         byte[] buff = new byte[1024];
         int readLen = inputStream.read(buff, 0, 1024);
+
+        if (readLen == -1) {
+            Log.i(TAG, "[Coder Wu] postCommand: " +
+                    "we received -1 in socket input, so closed the socket");
+            socket.close();
+        }
+
+        Log.i(TAG, "[Coder Wu] postCommand: " +
+                "readLen = " + readLen
+                + ", " + receiveByteToString(buff, readLen));
+
+        String reply = receiveByteToString(buff, readLen);
+        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
+        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
+        if (commandRecvList.size() > 0) {
+            CommandRecv commandRecv = commandRecvList.get(0);
+            String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
+            SimpleStat statMessage = new SimpleStat(commandRecv.commandData.name, replyValueString);
+            Gson gson = new Gson();
+            String stateString = gson.toJson(statMessage);
+            res.getWriter().println(stateString);
+        }
+    }
+
+
+    public static void postCommandLocal(HttpServletRequest req, HttpServletResponse res, Socket socket) throws IOException {
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        for (String s : parameterMap.keySet()) {
+            String[] values = parameterMap.get(s);
+            Log.i(TAG, "[Coder Wu] postCommand: \t" + s + ":" + Arrays.toString(values));
+        }
+
+        String valueCodeString = parameterMap.get("value")[0];
+        byte[] sendBytes = sendStringToByte(valueCodeString);
+        Root.getSerialport().open();
+        Root.getSerialport().write(sendBytes, sendBytes.length);
+
+        byte[] buff = new byte[1024];
+        int readLen = Root.getSerialport().read(buff);
+        int ret = Root.getSerialport().close();
+        Log.i(TAG, "[Coder Wu] postCommandLocal: ret = " + ret);
 
         if (readLen == -1) {
             Log.i(TAG, "[Coder Wu] postCommand: " +

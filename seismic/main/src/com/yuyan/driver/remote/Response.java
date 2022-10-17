@@ -40,8 +40,11 @@ public class Response {
             case Constant.GET_COMMAND_ALL:
                 Function.getCommandAll(request, response);
                 break;
-            case Constant.POST_COMMAND:
-                Function.postCommand(request, response, socket);
+            case Constant.POST_COMMAND_REMOTE:
+                Function.postCommandRemote(request, response, socket);
+                break;
+            case Constant.POST_COMMAND_LOCAL:
+                Function.postCommandLocal(request, response, socket);
                 break;
         }
     }

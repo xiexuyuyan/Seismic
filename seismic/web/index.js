@@ -41,7 +41,7 @@ function requestAllCommandStr(parseJsonDataFunc){
 function requestSendCommand(commandObject, value){
     $.ajax({
         type: "POST",
-        url: "http://localhost:6699/com.yuyan.seismic/POST_COMMAND",
+        url: "http://localhost:6699/com.yuyan.seismic/POST_COMMAND_REMOTE",
         data:{
             'command_data_name': commandObject.commandData.name,
             'value': value
