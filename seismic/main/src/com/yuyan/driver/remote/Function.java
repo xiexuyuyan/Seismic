@@ -29,7 +29,8 @@ public class Function {
         response.getWriter().println(jsonStr);
     }
 
-    public static void postCommandRemote(HttpServletRequest req, HttpServletResponse res, Socket socket) throws IOException {
+    public static void postCommandRemote(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        Socket socket = SocketPlugin.INSTANCE.getSocket(Root.getThreadLocalSocket());
         Map<String, String[]> parameterMap = req.getParameterMap();
         for (String s : parameterMap.keySet()) {
             String[] values = parameterMap.get(s);
@@ -68,7 +69,7 @@ public class Function {
     }
 
 
-    public static void postCommandLocal(HttpServletRequest req, HttpServletResponse res, Socket socket) throws IOException {
+    public static void postCommandLocal(HttpServletRequest req, HttpServletResponse res) throws IOException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         for (String s : parameterMap.keySet()) {
             String[] values = parameterMap.get(s);
@@ -88,7 +89,6 @@ public class Function {
         if (readLen == -1) {
             Log.i(TAG, "[Coder Wu] postCommand: " +
                     "we received -1 in socket input, so closed the socket");
-            socket.close();
         }
 
         Log.i(TAG, "[Coder Wu] postCommand: " +

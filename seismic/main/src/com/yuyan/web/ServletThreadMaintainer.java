@@ -14,12 +14,10 @@ public class ServletThreadMaintainer {
 
     private final ServletRequest request;
     private final ServletResponse response;
-    private final Socket socket;
 
-    public ServletThreadMaintainer(ServletRequest req, ServletResponse res, ThreadLocal<Socket> socketThreadLocal) {
+    public ServletThreadMaintainer(ServletRequest req, ServletResponse res) {
         this.request = req;
         this.response = res;
-        this.socket = SocketPlugin.INSTANCE.getSocket(socketThreadLocal);
     }
 
     public void start() {
@@ -29,6 +27,6 @@ public class ServletThreadMaintainer {
         HttpServletResponse res = (HttpServletResponse) this.response;
         res.setHeader("Access-Control-Allow-Origin", "*");
 
-        Response.dispatch(request, response, socket);
+        Response.dispatch(request, response);
     }
 }

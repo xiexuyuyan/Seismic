@@ -16,11 +16,16 @@ public class Root {
     public static Serialport getSerialport() {
         return contextThread.serialport;
     }
+    public static ThreadLocal<Socket> getThreadLocalSocket() {
+        return contextThread.threadLocalSocket;
+    }
 
     private static class ContextThread {
         private final Serialport serialport;
+        private final ThreadLocal<Socket> threadLocalSocket;
         ContextThread() {
             serialport = new Serialport();
+            threadLocalSocket = new ThreadLocal<>();
         }
     }
 
@@ -37,11 +42,10 @@ public class Root {
 
         TomcatServer tomcatServer = new TomcatServer();
 
-        ThreadLocal<Socket> socketThreadLocal = new ThreadLocal<>();
         ServletHandler handler = new ServletHandler("com.yuyan.seismic") {
             @Override
             public boolean handle(ServletRequest req, ServletResponse res) {
-                new ServletThreadMaintainer(req, res, socketThreadLocal).start();
+                new ServletThreadMaintainer(req, res).start();
                 return true;
             }
         };

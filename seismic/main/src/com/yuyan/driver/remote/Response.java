@@ -12,7 +12,7 @@ import java.net.Socket;
 public class Response {
     private static final String TAG = "Response";
 
-    public static void dispatch(ServletRequest req, ServletResponse res, Socket socket) {
+    public static void dispatch(ServletRequest req, ServletResponse res) {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
@@ -22,7 +22,7 @@ public class Response {
         String action = uriArray.length > 2 ? uriArray[2] : null;
         if (action != null) {
             try {
-                consume(action, request, response, socket);
+                consume(action, request, response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -32,8 +32,7 @@ public class Response {
     private static void consume(
             String action
             , HttpServletRequest request
-            , HttpServletResponse response
-            , Socket socket) throws IOException {
+            , HttpServletResponse response) throws IOException {
         Log.i(TAG, "[Coder Wu] consume: action = " + action);
 
         switch (action) {
@@ -41,10 +40,10 @@ public class Response {
                 Function.getCommandAll(request, response);
                 break;
             case Constant.POST_COMMAND_REMOTE:
-                Function.postCommandRemote(request, response, socket);
+                Function.postCommandRemote(request, response);
                 break;
             case Constant.POST_COMMAND_LOCAL:
-                Function.postCommandLocal(request, response, socket);
+                Function.postCommandLocal(request, response);
                 break;
         }
     }
