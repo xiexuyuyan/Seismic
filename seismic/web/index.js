@@ -39,9 +39,21 @@ function requestAllCommandStr(parseJsonDataFunc){
 }
 
 function requestSendCommand(commandObject, value){
+    var isSerialport = $("#SwitchSerialport").is(':checked');
+    var isLan = $("#SwitchLan").is(':checked');
+
+    var postTo = "POST_COMMAND";
+    if (isSerialport) {
+        postTo = postTo + "_LOCAL";
+    } else if (isLan) {
+        postTo = postTo + "_REMOTE";
+    } else {
+        return;
+    }
+
     $.ajax({
         type: "POST",
-        url: "http://localhost:6699/com.yuyan.seismic/POST_COMMAND_REMOTE",
+        url: "http://localhost:6699/com.yuyan.seismic/" + postTo,
         data:{
             'command_data_name': commandObject.commandData.name,
             'value': value
@@ -320,4 +332,17 @@ function parseJsonData(jsonStr) {
         appendOnline(command);
         gJsonData.set(command.commandData.name, command)
     });
+}
+
+function checkCommandSendBy(obj) {
+    var isChecked = $(obj).is(':checked');
+    var clickOn = obj.id;
+
+    if (isChecked) {
+        if (clickOn === "SwitchSerialport") {
+            $("#SwitchLan").prop("checked", false);
+        } else if (clickOn === "SwitchLan"){
+            $("#SwitchSerialport").prop("checked", false);
+        }
+    }
 }

@@ -5,6 +5,7 @@
   <script src="http://localhost:6677/libs/jquery-3.6.0/jquery-3.6.0.js"></script>
   <script src="http://localhost:6677/libs/jquery-3.6.0/jquery.cookie.js"></script>
   <script src="http://localhost:6677/index.js"></script>
+  <link rel="stylesheet" type="text/css" href="switch-button.css" >
   <title>Title</title>
   <style>
     .name-width {
@@ -13,19 +14,61 @@
     .exec_echo-width {
       min-width: 50px;
     }
+    .table-cell-vertical-align-middle {
+      display:table-cell;
+      vertical-align:middle;
+    }
   </style>
 </head>
 <body>
   <table border="1">
-    <thead><tr>
-      <th>index</th>
-      <th class="name-width">name</th>
-      <th>-10</th>
-      <th>-1</th>
-      <th>value</th>
-      <th>+1</th>
-      <th>+10</th>
-      <th>exec</th>
+    <tbody>
+      <tr>
+        <th>
+          <table border="0">
+            <thead>
+              <tr>
+                <th>
+                  <label class="table-cell-vertical-align-middle" style="user-select: none;height:30px">发送串口指令</label>
+                </th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th>
+                  <input id="SwitchSerialport" style="font-size: 5px;" class="switch-box" type="checkbox" onclick="checkCommandSendBy(this)">
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <table border="0">
+            <thead>
+              <tr>
+                <th>
+                  <label class="table-cell-vertical-align-middle" style="user-select: none;height:30px">发送网络指令</label>
+                </th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th style="width: 50px; height: 30px"></th>
+                <th>
+                  <input id="SwitchLan" style="font-size: 5px;" class="switch-box" type="checkbox" onclick="checkCommandSendBy(this)">
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+  <table border="1">
+    <thead><tr><th>index</th><th class="name-width">name</th><th>-10</th><th>-1</th><th>value</th><th>+1</th><th>+10</th><th>exec</th>
       <th class="exec_echo-width">echo</th></tr></thead>
     <tbody id="commandTable"></tbody>
     <tfoot><tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tfoot>
