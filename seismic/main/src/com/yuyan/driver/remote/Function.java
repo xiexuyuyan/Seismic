@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,24 @@ public class Function {
 
         InputStream inputStream = socket.getInputStream();
         byte[] buff = new byte[1024];
-        int readLen = inputStream.read(buff, 0, 1024);
+        int readLen = -1;
+        try {
+            readLen = inputStream.read(buff, 0, 1024);
+        } catch (SocketTimeoutException e) {
+            Log.i(TAG, "[Coder Wu] postCommandRemote: SocketTimeoutException " + e.getMessage());
+            e.printStackTrace();
+
+            String timeoutReason = e.getMessage();
+            if (timeoutReason.equals("Read timed out")) {
+                String commandDataName = parameterMap.get("command_data_name")[0];
+                SimpleStat statMessage = new SimpleStat(commandDataName, "timeout");
+                Gson gson = new Gson();
+                String stateString = gson.toJson(statMessage);
+                res.getWriter().println(stateString);
+
+                return;
+            }
+        }
 
         if (readLen == -1) {
             Log.i(TAG, "[Coder Wu] postCommand: " +

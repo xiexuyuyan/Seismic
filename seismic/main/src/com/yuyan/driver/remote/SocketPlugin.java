@@ -61,7 +61,9 @@ public enum SocketPlugin {
 
         try {
             Log.i(TAG, "[Coder Wu] createSocket: at " + ip + ":" + port);
-            return new Socket(InetAddress.getByAddress(ipBuf),port);
+            Socket socket = new Socket(InetAddress.getByAddress(ipBuf),port);
+            socket.setSoTimeout(3000);
+            return socket;
         } catch (IOException e) {
             e.printStackTrace();
         }
