@@ -10,11 +10,11 @@ import com.yuyan.model.CommandRecv;
 import com.yuyan.utils.Log;
 import com.yuyan.web.model.SimpleStat;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
@@ -157,6 +157,49 @@ public class Function {
     }
 
 
+    public static void postUploadHDCPKey(HttpServletRequest request, HttpServletResponse response) {
+        Log.i(TAG, "[Coder Wu] postUploadHDCPKey: ");
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (String s : parameterMap.keySet()) {
+            String[] values = parameterMap.get(s);
+            Log.i(TAG, "[Coder Wu] postSwitchSerialport: \t" + s + ":" + Arrays.toString(values));
+        }
+
+        try {
+            int size = request.getParts().size();
+            Part part = request.getPart("HDCPKeyFile");
+            Log.i(TAG, "[Coder Wu] postUploadHDCPKey: part size = " + size);
+            Log.i(TAG, "[Coder Wu] postUploadHDCPKey: part = " + part.getName());
+            String fileName = part.getSubmittedFileName();
+            String defaultFilePath = "seismic/main/res/" + fileName;
+            saveSimpleFile(defaultFilePath, part.getInputStream());
+            part.write(fileName);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+
+
+        Log.i(TAG, "[Coder Wu] postUploadHDCPKey: end");
+    }
+
+    private static void saveSimpleFile(String filePath, InputStream inputStream) throws IOException {
+        File file = new File(filePath);
+        if(!file.exists()){
+            boolean createFileRet = file.createNewFile();
+            Log.i(TAG, "[Coder Wu] saveSimpleFile: createFileRet " + createFileRet);
+        }
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
+        in = new BufferedInputStream(inputStream);
+        out = new BufferedOutputStream(new FileOutputStream(file));
+        int len = -1;
+        byte[] b = new byte[1024];
+        while((len = in.read(b)) != -1){
+            out.write(b,0,len);
+        }
+        in.close();
+        out.close();
+    }
 
 
 

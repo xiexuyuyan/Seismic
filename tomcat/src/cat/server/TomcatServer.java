@@ -5,9 +5,12 @@ import cat.servlet.DispatchServlet;
 import cat.handler.ServletHandler;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.Wrapper;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
 import java.util.List;
 
 public class TomcatServer {
@@ -41,7 +44,10 @@ public class TomcatServer {
         context.setPath("");
         context.addLifecycleListener(new Tomcat.FixContextListener());
         cat.servlet.DispatchServlet dispatchServlet = new DispatchServlet(mapper);
-        Tomcat.addServlet(context, "default_patcher", dispatchServlet).setAsyncSupported(true);
+        Wrapper wrapper = Tomcat.addServlet(context, "default_patcher", dispatchServlet);
+        wrapper.setAsyncSupported(true);
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement("");
+        wrapper.setMultipartConfigElement(multipartConfigElement);
         context.addServletMappingDecoded("/", "default_patcher");
         tomcat.getHost().addChild(context);
 

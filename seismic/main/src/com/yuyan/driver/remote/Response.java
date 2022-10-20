@@ -48,6 +48,9 @@ public class Response {
             case Constant.POST_SWITCH_SERIALPORT:
                 Function.postSwitchSerialport(request, response);
                 break;
+            case Constant.POST_UPLOAD_HDCP_KEY:
+                Function.postUploadHDCPKey(request, response);
+                break;
         }
     }
 }
