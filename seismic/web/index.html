@@ -37,7 +37,9 @@
                 <th style="width: 50px; height: 30px"></th>
                 <th style="width: 50px; height: 30px"></th>
                 <th>
-                  <input id="SwitchSerialport" style="font-size: 5px;" class="switch-box" type="checkbox" onclick="checkCommandSendBy(this)">
+                  <input id="SwitchSerialport" style="font-size: 5px;" class="switch-box" type="checkbox"
+                         onchange="changeCommandSendBy(this)"
+                         onclick="checkCommandSendBy(this)">
                 </th>
               </tr>
             </thead>
@@ -58,7 +60,9 @@
                 <th style="width: 50px; height: 30px"></th>
                 <th style="width: 50px; height: 30px"></th>
                 <th>
-                  <input id="SwitchLan" style="font-size: 5px;" class="switch-box" type="checkbox" onclick="checkCommandSendBy(this)">
+                  <input id="SwitchLan" style="font-size: 5px;" class="switch-box" type="checkbox"
+                         onchange="changeCommandSendBy(this)"
+                         onclick="checkCommandSendBy(this)">
                 </th>
               </tr>
             </thead>

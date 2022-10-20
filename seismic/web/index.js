@@ -23,6 +23,22 @@ function attrCommandDisabledCheck(commandDataName) {
 
 const gJsonData = new Map();
 
+function requestSerialportSwitch(status){
+    const reData = {"size": 10};
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:6699/com.yuyan.seismic/POST_SWITCH_SERIALPORT",
+        data:{
+            'status': status,
+        },
+        success: function (result) {
+            console.log("success: " + result);
+        },
+        error : function() {
+            console.log("error");
+        }
+    });
+}
 
 function requestAllCommandStr(parseJsonDataFunc){
     const reData = {"size": 10};
@@ -339,10 +355,19 @@ function checkCommandSendBy(obj) {
     var clickOn = obj.id;
 
     if (isChecked) {
-        if (clickOn === "SwitchSerialport") {
-            $("#SwitchLan").prop("checked", false);
-        } else if (clickOn === "SwitchLan"){
-            $("#SwitchSerialport").prop("checked", false);
+        if (clickOn === "SwitchSerialport" && $("#SwitchLan").is(':checked')) {
+            $("#SwitchLan").prop("checked", false).change();
+        } else if (clickOn === "SwitchLan" && $("#SwitchSerialport").is(':checked')){
+            $("#SwitchSerialport").prop("checked", false).change();
         }
+    }
+}
+
+function changeCommandSendBy(obj) {
+    var changeOn = obj.id;
+    var isChecked = $(obj).is(':checked');
+    if (changeOn === "SwitchSerialport") {
+        requestSerialportSwitch(isChecked);
+    } else if (changeOn === "SwitchLan"){
     }
 }

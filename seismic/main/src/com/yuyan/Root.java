@@ -13,18 +13,14 @@ import java.net.Socket;
 
 public class Root {
     private final static ContextThread contextThread = new ContextThread();
-    public static Serialport getSerialport() {
-        return contextThread.serialport;
-    }
+
     public static ThreadLocal<Socket> getThreadLocalSocket() {
         return contextThread.threadLocalSocket;
     }
 
     private static class ContextThread {
-        private final Serialport serialport;
         private final ThreadLocal<Socket> threadLocalSocket;
         ContextThread() {
-            serialport = new Serialport();
             threadLocalSocket = new ThreadLocal<>();
         }
     }

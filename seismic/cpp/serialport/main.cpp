@@ -7,50 +7,24 @@ int main() {
     int err = 0;
     char const* portname = "COM6";
     Serialport* serialport = new Serialport(portname);
-    HANDLE hCom = serialport->open();
-    printf("Open fd = %d\n", hCom);
 
+    char buff[10] = "12345";
+    for(int i = 0; i < 3; i++) {
+        Sleep(2000);
+        printf("Before open status = %d\n", serialport->getStatus());
 
-    while(1) {
+        HANDLE hCom = serialport->open();
+        printf("Open fd = %d\n", hCom);
 
-    char buff[1024];
-    int readLen = serialport->readBlocked(buff, hCom);
+        printf("After open status = %d\n", serialport->getStatus());
 
-    char ch = '\0';
-    int i = 0 ;
-    while((ch = buff[i]) != '\0') {
-        printf("%c", ch);
-        i++;
-    }
-    printf("[%s], readLen = %d, actual len is %d\n", buff, readLen, i);
+        serialport->write(buff, 3);
+        serialport->close();
 
-    serialport->write(buff, 1, hCom);
+        printf("After close status = %d\n", serialport->getStatus());
 
+        printf("---------------------\n");
     }
 
-/*
-    // BYTE byte;
-    char buff[1024];
-    DWORD dwNumBytesRead;
-
-    while(1) {
-        dwNumBytesRead = 0;
-        err = ReadFile(hCom, &buff, sizeof(buff), &dwNumBytesRead, NULL);
-        if(err && (dwNumBytesRead != 0)) {
-            printf("[%c] len = %d\n", buff[0], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[1], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[2], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[3], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[4], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[5], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[6], dwNumBytesRead);
-            printf("[%c] len = %d\n", buff[7], dwNumBytesRead);
-
-            LPCWSTR lpMsgBuf;
-            CreateErrorMsg(GetLastError(), lpMsgBuf);
-            printf("Error %s\n", lpMsgBuf);
-        }
-    }*/
-    CloseHandle(hCom);
     return 0;
 }

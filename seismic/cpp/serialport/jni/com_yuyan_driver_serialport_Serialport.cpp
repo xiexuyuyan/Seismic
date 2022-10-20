@@ -7,34 +7,83 @@
 using namespace yuyan;
 
 /* Global Variable */
-HANDLE gHCom;
-Serialport* gSerialport;
+Serialport* gSerialport = NULL;
 /* Global Variable */
 
-JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeOpen(JNIEnv *env, jobject o) {
-    printf("start to open\n");
-    char const* portname = "COM6";
+/*----------------------------------------------------------------------*/
+char* jstringToChar(JNIEnv* env, jstring jstr);
+/*----------------------------------------------------------------------*/
+
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeOpen
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeOpen(JNIEnv *env, jobject o, jstring s) {
+    char const* portname;
+    char *p = jstringToChar(env, s);
+    if(p == NULL) {
+        portname = "COM6";
+    } else {
+        portname = p;
+    }
+    printf("start to open %s.\n", portname);
+
     Serialport* serialport = new Serialport(portname);
     HANDLE hCom = serialport->open();
     printf("Open fd = %d\n", hCom);
 
-    gHCom = hCom;
     gSerialport = serialport;
 
     return 12;
 }
 
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeClose
+ * Signature: ()I
+ */
 JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeClose(JNIEnv *env, jobject) {
-    printf("start to close %d\n", gHCom);
-    gSerialport->close(gHCom);
+    if (gSerialport == NULL) {
+        return -1;
+    }
+
+    printf("start to close\n");
+    gSerialport->close();
     return 13;
 }
 
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeGetStatus
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeGetStatus(JNIEnv *env, jobject o) {
+    if (gSerialport == NULL) {
+        return JNI_FALSE;
+    }
 
+    int status = gSerialport->getStatus();;
+    if (0 == status) {
+        return JNI_FALSE;
+    } else {
+        return JNI_TRUE;
+    }
+}
+
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeRead
+ * Signature: ([B)I
+ */
 JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeRead(JNIEnv *env, jobject o, jbyteArray bA) {
     printf("start to read\n");
+    if (gSerialport == NULL) {
+        return -1;
+    }
+
     char buff[1024];
-    int readLen = gSerialport->readBlocked(buff, gHCom);
+    int readLen = gSerialport->readBlocked(buff);
     printf("end in read\n");
 
     int jBuffLen = env->GetArrayLength(bA);
@@ -50,8 +99,16 @@ JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeRead(JN
     return readLen;
 }
 
-
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeWrite
+ * Signature: ([BI)I
+ */
 JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeWrite(JNIEnv *env, jobject o, jbyteArray bA, jint d) {
+    if (gSerialport == NULL) {
+        return -1;
+    }
+
     char buff[d];
     for(int i = 0; i <= d; i++) {
         buff[i] = '\0';
@@ -65,7 +122,24 @@ JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeWrite(J
     }
     buff[wLen] = '\0';
 
-    int err = gSerialport->write(buff, wLen, gHCom);
+    int err = gSerialport->write(buff, wLen);
 
     return err;
+}
+
+char* jstringToChar(JNIEnv* env, jstring jstr) {
+    char* rtn = NULL;
+    jclass clsstring = env->FindClass("java/lang/String");
+    jstring strencode = env->NewStringUTF("utf-8");
+    jmethodID mid = env->GetMethodID(clsstring, "getBytes", "(Ljava/lang/String;)[B");
+    jbyteArray barr= (jbyteArray)env->CallObjectMethod(jstr, mid, strencode);
+    jsize alen = env->GetArrayLength(barr);
+    jbyte* ba = env->GetByteArrayElements(barr, JNI_FALSE);
+    if (alen > 0) {
+        rtn = (char*)malloc(alen + 1);
+        memcpy(rtn, ba, alen);
+        rtn[alen] = 0;
+    }
+    env->ReleaseByteArrayElements(barr, ba, 0);
+    return rtn;
 }

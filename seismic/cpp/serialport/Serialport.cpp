@@ -6,16 +6,32 @@
 
 HANDLE yuyan::Serialport::open() {
     logi(TAG, __FUNCTION__, __LINE__, "Open!");
-    return open_inner(mPortname, mAsync
+    mHCom = inner_open(mPortname, mAsync
             , mBaudrate, mParity, mDatabit, mStopbit);
+    return mHCom;
 }
 
-void yuyan::Serialport::close(HANDLE hCom) {
+void yuyan::Serialport::close() {
     logi(TAG, __FUNCTION__, __LINE__, "Close!");
-    CloseHandle(hCom);
+    CloseHandle(mHCom);
 }
 
-HANDLE yuyan::Serialport::open_inner(
+/*
+ * GetHandleInformation(HANDLE handle, DWORD flags)
+ * flag:
+ *   76: first not open
+ *    0: opening
+ *   15: closed by CloseHandle
+ *   21: not open
+ * ret: 0 invalid, 1 valid
+ * it makes GetLastError()
+ */
+int yuyan::Serialport::getStatus() {
+    DWORD dFlags;
+    return GetHandleInformation(mHCom,&dFlags);
+}
+
+HANDLE yuyan::Serialport::inner_open(
         const char* portname
         , const int async
         , const int baudrate
@@ -31,14 +47,14 @@ HANDLE yuyan::Serialport::open_inner(
                     , 0, NULL, OPEN_EXISTING, asyncFlag, NULL);
 
     if (hCom == (HANDLE)-1) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return NULL;
     }
 
-    err = configureCommonHandle(
+    err = inner_configureCommonHandle(
             hCom, baudrate, parity, databit, stopbit);
     if (err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return NULL;
     }
 
@@ -51,7 +67,7 @@ HANDLE yuyan::Serialport::open_inner(
 }
 
 // Default 96-N-8-1
-int yuyan::Serialport::configureCommonHandle(
+int yuyan::Serialport::inner_configureCommonHandle(
         const HANDLE hCom
         , const int baudrate
         , const int parity
@@ -61,7 +77,7 @@ int yuyan::Serialport::configureCommonHandle(
 
     err = SetupComm(hCom, 1024, 1024);
     if (!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return -1;
     }
 
@@ -101,20 +117,12 @@ int yuyan::Serialport::configureCommonHandle(
 
     err = SetCommState(hCom, &configure);
     if (!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return -1;
     }
 
-    COMMTIMEOUTS commTimeouts;
-    commTimeouts.ReadIntervalTimeout = 10;
-    commTimeouts.ReadTotalTimeoutMultiplier = 0;
-    commTimeouts.ReadTotalTimeoutConstant = 0;
-
-    commTimeouts.WriteTotalTimeoutMultiplier = 0;
-    commTimeouts.WriteTotalTimeoutConstant = 0;
-    err = SetCommTimeouts(hCom, &commTimeouts);
-    if (!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+    if (-1 == inner_configureCommonTimeout(hCom)) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return -1;
     }
 
@@ -122,41 +130,61 @@ int yuyan::Serialport::configureCommonHandle(
         , PURGE_RXCLEAR | PURGE_TXCLEAR
         | PURGE_RXABORT | PURGE_TXABORT);
     if (!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return -1;
     }
 
     return 0;
 }
 
-int yuyan::Serialport::refreshRead(HANDLE hCom) {
-    int err = PurgeComm(hCom
-        , PURGE_RXCLEAR | PURGE_RXABORT);
+int yuyan::Serialport::refreshRead() {
+    int err = PurgeComm(mHCom, PURGE_RXCLEAR | PURGE_RXABORT);
     if (!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return -1;
     }
 
     return err;
 }
 
-int yuyan::Serialport::refreshWrite(HANDLE hCom) {
-    int err = PurgeComm(hCom
-        , PURGE_TXCLEAR | PURGE_TXABORT);
+int yuyan::Serialport::refreshWrite() {
+    int err = PurgeComm(mHCom, PURGE_TXCLEAR | PURGE_TXABORT);
     if (!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
         return -1;
     }
 
     return err;
 }
 
-int yuyan::Serialport::readBlocked(char _buff[], HANDLE hCom) {
+int yuyan::Serialport::inner_configureCommonTimeout(const HANDLE hCom) {
+    int err = 0;
+    COMMTIMEOUTS commTimeouts;
+    commTimeouts.ReadIntervalTimeout = 10;
+    commTimeouts.ReadTotalTimeoutMultiplier = 0;
+    commTimeouts.ReadTotalTimeoutConstant = readTotalTimeoutConstant;
+
+    commTimeouts.WriteTotalTimeoutMultiplier = 0;
+    commTimeouts.WriteTotalTimeoutConstant = 0;
+    err = SetCommTimeouts(hCom, &commTimeouts);
+    if (!err) {
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
+        return -1;
+    }
+    return err;
+}
+
+int yuyan::Serialport::setReadTimeoutMs(long milliseconds) {
+    readTotalTimeoutConstant = milliseconds;
+    return inner_configureCommonTimeout(mHCom);
+}
+
+int yuyan::Serialport::readBlocked(char _buff[]) {
     int err = 0;
     char buff[1024];
     DWORD actualLen = 0;
 
-    err = ReadFile(hCom, &buff, sizeof(buff), &actualLen, NULL);
+    err = ReadFile(mHCom, &buff, sizeof(buff), &actualLen, NULL);
 
     if(err && (actualLen != 0)) {
         for(int i = 0; i < actualLen; i++) {
@@ -164,26 +192,20 @@ int yuyan::Serialport::readBlocked(char _buff[], HANDLE hCom) {
         }
         _buff[actualLen] = '\0';
     } else {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
-        LPCWSTR lpMsgBuf;
-        CreateErrorMsg(GetLastError(), lpMsgBuf);
-        printf("Error %s\n", lpMsgBuf);
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
     }
 
     return (actualLen > 0) ? actualLen : err;
 }
 
-int yuyan::Serialport::write(char buff[], int len, HANDLE hCom) {
+int yuyan::Serialport::write(char buff[], int len) {
     int err = 0;
     DWORD actualLen = 0;
 
-    err = WriteFile(hCom, buff, len, &actualLen, NULL);
+    err = WriteFile(mHCom, buff, len, &actualLen, NULL);
 
     if(!err) {
-        loge(TAG, __FUNCTION__, __LINE__, strerror(errno));
-        LPCWSTR lpMsgBuf;
-        CreateErrorMsg(GetLastError(), lpMsgBuf);
-        printf("Error %s\n", lpMsgBuf);
+        loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
     }
 
     return (actualLen > 0) ? actualLen : err;

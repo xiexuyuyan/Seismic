@@ -45,6 +45,9 @@ public class Response {
             case Constant.POST_COMMAND_LOCAL:
                 Function.postCommandLocal(request, response);
                 break;
+            case Constant.POST_SWITCH_SERIALPORT:
+                Function.postSwitchSerialport(request, response);
+                break;
         }
     }
 }

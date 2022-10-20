@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     com_yuyan_driver_serialport_Serialport
  * Method:    nativeOpen
- * Signature: ()I
+ * Signature: (Ljava/lang/String;)I
  */
 JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeOpen
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     com_yuyan_driver_serialport_Serialport
@@ -21,6 +21,14 @@ JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeOpen
  * Signature: ()I
  */
 JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeClose
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeGetStatus
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeGetStatus
   (JNIEnv *, jobject);
 
 /*

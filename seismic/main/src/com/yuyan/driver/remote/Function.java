@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.yuyan.Root;
 import com.yuyan.driver.local.CommandRepository;
 import com.yuyan.driver.local.CommandResolver;
+import com.yuyan.driver.serialport.Serialport;
 import com.yuyan.model.Command;
 import com.yuyan.model.CommandRecv;
 import com.yuyan.utils.Log;
@@ -96,13 +97,11 @@ public class Function {
 
         String valueCodeString = parameterMap.get("value")[0];
         byte[] sendBytes = sendStringToByte(valueCodeString);
-        Root.getSerialport().open();
-        Root.getSerialport().write(sendBytes, sendBytes.length);
+        Serialport serialport = Serialport.getInstance();
+        serialport.write(sendBytes, sendBytes.length);
 
         byte[] buff = new byte[1024];
-        int readLen = Root.getSerialport().read(buff);
-        int ret = Root.getSerialport().close();
-        Log.i(TAG, "[Coder Wu] postCommandLocal: ret = " + ret);
+        int readLen = serialport.read(buff);
 
         if (readLen == -1) {
             Log.i(TAG, "[Coder Wu] postCommand: " +
@@ -126,7 +125,31 @@ public class Function {
         }
     }
 
+    public static void postSwitchSerialport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (String s : parameterMap.keySet()) {
+            String[] values = parameterMap.get(s);
+            Log.i(TAG, "[Coder Wu] postSwitchSerialport: \t" + s + ":" + Arrays.toString(values));
+        }
 
+        Serialport serialport = Serialport.getInstance();
+        boolean status = parameterMap.get("status")[0].equals("true");
+        boolean before = serialport.getStatus();
+
+        if (status && !before) {
+            serialport.open("COM6");
+        } else if (!status && before) {
+            serialport.close();
+        }
+
+        boolean after = serialport.getStatus();
+        Log.i(TAG, "[Coder Wu] postSwitchSerialport: " + before + " --> " + after);
+
+        SimpleStat statMessage = new SimpleStat("POST_SWITCH_SERIALPORT", "" + status);
+        Gson gson = new Gson();
+        String stateString = gson.toJson(statMessage);
+        response.getWriter().println(stateString);
+    }
 
 
 

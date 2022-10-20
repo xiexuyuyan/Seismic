@@ -21,6 +21,9 @@
                   NULL                             \
                  ),                                \
           ((WCHAR *)errMsgBuff)[wcslen((WCHAR *)errMsgBuff)-2] = '\0'
+//LPCWSTR lpMsgBuf;
+//CreateErrorMsg(lastErrno, lpMsgBuf);
+//printf("Error [%d]: %s\n", lastErrno, lpMsgBuf);
 /************************************************************************/
 #define BAUDRATE_9600      9600L
 #define BAUDRATE_115200    115200L
@@ -43,6 +46,8 @@
 namespace yuyan {
     class Serialport {
     private:
+        HANDLE mHCom;
+
         const char* mPortname;
         int mAsync;
         int mBaudrate;
@@ -50,19 +55,20 @@ namespace yuyan {
         int mDatabit;
         int mStopbit;
 
-        int configureCommonHandle(
+        int inner_configureCommonHandle(
                     const HANDLE hCom
                     , const int baudrate
                     , const int parity
                     , const int databit
                     , const int stopbit);
-        HANDLE open_inner(
+        HANDLE inner_open(
                     const char* portname
                     , const int async
                     , const int baudrate
                     , const int parity
                     , const int databit
                     , const int stopbit);
+        int inner_configureCommonTimeout(const HANDLE hCom);
 
         void loge(const char* tag
             , const char* function
@@ -77,6 +83,9 @@ namespace yuyan {
             printf("%s %s():%d Info: %s.\n", tag, function, line, errnoStr);
         }
 
+    private:
+        long readTotalTimeoutConstant;
+
     public:
         Serialport(const char* portname) {
             mPortname = portname;
@@ -85,15 +94,19 @@ namespace yuyan {
             mParity = S_PARITY_NONE;
             mDatabit = DATABIT_8;
             mStopbit = STOPBIT_1;
+
+            readTotalTimeoutConstant = 0;
         }
 
         HANDLE open();
-        void close(HANDLE hCom);
+        void close();
+        int getStatus();
 
-        int readBlocked(char buff[], HANDLE hCom);
-        int write(char buff[], int len, HANDLE hCom);
-        int refreshRead(HANDLE hCom);
-        int refreshWrite(HANDLE hCom);
+        int readBlocked(char buff[]);
+        int write(char buff[], int len);
+        int refreshRead();
+        int refreshWrite();
+        int setReadTimeoutMs(long milliseconds);
     };
 }
 
