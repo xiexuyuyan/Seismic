@@ -6,6 +6,7 @@ public class Serialport {
     private native boolean nativeGetStatus();
     private native int nativeRead(byte[] buff);
     private native int nativeWrite(byte[] buff, int len);
+    private native int nativeSetReadTimeout(long milliseconds);
 
     private static volatile Serialport mSerialport;
     private Serialport() {}
@@ -38,6 +39,10 @@ public class Serialport {
 
     public int write(byte[] buff, int len) {
         return nativeWrite(buff, len);
+    }
+
+    public int setReadTimeout(long milliseconds) {
+        return nativeSetReadTimeout(milliseconds);
     }
 
     static {

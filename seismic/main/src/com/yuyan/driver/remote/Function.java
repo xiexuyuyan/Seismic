@@ -104,8 +104,12 @@ public class Function {
         int readLen = serialport.read(buff);
 
         if (readLen == -1) {
-            Log.i(TAG, "[Coder Wu] postCommand: " +
-                    "we received -1 in socket input, so closed the socket");
+            String commandDataName = parameterMap.get("command_data_name")[0];
+            SimpleStat statMessage = new SimpleStat(commandDataName, "timeout");
+            Gson gson = new Gson();
+            String stateString = gson.toJson(statMessage);
+            res.getWriter().println(stateString);
+            return;
         }
 
         Log.i(TAG, "[Coder Wu] postCommand: " +
@@ -138,6 +142,7 @@ public class Function {
 
         if (status && !before) {
             serialport.open("COM6");
+            serialport.setReadTimeout(3000);
         } else if (!status && before) {
             serialport.close();
         }

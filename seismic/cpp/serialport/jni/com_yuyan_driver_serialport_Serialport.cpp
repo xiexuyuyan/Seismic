@@ -85,6 +85,9 @@ JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeRead(JN
     char buff[1024];
     int readLen = gSerialport->readBlocked(buff);
     printf("end in read\n");
+    if (readLen <= 0) {
+        return readLen;
+    }
 
     int jBuffLen = env->GetArrayLength(bA);
     jbyte* jBuff = env->GetByteArrayElements(bA, JNI_FALSE);
@@ -126,6 +129,21 @@ JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeWrite(J
 
     return err;
 }
+
+/*
+ * Class:     com_yuyan_driver_serialport_Serialport
+ * Method:    nativeSetReadTimeout
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_yuyan_driver_serialport_Serialport_nativeSetReadTimeout(JNIEnv *env, jobject o, jlong l) {
+    if (gSerialport == NULL) { return -1; }
+
+    return gSerialport->setReadTimeoutMs(l);
+}
+
+
+
+
 
 char* jstringToChar(JNIEnv* env, jstring jstr) {
     char* rtn = NULL;

@@ -182,6 +182,7 @@ int yuyan::Serialport::setReadTimeoutMs(long milliseconds) {
 int yuyan::Serialport::readBlocked(char _buff[]) {
     int err = 0;
     char buff[1024];
+    memset(buff, '\0', 1024);
     DWORD actualLen = 0;
 
     err = ReadFile(mHCom, &buff, sizeof(buff), &actualLen, NULL);
@@ -193,6 +194,7 @@ int yuyan::Serialport::readBlocked(char _buff[]) {
         _buff[actualLen] = '\0';
     } else {
         loge(TAG, __FUNCTION__, __LINE__, strerror(GetLastError()));
+        err = -err;
     }
 
     return (actualLen > 0) ? actualLen : err;
