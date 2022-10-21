@@ -7,4 +7,10 @@ public class Constant {
     public static final String POST_SWITCH_SERIALPORT = "POST_SWITCH_SERIALPORT";
 
     public static final String POST_UPLOAD_HDCP_KEY = "POST_UPLOAD_HDCP_KEY";
+    public static final String GET_HDCP_KEY_LIST = "GET_HDCP_KEY_LIST";
+
+    public static final String HDCP_KEY_UPLOAD_PATH = "D://TMP/HDCP/";
+
+    public static final String SERIALPORT_READ_TIMEOUT = "timeout";
+    public static final String SERIALPORT_READ_NO_MATCH = "no match";
 }

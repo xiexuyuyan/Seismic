@@ -7,7 +7,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.Socket;
 
 public class Response {
     private static final String TAG = "Response";
@@ -50,6 +49,9 @@ public class Response {
                 break;
             case Constant.POST_UPLOAD_HDCP_KEY:
                 Function.postUploadHDCPKey(request, response);
+                break;
+            case Constant.GET_HDCP_KEY_LIST:
+                Function.getHDCPKeyList(request, response);
                 break;
         }
     }

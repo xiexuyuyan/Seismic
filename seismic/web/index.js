@@ -4,11 +4,13 @@ function print_success() {
 
 const availableCommands = new Array(
         "GET_TEST_BACKLIGHT_VALUE"
-        ,"SET_TEST_BACKLIGHT_VALUE"
-        ,"GET_TEST_VOLUME"
-        ,"SET_TEST_VOLUME"
-        ,"SET_TEST_HOTSPOT_NAME"
-        ,"GET_TEST_MAC_ADDRESS");
+        , "SET_TEST_BACKLIGHT_VALUE"
+        , "GET_TEST_VOLUME"
+        , "SET_TEST_VOLUME"
+        , "SET_TEST_HOTSPOT_NAME"
+        , "GET_TEST_MAC_ADDRESS"
+        , "BURN_HDCP_KEY"
+        );
 
 function attrCommandDisabledCheck(commandDataName) {
     for (let i = 0; i < availableCommands.length; i++) {

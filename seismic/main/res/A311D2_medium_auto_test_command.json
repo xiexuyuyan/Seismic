@@ -2132,6 +2132,31 @@
           }
         }
       }
+    },
+    {
+      "name": "BURN_HDCP_KEY",
+      "description": "烧录HDCP KEY",
+      "commandData": {
+        "name": "BURN_HDCP_KEY",
+        "commandHexCode": {
+          "type": "53",
+          "code": "15",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "003"
+          }
+        },
+        "replyHexCode": {
+          "type": "52",
+          "code": "15",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
     }
   ]
 }

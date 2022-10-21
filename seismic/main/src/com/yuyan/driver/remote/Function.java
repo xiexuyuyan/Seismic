@@ -5,9 +5,11 @@ import com.yuyan.Root;
 import com.yuyan.driver.local.CommandRepository;
 import com.yuyan.driver.local.CommandResolver;
 import com.yuyan.driver.serialport.Serialport;
+import com.yuyan.driver.serialport.SerialportRepository;
 import com.yuyan.model.Command;
 import com.yuyan.model.CommandRecv;
 import com.yuyan.utils.Log;
+import com.yuyan.web.model.SimpleArrayStat;
 import com.yuyan.web.model.SimpleStat;
 
 import javax.servlet.ServletException;
@@ -31,15 +33,14 @@ public class Function {
         response.getWriter().println(jsonStr);
     }
 
-    public static void postCommandRemote(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        Socket socket = SocketPlugin.INSTANCE.getSocket(Root.getThreadLocalSocket());
-        Map<String, String[]> parameterMap = req.getParameterMap();
-        for (String s : parameterMap.keySet()) {
-            String[] values = parameterMap.get(s);
-            Log.i(TAG, "[Coder Wu] postCommand: \t" + s + ":" + Arrays.toString(values));
-        }
+    public static void postCommandRemote(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Log.i(TAG, "[Coder Wu] postCommandRemote: ");
+        printParametersFromHttpRequest(request);
 
-        String valueCodeString = parameterMap.get("value")[0];
+        String commandDataName = request.getParameterMap().get("command_data_name")[0];
+        String valueCodeString = request.getParameterMap().get("value")[0];
+
+        Socket socket = SocketPlugin.INSTANCE.getSocket(Root.getThreadLocalSocket());
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(sendStringToByte(valueCodeString));
 
@@ -54,12 +55,7 @@ public class Function {
 
             String timeoutReason = e.getMessage();
             if (timeoutReason.equals("Read timed out")) {
-                String commandDataName = parameterMap.get("command_data_name")[0];
-                SimpleStat statMessage = new SimpleStat(commandDataName, "timeout");
-                Gson gson = new Gson();
-                String stateString = gson.toJson(statMessage);
-                res.getWriter().println(stateString);
-
+                sendSimpleStatReply(commandDataName, Constant.SERIALPORT_READ_TIMEOUT, response);
                 return;
             }
         }
@@ -67,35 +63,26 @@ public class Function {
         if (readLen == -1) {
             Log.i(TAG, "[Coder Wu] postCommand: " +
                     "we received -1 in socket input, so closed the socket");
+            sendSimpleStatReply(commandDataName, Constant.SERIALPORT_READ_NO_MATCH, response);
             socket.close();
+            return;
         }
 
         Log.i(TAG, "[Coder Wu] postCommand: " +
                 "readLen = " + readLen
                 + ", " + receiveByteToString(buff, readLen));
 
-        String reply = receiveByteToString(buff, readLen);
-        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
-        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
-        if (commandRecvList.size() > 0) {
-            CommandRecv commandRecv = commandRecvList.get(0);
-            String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
-            SimpleStat statMessage = new SimpleStat(commandRecv.commandData.name, replyValueString);
-            Gson gson = new Gson();
-            String stateString = gson.toJson(statMessage);
-            res.getWriter().println(stateString);
-        }
+        sendCommandRevReply(commandDataName, buff, readLen, response);
     }
 
 
-    public static void postCommandLocal(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        Map<String, String[]> parameterMap = req.getParameterMap();
-        for (String s : parameterMap.keySet()) {
-            String[] values = parameterMap.get(s);
-            Log.i(TAG, "[Coder Wu] postCommand: \t" + s + ":" + Arrays.toString(values));
-        }
+    public static void postCommandLocal(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Log.i(TAG, "[Coder Wu] postCommandLocal: ");
+        printParametersFromHttpRequest(request);
 
-        String valueCodeString = parameterMap.get("value")[0];
+        String commandDataName = request.getParameterMap().get("command_data_name")[0];
+        String valueCodeString = request.getParameterMap().get("value")[0];
+
         byte[] sendBytes = sendStringToByte(valueCodeString);
         Serialport serialport = Serialport.getInstance();
         serialport.write(sendBytes, sendBytes.length);
@@ -104,82 +91,127 @@ public class Function {
         int readLen = serialport.read(buff);
 
         if (readLen == -1) {
-            String commandDataName = parameterMap.get("command_data_name")[0];
-            SimpleStat statMessage = new SimpleStat(commandDataName, "timeout");
-            Gson gson = new Gson();
-            String stateString = gson.toJson(statMessage);
-            res.getWriter().println(stateString);
+            sendSimpleStatReply(commandDataName, Constant.SERIALPORT_READ_TIMEOUT, response);
             return;
         }
 
         Log.i(TAG, "[Coder Wu] postCommand: " +
                 "readLen = " + readLen
                 + ", " + receiveByteToString(buff, readLen));
-
-        String reply = receiveByteToString(buff, readLen);
-        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
-        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
-        if (commandRecvList.size() > 0) {
-            CommandRecv commandRecv = commandRecvList.get(0);
-            String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
-            SimpleStat statMessage = new SimpleStat(commandRecv.commandData.name, replyValueString);
-            Gson gson = new Gson();
-            String stateString = gson.toJson(statMessage);
-            res.getWriter().println(stateString);
-        }
+        sendCommandRevReply(commandDataName, buff, readLen, response);
     }
 
     public static void postSwitchSerialport(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        for (String s : parameterMap.keySet()) {
-            String[] values = parameterMap.get(s);
-            Log.i(TAG, "[Coder Wu] postSwitchSerialport: \t" + s + ":" + Arrays.toString(values));
-        }
+        Log.i(TAG, "[Coder Wu] postSwitchSerialport: ");
+        printParametersFromHttpRequest(request);
 
-        Serialport serialport = Serialport.getInstance();
-        boolean status = parameterMap.get("status")[0].equals("true");
-        boolean before = serialport.getStatus();
+        boolean status = request.getParameterMap().get("status")[0].equals("true");
+        SerialportRepository.switchSerialport(status);
 
-        if (status && !before) {
-            serialport.open("COM6");
-            serialport.setReadTimeout(3000);
-        } else if (!status && before) {
-            serialport.close();
-        }
-
-        boolean after = serialport.getStatus();
-        Log.i(TAG, "[Coder Wu] postSwitchSerialport: " + before + " --> " + after);
-
-        SimpleStat statMessage = new SimpleStat("POST_SWITCH_SERIALPORT", "" + status);
-        Gson gson = new Gson();
-        String stateString = gson.toJson(statMessage);
-        response.getWriter().println(stateString);
+        sendSimpleStatReply(Constant.POST_SWITCH_SERIALPORT, status+"", response);
     }
 
 
     public static void postUploadHDCPKey(HttpServletRequest request, HttpServletResponse response) {
         Log.i(TAG, "[Coder Wu] postUploadHDCPKey: ");
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        for (String s : parameterMap.keySet()) {
-            String[] values = parameterMap.get(s);
-            Log.i(TAG, "[Coder Wu] postSwitchSerialport: \t" + s + ":" + Arrays.toString(values));
-        }
 
         try {
             int size = request.getParts().size();
+            if (size <= 0 ) {
+                return;
+            }
             Part part = request.getPart("HDCPKeyFile");
-            Log.i(TAG, "[Coder Wu] postUploadHDCPKey: part size = " + size);
             Log.i(TAG, "[Coder Wu] postUploadHDCPKey: part = " + part.getName());
             String fileName = part.getSubmittedFileName();
-            String defaultFilePath = "seismic/main/res/" + fileName;
-            saveSimpleFile(defaultFilePath, part.getInputStream());
-            part.write(fileName);
+            Log.i(TAG, "[Coder Wu] postUploadHDCPKey: fileName = " + fileName);
+            // TODO: 2022/10/21 to create FileDirectory avoid access denied
+            File file = new File(Constant.HDCP_KEY_UPLOAD_PATH);
+            if (file.exists() && file.isDirectory()) {
+                String defaultFilePath = Constant.HDCP_KEY_UPLOAD_PATH + fileName;
+                saveSimpleFile(defaultFilePath, part.getInputStream());
+            }
+            /* part.write(fileName); */
         } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
 
 
         Log.i(TAG, "[Coder Wu] postUploadHDCPKey: end");
+    }
+
+    public static void getHDCPKeyList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        File file = new File(Constant.HDCP_KEY_UPLOAD_PATH);
+        SimpleArrayStat statMessage = new SimpleArrayStat(Constant.GET_HDCP_KEY_LIST, new String[]{});
+        if (file.exists() && file.isDirectory()) {
+            String[] fileList = file.list();
+            for (int i = 0; fileList != null && i < fileList.length; i++) {
+                Log.i(TAG, "[Coder Wu] getHDCPKeyList: [" + i + "]: " + fileList[i]);
+            }
+            
+            statMessage = new SimpleArrayStat(Constant.GET_HDCP_KEY_LIST, fileList);
+        }
+
+        Gson gson = new Gson();
+        String stateString = gson.toJson(statMessage);
+        response.getWriter().println(stateString);
+    }
+
+
+
+
+
+
+
+
+
+    /*------------------------------------------------------------------*/
+    private static void sendCommandRevReply(String commandDataName, byte[] buff, int readLen, HttpServletResponse response) {
+        String reply = receiveByteToString(buff, readLen);
+        List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
+        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
+
+        for (int i = 0; i < commandRecvList.size(); i++) {
+            CommandRecv commandRecv = commandRecvList.get(i);
+            String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
+            SimpleStat statMessage = new SimpleStat(commandRecv.commandData.name, replyValueString);
+            Gson gson = new Gson();
+            String stateString = gson.toJson(statMessage);
+            try {
+                response.getWriter().println(stateString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (commandRecvList.size() <= 0) {
+            SimpleStat statMessage = new SimpleStat(commandDataName, Constant.SERIALPORT_READ_NO_MATCH);
+            Gson gson = new Gson();
+            String stateString = gson.toJson(statMessage);
+            try {
+                response.getWriter().println(stateString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void sendSimpleStatReply(String name, String value, HttpServletResponse response) {
+        SimpleStat statMessage = new SimpleStat(name, value);
+        Gson gson = new Gson();
+        String stateString = gson.toJson(statMessage);
+        try {
+            response.getWriter().println(stateString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void printParametersFromHttpRequest(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (String s : parameterMap.keySet()) {
+            String[] values = parameterMap.get(s);
+            Log.i(TAG, "[Coder Wu] printParametersFromHttpRequest: \t" + s + ":" + Arrays.toString(values));
+        }
     }
 
     private static void saveSimpleFile(String filePath, InputStream inputStream) throws IOException {
@@ -201,15 +233,6 @@ public class Function {
         out.close();
     }
 
-
-
-
-
-
-
-
-
-    /*------------------------------------------------------------------*/
     private static byte[] sendStringToByte(String commandHexCode) {
         if ((commandHexCode.length() % 2) == 1) {
             commandHexCode = commandHexCode.substring(0, commandHexCode.length()-1);
