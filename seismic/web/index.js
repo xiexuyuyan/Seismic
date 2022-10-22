@@ -57,10 +57,16 @@ function requestAllCommandStr(parseJsonDataFunc){
 }
 
 function requestSendCommand(commandObject, value){
+    var postTo = "POST_COMMAND";
+
+    var commandDataName = commandObject.commandData.name;
+    if (commandDataName === "BURN_HDCP_KEY") {
+        postTo = "POST_COMMAND_BURN_HDCP_KEY";
+    }
+
     var isSerialport = $("#SwitchSerialport").is(':checked');
     var isLan = $("#SwitchLan").is(':checked');
 
-    var postTo = "POST_COMMAND";
     if (isSerialport) {
         postTo = postTo + "_LOCAL";
     } else if (isLan) {

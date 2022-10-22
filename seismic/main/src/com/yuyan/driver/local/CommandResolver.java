@@ -10,27 +10,44 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommandResolver {
+    private static final String TAG = "CommandResolver";
+
+    public static byte[] sendStringToBytes(String s) {
+        byte[] b = new byte[s.length() / 2];
+        for (int i = 0; i < s.length()-1; i+=2) {
+            String s1 = s.substring(i, i+2);
+            int d = Integer.parseInt(s1, 16);
+            byte b1 = (byte) (d & 0x00_00_00_FF);
+            b[i/2] = b1;
+        }
+        return b;
+    }
+
+    public static String receiveByteToString(final byte[] buff, int len) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            byte b = buff[i];
+            int d = (b & 0x00_00_00_FF);
+            String s = Integer.toString(d, 16);
+            if (s.length() == 1) {
+                s = "0" + s;
+            }
+            builder.append(s.toUpperCase());
+        }
+        return builder.toString();
+    }
+
 
     // if the code length is confirmed in json description
     // like some code both min and max string equal 000 or others
     // then we use the stable value to resolve the code
 
-    private static String formatRegexString(final Command command, final boolean reply) {
-        CommandHexCode commandHexCode;
-
-        if (reply) {
-            commandHexCode = command.commandData.replyHexCode;
-        } else {
-            commandHexCode = command.commandData.commandHexCode;
-        }
-
+    private static String formatRegexString(final CommandHexCode commandHexCode) {
         String type = commandHexCode.type;
         String code = commandHexCode.code;
         String minValue = commandHexCode.commandValue.min;
         String maxValue = commandHexCode.commandValue.max;
         String valueType = commandHexCode.commandValue.type;
-
-        String regex;
 
         String regValue = "([0-9A-F][0-9A-F])+";
 
@@ -45,19 +62,30 @@ public class CommandResolver {
             } else {
                 int minLength = minValue.length();
                 int maxLength = maxValue.length();
-                regValue = "([0-9A-F][0-9A-F])" + "{" + minLength + "," + maxLength + "}";
+
+                // regard the max width as the finally Max occupancy-width
+                maxLength = Math.max(minLength, maxLength);
+
+                regValue = "(3[0-9])" + "{" + minLength + "," + maxLength + "}";
             }
         } else if (valueType.equals("string")) {
-            int minLength = minValue.length() / 2;
-            int maxLength = maxValue.length() / 2;
-            regValue = "([0-9A-F][0-9A-F])" + "{" + minLength + "," + maxLength + "}";
+            if (minValue.equals(maxValue)) {
+                regValue = minValue;
+            } else {
+                int minLength = minValue.length() / 2;
+                int maxLength = maxValue.length() / 2;
+
+                // regard the max width as the finally Max occupancy-width
+                maxLength = Math.max(minLength, maxLength);
+
+                regValue = "([0-9A-F][0-9A-F])" + "{" + minLength + "," + maxLength + "}";
+            }
         }
+
         String regexPrefix = "[0-9A-F]{6}";
-        String regexSuffix = regValue + "0D";
+        String regexSuffix = "0D";
 
-        regex = regexPrefix + type + code + regexSuffix;
-
-        return regex;
+        return regexPrefix + type + code + regValue + regexSuffix;
     }
 
     private static String checkIllegalLen(String matchT) {
@@ -71,7 +99,7 @@ public class CommandResolver {
             confirmToAdd = false;
         } else {
             // could be a bigger data, means the length a command at least should be
-            if (matchedStringShouldLen < 2) {
+            if (matchedStringShouldLen < 8) { // L:prefix[3X3031] == 6, L:suffix[0D] = 2
                 confirmToAdd = false;
             } else {
                 String shouldBeCR = matchT.substring(
@@ -91,7 +119,13 @@ public class CommandResolver {
         List<String> matchCommands = new ArrayList<>();
 
         for (Command command : commandList) {
-            String regex = formatRegexString(command, reply);
+            CommandHexCode commandHexCode;
+            if (reply) {
+                commandHexCode = command.commandData.replyHexCode;
+            } else {
+                commandHexCode = command.commandData.commandHexCode;
+            }
+            String regex = formatRegexString(commandHexCode);
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(commandSrc);
 
@@ -117,7 +151,13 @@ public class CommandResolver {
         List<CommandRecv> matchCommands = new ArrayList<>();
 
         for (Command command : commandList) {
-            String regex = formatRegexString(command, reply);
+            CommandHexCode commandHexCode;
+            if (reply) {
+                commandHexCode = command.commandData.replyHexCode;
+            } else {
+                commandHexCode = command.commandData.commandHexCode;
+            }
+            String regex = formatRegexString(commandHexCode);
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(commandSrc);
 
@@ -135,7 +175,7 @@ public class CommandResolver {
         return matchCommands;
     }
 
-    public static String fillValue(Command command, int value) {
+    public static String valueReplyFiller(Command command, int value) {
         CommandHexCode replyHexCode = command.commandData.replyHexCode;
         String reMinStr = replyHexCode.commandValue.min;
         String reMaxStr = replyHexCode.commandValue.max;
@@ -143,7 +183,7 @@ public class CommandResolver {
     }
 
 
-    public static String fillValue(Command command, String value) {
+    public static String valueReplyFiller(Command command, String value) {
         CommandHexCode replyHexCode = command.commandData.replyHexCode;
         String reMinStr = replyHexCode.commandValue.min;
         String reMaxStr = replyHexCode.commandValue.max;
@@ -167,23 +207,24 @@ public class CommandResolver {
         int minValue = Integer.parseInt(minStrT);
         int maxValue = Integer.parseInt(maxStrT);
 
+        // regex check above confirm that,
+        // the min value is 000,
+        // so we just check the max value below.
+
         if (maxValue < minValue) {
             maxValue = minValue;
         }
 
-        if (maxValue == minValue) {
-            reValue = maxValue;
-        }
-
-        reValue = Math.max(value, minValue);
         reValue = Math.min(value, maxValue);
 
         int maxLen = String.valueOf(maxValue).length();// 0099 ==> len=2
         if (maxLen != maxStr.length()) { // 0099 ==> len=4
             // occupancy-width
             if (maxStr.equals(minStr)) {
+                // case 1: min: "001", max: "001"
                 maxLen = maxStr.length();
             } else if (maxStr.length() == minStr.length()) {
+                // case 2: min: "001", max: "099"
                 maxLen = maxStr.length();
             }
         }

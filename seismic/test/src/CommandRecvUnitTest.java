@@ -52,9 +52,9 @@ public class CommandRecvUnitTest {
             String fillString;
             if (valueType.equals("integer")) {
                 int d = Integer.parseInt(valueReplyStr);
-                fillString = CommandResolver.fillValue(recv, d);
+                fillString = CommandResolver.valueReplyFiller(recv, d);
             } else {
-                fillString = CommandResolver.fillValue(recv, valueReplyStr);
+                fillString = CommandResolver.valueReplyFiller(recv, valueReplyStr);
             }
 
 //            System.out.println("fillString = " + fillString);

@@ -48,10 +48,16 @@ public class Response {
                 Function.postSwitchSerialport(request, response);
                 break;
             case Constant.POST_UPLOAD_HDCP_KEY:
-                Function.postUploadHDCPKey(request, response);
+                HDCPKeyFunc.postUploadHDCPKey(request, response);
                 break;
             case Constant.GET_HDCP_KEY_LIST:
-                Function.getHDCPKeyList(request, response);
+                HDCPKeyFunc.getHDCPKeyList(request, response);
+                break;
+            case Constant.POST_COMMAND_BURN_HDCP_KEY_LOCAL:
+                HDCPKeyFunc.postCommandBurnHDCPKeyLocal(request, response);
+                break;
+            case Constant.POST_COMMAND_BURN_HDCP_KEY_REMOTE:
+                HDCPKeyFunc.postCommandBurnHDCPKeyRemote(request, response);
                 break;
         }
     }
