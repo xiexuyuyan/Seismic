@@ -14,15 +14,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class HDCPKeyFunc {
     private static final String TAG = "HDCPKeyFunc";
 
+    private static final int MAX_HDCP_KEY_LEN = 2048; // 2KB, tomcat default format data is 1M.
 
     public static void postUploadHDCPKey(HttpServletRequest request, HttpServletResponse response) {
-        Log.i(TAG, "[Coder Wu] postUploadHDCPKey: ");
+        com.yuyan.utils.Log.i(TAG, "[Coder Wu] postUploadHDCPKey: ");
 
         try {
             int size = request.getParts().size();
@@ -45,10 +49,11 @@ public class HDCPKeyFunc {
         }
 
 
-        Log.i(TAG, "[Coder Wu] postUploadHDCPKey: end");
+        com.yuyan.utils.Log.i(TAG, "[Coder Wu] postUploadHDCPKey: end");
     }
 
     public static void getHDCPKeyList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        com.yuyan.utils.Log.i(TAG, "[Coder Wu] getHDCPKeyList: ");
         File file = new File(Constant.HDCP_KEY_UPLOAD_PATH);
         SimpleArrayStat statMessage = new SimpleArrayStat(Constant.GET_HDCP_KEY_LIST, new String[]{});
         if (file.exists() && file.isDirectory()) {
@@ -66,11 +71,20 @@ public class HDCPKeyFunc {
     }
 
     public static void postCommandBurnHDCPKeyLocal(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: ");
+        com.yuyan.utils.Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: ");
         FunctionCommon.printParametersFromHttpRequest(request);
 
-        String commandDataName = request.getParameterMap().get("command_data_name")[0];
-        String valueCodeString = request.getParameterMap().get("value")[0];
+        PostBurnHDCPKeyPreparation preparation = preHandlePostCommandBurnHDCPKey(request, response);
+        String commandDataName = preparation.commandDataName;
+        String valueCodeString = preparation.valueCodeString;
+        byte[] keyPayload = preparation.keyPayload;
+        int keyPayloadLen = preparation.keyPayloadLen;
+        if (!preparation.isOk) {
+            String reason = preparation.reason;
+            FunctionCommon.sendSimpleStatReply(commandDataName, reason, response);
+            com.yuyan.utils.Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: reason = " + reason);
+            return;
+        }
 
         byte[] sendBytes = FunctionCommon.sendStringToByte(valueCodeString);
         Serialport serialport = Serialport.getInstance();
@@ -82,72 +96,40 @@ public class HDCPKeyFunc {
             e.printStackTrace();
         }
 
-        CommandHexCode commandHexCode = null;
-        for (Command command : CommandRepository.INSTANCE.commandList.commands) {
-            if (command.commandData.name.equals(commandDataName)) {
-                commandHexCode = command.commandData.commandHexCode;
-            }
-        }
+        serialport.write(keyPayload, keyPayloadLen);
+        FunctionCommon.sendSimpleStatReply(commandDataName, Constant.OK, response);
+        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: keyPayload = " + CommandResolver.receiveByteToString(keyPayload, keyPayloadLen));
+    }
 
-        if (commandHexCode == null) {
+    public static void postCommandBurnHDCPKeyRemote(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        com.yuyan.utils.Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyRemote: ");
+        FunctionCommon.printParametersFromHttpRequest(request);
+
+        PostBurnHDCPKeyPreparation preparation = preHandlePostCommandBurnHDCPKey(request, response);
+        String commandDataName = preparation.commandDataName;
+        String valueCodeString = preparation.valueCodeString;
+        byte[] keyPayload = preparation.keyPayload;
+        int keyPayloadLen = preparation.keyPayloadLen;
+        if (!preparation.isOk) {
+            String reason = preparation.reason;
+            FunctionCommon.sendSimpleStatReply(commandDataName, reason, response);
+            com.yuyan.utils.Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyRemote: reason = " + reason);
             return;
         }
 
-        String valueStr = CommandResolver.getValueString(commandHexCode, valueCodeString);
-        int valueInt = Integer.parseInt(valueStr);
-        String fileName = "";
-        switch (valueInt) {
-            case 0:
-                fileName = "Hdcp14RX0.enc.factory-user.enc";
-            case 1:
-                fileName = "Hdcp14TX0.enc.factory-user.enc";
-                break;
-            case 2:
-                fileName = "Hdcp22RX0.enc.factory-user.enc";
-                break;
-            case 3:
-                fileName = "Hdcp22TX0.enc.factory-user.enc";
-                break;
-        }
-        File file = new File(Constant.HDCP_KEY_UPLOAD_PATH + fileName);
-        FileInputStream fileInputStream = new FileInputStream(file);
+        Socket socket = SocketPlugin.INSTANCE.getSocket(Root.getThreadLocalSocket());
+        OutputStream outputStream = socket.getOutputStream();
+        outputStream.write(FunctionCommon.sendStringToByte(valueCodeString));
 
-        int readLen = 0;
-        byte[] buff = new byte[1024];
-        int keyPayloadLen = 2;
-        byte[] keyPayload = new byte[2048];
-        while (true) {
-            readLen = fileInputStream.read(buff);
-            if (readLen == -1) {
-                break;
-            }
-            System.arraycopy(buff, 0, keyPayload, keyPayloadLen, readLen);
-
-            keyPayloadLen += readLen;
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        byte high = (byte) (keyPayloadLen >> 8);
-        byte low = (byte) (keyPayloadLen & 0x00FF);
-
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: " + CommandResolver.receiveByteToString(new byte[]{high}, 1));
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: " + CommandResolver.receiveByteToString(new byte[]{low}, 1));
-
-        keyPayload[0] = high;
-        keyPayload[1] = low;
-
-
-        int keyPayloadLenT = ((keyPayload[0] & 0x00FF)<<8) | (keyPayload[1] & 0x00FF);
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: keyPayloadLen = " + keyPayloadLen);
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: keyPayloadLenT = " + keyPayloadLenT);
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: " + CommandResolver.receiveByteToString(keyPayload, keyPayloadLen));
-
-        serialport.write(keyPayload, keyPayloadLen);
-    }
-
-    public static void postCommandBurnHDCPKeyRemote(HttpServletRequest request, HttpServletResponse response) {
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyRemote: ");
-        FunctionCommon.printParametersFromHttpRequest(request);
-
+        outputStream.write(keyPayload, 0, keyPayloadLen);
+        FunctionCommon.sendSimpleStatReply(commandDataName, Constant.OK, response);
+        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyRemote: keyPayload = " + CommandResolver.receiveByteToString(keyPayload, keyPayloadLen));
     }
 
 
@@ -156,6 +138,113 @@ public class HDCPKeyFunc {
 
 
     /*------------------------------------------------------------------*/
+    static class PostBurnHDCPKeyPreparation {
+        boolean isOk = false;
+        String reason;
+        String commandDataName;
+        String valueCodeString;
+        byte[] keyPayload;
+        int keyPayloadLen;
+
+        public PostBurnHDCPKeyPreparation(boolean isOk, String reason, String commandDataName, String valueCodeString, byte[] keyPayload, int keyPayloadLen) {
+            this.isOk = isOk;
+            this.reason = reason;
+            this.commandDataName = commandDataName;
+            this.valueCodeString = valueCodeString;
+            this.keyPayload = keyPayload;
+            this.keyPayloadLen = keyPayloadLen;
+        }
+    }
+
+    private static PostBurnHDCPKeyPreparation preHandlePostCommandBurnHDCPKey(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String commandDataName = request.getParameterMap().get("command_data_name")[0];
+        String valueCodeString = request.getParameterMap().get("value")[0];
+
+        CommandHexCode commandHexCode = null;
+        for (Command command : CommandRepository.INSTANCE.commandList.commands) {
+            if (command.commandData.name.equals(commandDataName)) {
+                commandHexCode = command.commandData.commandHexCode;
+                break;
+            }
+        }
+
+        if (commandHexCode == null) {
+            return new PostBurnHDCPKeyPreparation(false, Constant.COMMAND_STRING_NO_MATCH, commandDataName, valueCodeString, null, 0);
+        }
+
+        String valueStr = CommandResolver.getValueString(commandHexCode, valueCodeString);
+        int valueInt = Integer.parseInt(valueStr);
+        if (valueInt < 0 || valueInt >= Constant.HDCP_KEY_FILE_LIST.length) {
+            return new PostBurnHDCPKeyPreparation(false, Constant.COMMAND_STRING_ARGS_ERR, commandDataName, valueCodeString, null, 0);
+        }
+
+        String fileName = Constant.HDCP_KEY_UPLOAD_PATH + Constant.HDCP_KEY_FILE_LIST[valueInt];
+        byte[] keyPayload = readHDCPKeyFile_lock(fileName);
+        int keyPayloadLen = ((keyPayload[0] & 0x00FF)<<8) | (keyPayload[1] & 0x00FF);
+        if (keyPayloadLen <= 0 || keyPayloadLen >= MAX_HDCP_KEY_LEN) {
+            Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: keyPayloadLen = " + keyPayloadLen);
+            return new PostBurnHDCPKeyPreparation(false, Constant.COMMAND_STRING_ARGS_ERR, commandDataName, valueCodeString, null, 0);
+        }
+
+        return new PostBurnHDCPKeyPreparation(true, "", commandDataName, valueCodeString, keyPayload, keyPayloadLen);
+    }
+
+
+    private static byte[] readHDCPKeyFile_lock(String fillNameFullPath) throws IOException {
+        com.yuyan.utils.Log.i(TAG, "[Coder Wu] readHDCPKeyFile_lock: fillNameFullPath = " + fillNameFullPath);
+
+        byte[] keyPayload = new byte[MAX_HDCP_KEY_LEN];
+        keyPayload[0] = 0x00;
+        keyPayload[1] = 0x00;
+
+        synchronized (HDCPKeyFunc.class) {
+            File file = new File(fillNameFullPath);
+            if (!file.exists()) {
+                Log.i(TAG, "[Coder Wu] readHDCPKeyFile_lock: file not exist " + fillNameFullPath);
+                return keyPayload;
+            }
+
+
+            int readLen = 0;
+            byte[] buff = new byte[MAX_HDCP_KEY_LEN];
+            int keyPayloadLen = 2;
+
+            FileInputStream fileInputStream = new FileInputStream(file);
+            while (true) {
+                readLen = fileInputStream.read(buff);
+                if (readLen == -1) {
+                    break;
+                }
+                System.arraycopy(buff, 0, keyPayload, keyPayloadLen, readLen);
+
+                keyPayloadLen += readLen;
+            }
+
+            byte high = (byte) (keyPayloadLen >> 8);
+            byte low = (byte) (keyPayloadLen & 0x00FF);
+
+            String highLowStr = CommandResolver.receiveByteToString(new byte[]{high, low}, 2);
+            Log.i(TAG, "[Coder Wu] readHDCPKeyFile_lock: highLowStr = " + highLowStr);
+
+            keyPayload[0] = high;
+            keyPayload[1] = low;
+
+            return keyPayload;
+        }
+
+    }
+
+    /*------------------------------------------------------------------*/
+
+    static class Log {
+        static boolean DEBUG = true;
+
+        public static void i(String TAG, String msg) {
+            if (DEBUG) {
+                com.yuyan.utils.Log.i(TAG, msg);
+            }
+        }
+    }
 
     /*------------------------------------------------------------------*/
 }
