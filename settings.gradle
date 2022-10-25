@@ -3,5 +3,6 @@ rootProject.name = "Seismic"
 include('tomcat')
 include('room')
 include('room-annotation-processor')
+include('command-utils')
 
 include('seismic')

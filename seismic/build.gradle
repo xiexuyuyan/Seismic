@@ -11,4 +11,16 @@ dependencies {
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
     implementation 'com.google.code.gson:gson:2.9.1'
+    implementation "com.yuyan:command-utils:0.0.1"
+}
+
+repositories {
+    maven {
+        /* local */
+        // url 'file://D:/Maven/remoteMaven/repository'
+        /* github.com */
+        // url 'https://raw.githubusercontent.com/xiexuyuyan/remoteMaven/master/repository'
+        /* gitee.com */
+        url 'https://gitee.com/xiexuyuyan/remoteMaven/raw/master/repository'
+    }
 }
