@@ -1,7 +1,7 @@
 import com.google.gson.Gson;
-import com.yuyan.model.Command;
-import com.yuyan.model.CommandList;
-import com.yuyan.model.CommandRecv;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.model.CommandList;
+import org.yuyan.command.model.CommandRecv;
 import com.yuyan.driver.local.CommandRepository;
 import org.junit.jupiter.api.Test;
 

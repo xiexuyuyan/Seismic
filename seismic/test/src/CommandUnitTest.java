@@ -1,6 +1,7 @@
-import com.yuyan.model.Command;
+import org.yuyan.command.model.Command;
 import com.yuyan.driver.local.CommandRepository;
-import com.yuyan.driver.local.CommandResolver;
+import org.yuyan.command.utils.CommandResolver;
+import org.yuyan.command.model.CommandRecv;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,7 +18,11 @@ public class CommandUnitTest {
         int sum = new Random().nextInt(max) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
-        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        String[] matchedCommands = new String[commandRecvs.size()];
+        for (int i = 0; i < commandRecvs.size(); i++) {
+            matchedCommands[i] = commandRecvs.get(i).code;
+        }
         List<String> checkA = RandomCommandFactory.toConfirm(matchedCommands, originCommands);
         List<String> checkB = RandomCommandFactory.toConfirm(originCommands, matchedCommands);
 
@@ -34,7 +39,11 @@ public class CommandUnitTest {
 
         // String randomHexCode = "38393053713031300D383535536C3030300D";
         String randomHexCode = "38303147853030300D38303153603031300D";
-        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        String[] matchedCommands = new String[commandRecvs.size()];
+        for (int i = 0; i < commandRecvs.size(); i++) {
+            matchedCommands[i] = commandRecvs.get(i).code;
+        }
 
         System.out.println("matchedCommands = " + Arrays.toString(matchedCommands));
     }
@@ -47,7 +56,11 @@ public class CommandUnitTest {
         String randomHexCode = "d439b1f638373053673030300Da8a135540a0e66738383053643030310Ddc38303747863030300D77a7";
         // [38303747863030300D, 38373053673030300D, 38383053643030310D]
         // [38373053673030300D, 38383053643030310D, 38303747863030300D]
-        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        String[] matchedCommands = new String[commandRecvs.size()];
+        for (int i = 0; i < commandRecvs.size(); i++) {
+            matchedCommands[i] = commandRecvs.get(i).code;
+        }
 
         for (String matchedCommand : matchedCommands) {
             int i = randomHexCode.indexOf(matchedCommand);

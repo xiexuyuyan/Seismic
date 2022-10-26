@@ -1,5 +1,5 @@
-import com.yuyan.model.Command;
-import com.yuyan.model.CommandHexCode;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.model.CommandHexCode;
 
 import java.util.ArrayList;
 import java.util.Arrays;

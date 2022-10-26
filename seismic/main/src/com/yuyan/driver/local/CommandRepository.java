@@ -1,8 +1,8 @@
 package com.yuyan.driver.local;
 
 import com.google.gson.Gson;
-import com.yuyan.model.Command;
-import com.yuyan.model.CommandList;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.model.CommandList;
 import com.yuyan.utils.Log;
 
 import java.io.*;

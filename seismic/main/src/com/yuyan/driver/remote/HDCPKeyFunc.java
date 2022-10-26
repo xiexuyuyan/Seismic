@@ -2,12 +2,12 @@ package com.yuyan.driver.remote;
 
 import com.google.gson.Gson;
 import com.yuyan.Root;
+import org.yuyan.command.utils.ByteUtils;
 import com.yuyan.driver.local.CommandRepository;
-import com.yuyan.driver.local.CommandResolver;
+import org.yuyan.command.utils.CommandResolver;
 import com.yuyan.driver.serialport.Serialport;
-import com.yuyan.model.Command;
-import com.yuyan.model.CommandHexCode;
-import com.yuyan.utils.Log;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.model.CommandHexCode;
 import com.yuyan.web.model.SimpleArrayStat;
 
 import javax.servlet.ServletException;
@@ -86,7 +86,7 @@ public class HDCPKeyFunc {
             return;
         }
 
-        byte[] sendBytes = FunctionCommon.sendStringToByte(valueCodeString);
+        byte[] sendBytes = ByteUtils.hexStringToBytes(valueCodeString);
         Serialport serialport = Serialport.getInstance();
         serialport.write(sendBytes, sendBytes.length);
 
@@ -98,7 +98,7 @@ public class HDCPKeyFunc {
 
         serialport.write(keyPayload, keyPayloadLen);
         FunctionCommon.sendSimpleStatReply(commandDataName, Constant.OK, response);
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: keyPayload = " + CommandResolver.receiveByteToString(keyPayload, keyPayloadLen));
+        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyLocal: keyPayload = " + ByteUtils.hexBytesToString(keyPayload, keyPayloadLen));
     }
 
     public static void postCommandBurnHDCPKeyRemote(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -119,7 +119,7 @@ public class HDCPKeyFunc {
 
         Socket socket = SocketPlugin.INSTANCE.getSocket(Root.getThreadLocalSocket());
         OutputStream outputStream = socket.getOutputStream();
-        outputStream.write(FunctionCommon.sendStringToByte(valueCodeString));
+        outputStream.write(ByteUtils.hexStringToBytes(valueCodeString));
 
         try {
             Thread.sleep(500);
@@ -129,7 +129,7 @@ public class HDCPKeyFunc {
 
         outputStream.write(keyPayload, 0, keyPayloadLen);
         FunctionCommon.sendSimpleStatReply(commandDataName, Constant.OK, response);
-        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyRemote: keyPayload = " + CommandResolver.receiveByteToString(keyPayload, keyPayloadLen));
+        Log.i(TAG, "[Coder Wu] postCommandBurnHDCPKeyRemote: keyPayload = " + ByteUtils.hexBytesToString(keyPayload, keyPayloadLen));
     }
 
 
@@ -223,7 +223,7 @@ public class HDCPKeyFunc {
             byte high = (byte) (keyPayloadLen >> 8);
             byte low = (byte) (keyPayloadLen & 0x00FF);
 
-            String highLowStr = CommandResolver.receiveByteToString(new byte[]{high, low}, 2);
+            String highLowStr = ByteUtils.hexBytesToString(new byte[]{high, low}, 2);
             Log.i(TAG, "[Coder Wu] readHDCPKeyFile_lock: highLowStr = " + highLowStr);
 
             keyPayload[0] = high;

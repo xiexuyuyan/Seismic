@@ -1,10 +1,11 @@
 package com.yuyan.driver.remote;
 
 import com.google.gson.Gson;
+import org.yuyan.command.utils.ByteUtils;
 import com.yuyan.driver.local.CommandRepository;
-import com.yuyan.driver.local.CommandResolver;
-import com.yuyan.model.Command;
-import com.yuyan.model.CommandRecv;
+import org.yuyan.command.utils.CommandResolver;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.model.CommandRecv;
 import com.yuyan.utils.Log;
 import com.yuyan.web.model.SimpleStat;
 
@@ -21,7 +22,7 @@ public class FunctionCommon {
 
     /*------------------------------------------------------------------*/
     public static void sendCommandRevReply(String commandDataName, byte[] buff, int readLen, HttpServletResponse response) {
-        String reply = receiveByteToString(buff, readLen);
+        String reply = ByteUtils.hexBytesToString(buff, readLen);
         List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
         List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
 
@@ -88,35 +89,5 @@ public class FunctionCommon {
         out.close();
     }
 
-    public static byte[] sendStringToByte(String commandHexCode) {
-        if ((commandHexCode.length() % 2) == 1) {
-            commandHexCode = commandHexCode.substring(0, commandHexCode.length()-1);
-        }
-
-        byte[] re = new byte[commandHexCode.length()/2];
-
-        for (int i = 0; i < commandHexCode.length(); i+=2) {
-            String s = commandHexCode.substring(i, i+2);
-            int d = Integer.parseInt(s, 16);
-            byte b = (byte) d;
-            re[i/2] = b;
-        }
-
-        return re;
-    }
-
-    public static String receiveByteToString(final byte[] buff, int len) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < len; i++) {
-            byte b = buff[i];
-            int d = (b & 0x00_00_00_FF);
-            String s = Integer.toString(d, 16);
-            if (s.length() == 1) {
-                s = "0" + s;
-            }
-            builder.append(s.toUpperCase());
-        }
-        return builder.toString();
-    }
     /*------------------------------------------------------------------*/
 }

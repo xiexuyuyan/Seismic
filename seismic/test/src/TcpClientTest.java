@@ -1,6 +1,8 @@
-import com.yuyan.model.Command;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.utils.ByteUtils;
 import com.yuyan.driver.local.CommandRepository;
-import com.yuyan.driver.local.CommandResolver;
+import org.yuyan.command.utils.CommandResolver;
+import org.yuyan.command.model.CommandRecv;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -43,7 +45,11 @@ public class TcpClientTest {
         int sum = new Random().nextInt(max) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
-        String[] matchedCommands = CommandResolver.checkUnit(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        String[] matchedCommands = new String[commandRecvs.size()];
+        for (int i = 0; i < commandRecvs.size(); i++) {
+            matchedCommands[i] = commandRecvs.get(i).code;
+        }
         List<String> checkA = RandomCommandFactory.toConfirm(matchedCommands, originCommands);
         List<String> checkB = RandomCommandFactory.toConfirm(originCommands, matchedCommands);
 
@@ -55,22 +61,6 @@ public class TcpClientTest {
         return randomHexCode;
     }
 
-    private static byte[] sendStringToByte(String commandHexCode) {
-        if ((commandHexCode.length() % 2) == 1) {
-            commandHexCode = commandHexCode.substring(0, commandHexCode.length()-1);
-        }
-
-        byte[] re = new byte[commandHexCode.length()/2];
-
-        for (int i = 0; i < commandHexCode.length(); i+=2) {
-            String s = commandHexCode.substring(i, i+2);
-            int d = Integer.parseInt(s, 16);
-            byte b = (byte) d;
-            re[i/2] = b;
-        }
-
-        return re;
-    }
 
     public static void main(String[] args) {
         try {
@@ -114,19 +104,19 @@ public class TcpClientTest {
             String s30 = "3030300D86d9";
             String s7a = "7abd";
             // String s = "38303153FF3031300D";
-            byte[] b1 = sendStringToByte(s1);
-            byte[] b38 = sendStringToByte(s38);
-            byte[] b42 = sendStringToByte(s42);
-            byte[] b45 = sendStringToByte(s45);
-            byte[] b68 = sendStringToByte(s68);
-            byte[] b0b = sendStringToByte(s0b);
-            byte[] bb8 = sendStringToByte(sb8);
-            byte[] b41 = sendStringToByte(s41);
-            byte[] b53 = sendStringToByte(s53);
-            byte[] b3 = sendStringToByte(s3);
-            byte[] b33 = sendStringToByte(s33);
-            byte[] b30 = sendStringToByte(s30);
-            byte[] b7a = sendStringToByte(s7a);
+            byte[] b1 = ByteUtils.hexStringToBytes(s1);
+            byte[] b38 = ByteUtils.hexStringToBytes(s38);
+            byte[] b42 = ByteUtils.hexStringToBytes(s42);
+            byte[] b45 = ByteUtils.hexStringToBytes(s45);
+            byte[] b68 = ByteUtils.hexStringToBytes(s68);
+            byte[] b0b = ByteUtils.hexStringToBytes(s0b);
+            byte[] bb8 = ByteUtils.hexStringToBytes(sb8);
+            byte[] b41 = ByteUtils.hexStringToBytes(s41);
+            byte[] b53 = ByteUtils.hexStringToBytes(s53);
+            byte[] b3 = ByteUtils.hexStringToBytes(s3);
+            byte[] b33 = ByteUtils.hexStringToBytes(s33);
+            byte[] b30 = ByteUtils.hexStringToBytes(s30);
+            byte[] b7a = ByteUtils.hexStringToBytes(s7a);
 
             outputStream.write(b1);
             Thread.sleep(500);
@@ -159,23 +149,10 @@ public class TcpClientTest {
             byte[] buff = new byte[1024];
             int readLen = inputStream.read(buff, 0, 1024);
             System.out.println("readLen = " + readLen);
-            String buffStr = receiveByteToString(buff, readLen);
+            String buffStr = ByteUtils.hexBytesToString(buff, readLen);
             System.out.println("buffStr = " + buffStr);
         }
         // Log.i(TAG, "[Coder Wu] startTcpClient: stage 3");
     }
 
-    private static String receiveByteToString(final byte[] buff, int len) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < len; i++) {
-            byte b = buff[i];
-            int d = (b & 0x00_00_00_FF);
-            String s = Integer.toString(d, 16);
-            if (s.length() == 1) {
-                s = "0" + s;
-            }
-            builder.append(s.toUpperCase());
-        }
-        return builder.toString();
-    }
 }

@@ -2,6 +2,7 @@ package com.yuyan.driver.remote;
 
 import com.google.gson.Gson;
 import com.yuyan.Root;
+import org.yuyan.command.utils.ByteUtils;
 import com.yuyan.driver.local.CommandRepository;
 import com.yuyan.driver.serialport.Serialport;
 import com.yuyan.driver.serialport.SerialportRepository;
@@ -34,7 +35,7 @@ public class Function {
 
         Socket socket = SocketPlugin.INSTANCE.getSocket(Root.getThreadLocalSocket());
         OutputStream outputStream = socket.getOutputStream();
-        outputStream.write(FunctionCommon.sendStringToByte(valueCodeString));
+        outputStream.write(ByteUtils.hexStringToBytes(valueCodeString));
 
         InputStream inputStream = socket.getInputStream();
         byte[] buff = new byte[1024];
@@ -62,7 +63,7 @@ public class Function {
 
         Log.i(TAG, "[Coder Wu] postCommand: " +
                 "readLen = " + readLen
-                + ", " + FunctionCommon.receiveByteToString(buff, readLen));
+                + ", " + ByteUtils.hexBytesToString(buff, readLen));
 
         FunctionCommon.sendCommandRevReply(commandDataName, buff, readLen, response);
     }
@@ -75,7 +76,7 @@ public class Function {
         String commandDataName = request.getParameterMap().get("command_data_name")[0];
         String valueCodeString = request.getParameterMap().get("value")[0];
 
-        byte[] sendBytes = FunctionCommon.sendStringToByte(valueCodeString);
+        byte[] sendBytes = ByteUtils.hexStringToBytes(valueCodeString);
         Serialport serialport = Serialport.getInstance();
         serialport.write(sendBytes, sendBytes.length);
 
@@ -89,7 +90,7 @@ public class Function {
 
         Log.i(TAG, "[Coder Wu] postCommand: " +
                 "readLen = " + readLen
-                + ", " + FunctionCommon.receiveByteToString(buff, readLen));
+                + ", " + ByteUtils.hexBytesToString(buff, readLen));
         FunctionCommon.sendCommandRevReply(commandDataName, buff, readLen, response);
     }
 

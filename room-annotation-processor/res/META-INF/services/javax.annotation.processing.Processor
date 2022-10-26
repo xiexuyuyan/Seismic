@@ -1,3 +1,0 @@
-org.yuyan.room.annotation.processor.entity.EntityAnnotationProcessor
-org.yuyan.room.annotation.processor.dao.DaoAnnotationProcessor
-org.yuyan.room.annotation.processor.database.DatabaseAnnotationProcessor

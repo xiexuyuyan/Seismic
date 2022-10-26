@@ -1,8 +1,9 @@
-import com.yuyan.model.Command;
-import com.yuyan.model.CommandHexCode;
-import com.yuyan.model.CommandRecv;
+import org.yuyan.command.model.Command;
+import org.yuyan.command.model.CommandHexCode;
+import org.yuyan.command.model.CommandRecv;
+import org.yuyan.command.utils.ByteUtils;
 import com.yuyan.driver.local.CommandRepository;
-import com.yuyan.driver.local.CommandResolver;
+import org.yuyan.command.utils.CommandResolver;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -52,9 +53,9 @@ public class CommandRecvUnitTest {
             String fillString;
             if (valueType.equals("integer")) {
                 int d = Integer.parseInt(valueReplyStr);
-                fillString = CommandResolver.valueReplyFiller(recv, d);
+                fillString = CommandResolver.valueFiller(recv.commandData.replyHexCode, d);
             } else {
-                fillString = CommandResolver.valueReplyFiller(recv, valueReplyStr);
+                fillString = CommandResolver.valueFiller(recv.commandData.replyHexCode, valueReplyStr);
             }
 
 //            System.out.println("fillString = " + fillString);
@@ -70,38 +71,13 @@ public class CommandRecvUnitTest {
                                  , "38323553713030300D", "38393653673030310D", "38393753423031310D"
                                  , "38303953423030390D", "38333353423031330D", "38373753753030300D"};
         for (int i = 0; i < s.length; i++) {
-            byte[] b = sendStringToBytes(s[i]);
-            String s1 = receiveByteToString(b, b.length);
+            byte[] b = ByteUtils.hexStringToBytes(s[i]);
+            String s1 = ByteUtils.hexBytesToString(b, b.length);
             // System.out.println("s1 = " + s1);
             if (!s1.equals(s[i])) {
                 System.out.println("!!!!!!!!!!!! error");
             }
         }
-    }
-
-    private static byte[] sendStringToBytes(String s) {
-        byte[] b = new byte[s.length() / 2];
-        for (int i = 0; i < s.length()-1; i+=2) {
-            String s1 = s.substring(i, i+2);
-            int d = Integer.parseInt(s1, 16);
-            byte b1 = (byte) (d & 0x00_00_00_FF);
-            b[i/2] = b1;
-        }
-        return b;
-    }
-
-    private static String receiveByteToString(final byte[] buff, int len) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < len; i++) {
-            byte b = buff[i];
-            int d = (b & 0x00_00_00_FF);
-            String s = Integer.toString(d, 16);
-            if (s.length() == 1) {
-                s = "0" + s;
-            }
-            builder.append(s.toUpperCase());
-        }
-        return builder.toString();
     }
 
     private static String getValueString(CommandHexCode commandHexCode, String code) {
