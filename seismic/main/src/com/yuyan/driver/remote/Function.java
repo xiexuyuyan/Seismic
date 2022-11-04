@@ -84,6 +84,7 @@ public class Function {
         int readLen = serialport.read(buff);
 
         if (readLen == -1) {
+            Log.i(TAG, "[Coder Wu] postCommandLocal: timeout or other");
             FunctionCommon.sendSimpleStatReply(commandDataName, Constant.SERIALPORT_READ_TIMEOUT, response);
             return;
         }

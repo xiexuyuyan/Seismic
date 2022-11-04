@@ -15,10 +15,10 @@ dependencies {
 }
 
 repositories {
-    // mavenLocal()
+    mavenLocal()
 
     /* local */
-    maven { url 'file://D:/Maven/remoteMaven/repository' }
+    // maven { url 'file://D:/Maven/remoteMaven/repository' }
     /* github.com */
     // maven { url 'https://raw.githubusercontent.com/xiexuyuyan/remoteMaven/master/repository' }
     /* gitee.com */

@@ -9,6 +9,7 @@ import com.yuyan.driver.serialport.Serialport;
 import org.yuyan.command.model.Command;
 import org.yuyan.command.model.CommandHexCode;
 import com.yuyan.web.model.SimpleArrayStat;
+import org.yuyan.command.utils.CommandUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -172,7 +173,7 @@ public class HDCPKeyFunc {
             return new PostBurnHDCPKeyPreparation(false, Constant.COMMAND_STRING_NO_MATCH, commandDataName, valueCodeString, null, 0);
         }
 
-        String valueStr = CommandResolver.getValueString(commandHexCode, valueCodeString);
+        String valueStr = CommandUtils.getValueString(commandHexCode, valueCodeString);
         int valueInt = Integer.parseInt(valueStr);
         if (valueInt < 0 || valueInt >= Constant.HDCP_KEY_FILE_LIST.length) {
             return new PostBurnHDCPKeyPreparation(false, Constant.COMMAND_STRING_ARGS_ERR, commandDataName, valueCodeString, null, 0);

@@ -18,7 +18,7 @@ public class CommandUnitTest {
         int sum = new Random().nextInt(max) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
-        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.parse(randomHexCode, commandList, false);
         String[] matchedCommands = new String[commandRecvs.size()];
         for (int i = 0; i < commandRecvs.size(); i++) {
             matchedCommands[i] = commandRecvs.get(i).code;
@@ -39,7 +39,7 @@ public class CommandUnitTest {
 
         // String randomHexCode = "38393053713031300D383535536C3030300D";
         String randomHexCode = "38303147853030300D38303153603031300D";
-        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.parse(randomHexCode, commandList, false);
         String[] matchedCommands = new String[commandRecvs.size()];
         for (int i = 0; i < commandRecvs.size(); i++) {
             matchedCommands[i] = commandRecvs.get(i).code;
@@ -56,7 +56,7 @@ public class CommandUnitTest {
         String randomHexCode = "d439b1f638373053673030300Da8a135540a0e66738383053643030310Ddc38303747863030300D77a7";
         // [38303747863030300D, 38373053673030300D, 38383053643030310D]
         // [38373053673030300D, 38383053643030310D, 38303747863030300D]
-        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.parse(randomHexCode, commandList, false);
         String[] matchedCommands = new String[commandRecvs.size()];
         for (int i = 0; i < commandRecvs.size(); i++) {
             matchedCommands[i] = commandRecvs.get(i).code;

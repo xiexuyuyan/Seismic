@@ -45,7 +45,7 @@ public class TcpClientTest {
         int sum = new Random().nextInt(max) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
-        List<CommandRecv> commandRecvs = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvs = CommandResolver.parse(randomHexCode, commandList, false);
         String[] matchedCommands = new String[commandRecvs.size()];
         for (int i = 0; i < commandRecvs.size(); i++) {
             matchedCommands[i] = commandRecvs.get(i).code;

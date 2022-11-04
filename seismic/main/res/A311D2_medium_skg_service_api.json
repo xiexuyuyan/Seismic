@@ -1,0 +1,2512 @@
+{
+  "size": 100,
+  "model": "A311D2",
+  "brand": "SKG",
+  "manufacturer": "SKG",
+  "version": "0.0.1",
+  "date": "2022-11-03",
+  "author": "Coder Wu",
+  "board": "t7",
+  "commands": [
+    {
+      "name": "isTouchlockEnable",
+      "description": "01#获取触摸锁状态#isTouchlockEnable()",
+      "commandData": {
+        "name": "IS_TOUCHLOCK_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "01",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "01",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setTouchlockEnable",
+      "description": "02#设置触摸锁状态#setTouchlockEnable(boolean enable)",
+      "commandData": {
+        "name": "SET_TOUCHLOCK_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "02",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "02",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "isImageFreezed",
+      "description": "03#图像冻结#isImageFreezed()",
+      "commandData": {
+        "name": "IS_IMAGE_FREEZED",
+        "commandHexCode": {
+          "type": "31",
+          "code": "03",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "03",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setImageFreezed",
+      "description": "04#设置图像冻结状态#setImageFreezed(boolean enable)",
+      "commandData": {
+        "name": "SET_IMAGE_FREEZED",
+        "commandHexCode": {
+          "type": "31",
+          "code": "04",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "04",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "isRS232Enable",
+      "description": "05#获取RS232是否可用#isRS232Enable()",
+      "commandData": {
+        "name": "IS_R_S232_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "05",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "05",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setRS232Enable",
+      "description": "06#设置RS232是否可用#setRS232Enable(boolean enable)",
+      "commandData": {
+        "name": "SET_R_S232_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "06",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "06",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "isWOLEnable",
+      "description": "07#获取WOL开关#isWOLEnable()",
+      "commandData": {
+        "name": "IS_W_O_L_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "07",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "07",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setWOLEnable",
+      "description": "08#设置WOL开关#setWOLEnable(int enable)",
+      "commandData": {
+        "name": "SET_W_O_L_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "08",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "08",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getBaudRate",
+      "description": "09#获取RS232波特率Level#getBaudRate()",
+      "commandData": {
+        "name": "GET_BAUD_RATE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "09",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "09",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "setBaudRate",
+      "description": "10#设置RS232波特率Level#setBaudRate(int rate)",
+      "commandData": {
+        "name": "SET_BAUD_RATE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "0A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "100"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "0A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setRTCShutdownTime",
+      "description": "11#设置自动关机时间#setRTCShutdownTime(String time, String date)",
+      "commandData": {
+        "name": "SET_R_T_C_SHUTDOWN_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "0B",
+          "commandValue": {
+            "type": "string",
+            "min": "0000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFF"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "0B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getRTCShutdownTime",
+      "description": "12#获取自动关机时间#getRTCShutdownTime()",
+      "commandData": {
+        "name": "GET_R_T_C_SHUTDOWN_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "0C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "0C",
+          "commandValue": {
+            "type": "string",
+            "min": "0000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFF"
+          }
+        }
+      }
+    },
+    {
+      "name": "setRTCBootTime",
+      "description": "13#设置RTC开机时间#setRTCBootTime(int min, int hour,int week)",
+      "commandData": {
+        "name": "SET_R_T_C_BOOT_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "0D",
+          "commandValue": {
+            "type": "string",
+            "min": "0000000000",
+            "max": "FFFFFFFFFF"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "0D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "cancelRTCBootTime",
+      "description": "14#关闭RTC定时开机功能#cancelRTCBootTime()",
+      "commandData": {
+        "name": "CANCEL_R_T_C_BOOT_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "0E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "0E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getRTCBootTime",
+      "description": "15#获取已设置的RTC开机时间#getRTCBootTime()",
+      "commandData": {
+        "name": "GET_R_T_C_BOOT_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "0F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "0F",
+          "commandValue": {
+            "type": "string",
+            "min": "0000000000",
+            "max": "FFFFFFFFFF"
+          }
+        }
+      }
+    },
+    {
+      "name": "setRTCTime",
+      "description": "16#设置RTC时间#setRTCTime(int secRTC, int minuteRTC, int hourRTC, int dayRTC, int monthRTC, int yearRTC, int weekRTC)",
+      "commandData": {
+        "name": "SET_R_T_C_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "10",
+          "commandValue": {
+            "type": "string",
+            "min": "00000000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFF"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "10",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getRTCTime",
+      "description": "17#获取RTC时间#getRTCTime()",
+      "commandData": {
+        "name": "GET_R_T_C_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "11",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "11",
+          "commandValue": {
+            "type": "string",
+            "min": "00000000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFF"
+          }
+        }
+      }
+    },
+    {
+      "name": "getBootMode",
+      "description": "18#获取上电模式#getBootMode()",
+      "commandData": {
+        "name": "GET_BOOT_MODE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "12",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "12",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "002"
+          }
+        }
+      }
+    },
+    {
+      "name": "setBootMode",
+      "description": "19#设置上电模式#setBootMode(int mode)",
+      "commandData": {
+        "name": "SET_BOOT_MODE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "13",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "002"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "13",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "factoryReset",
+      "description": "20#工厂复位#factoryReset()",
+      "commandData": {
+        "name": "FACTORY_RESET",
+        "commandHexCode": {
+          "type": "31",
+          "code": "14",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "14",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getLANStatus",
+      "description": "21#获取Lan口状态#getLANStatus()",
+      "commandData": {
+        "name": "GET_L_A_N_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "15",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "15",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setLAN",
+      "description": "22#设置Lan口状态#setLAN(boolean status)",
+      "commandData": {
+        "name": "SET_L_A_N",
+        "commandHexCode": {
+          "type": "31",
+          "code": "16",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "16",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getAutoSwichWhenNoSignalStatus",
+      "description": "23#获取无信号自动跳转状态#getAutoSwichWhenNoSignalStatus()",
+      "commandData": {
+        "name": "GET_AUTO_SWICH_WHEN_NO_SIGNAL_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "17",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "17",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setAutoSwichWhenNoSignal",
+      "description": "24#设置无信号自动跳转#setAutoSwichWhenNoSignal(boolean status)",
+      "commandData": {
+        "name": "SET_AUTO_SWICH_WHEN_NO_SIGNAL",
+        "commandHexCode": {
+          "type": "31",
+          "code": "18",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "18",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getWakeUpReason",
+      "description": "25#获取开机原因#getWakeUpReason()",
+      "commandData": {
+        "name": "GET_WAKE_UP_REASON",
+        "commandHexCode": {
+          "type": "31",
+          "code": "19",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "19",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "getMacAddress",
+      "description": "26#获取mac地址#getMacAddress()",
+      "commandData": {
+        "name": "GET_MAC_ADDRESS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "1A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "1A",
+          "commandValue": {
+            "type": "string",
+            "min": "00",
+            "max": "FF"
+          }
+        }
+      }
+    },
+    {
+      "name": "setMacAddress",
+      "description": "27#设置mac地址#setMacAddress(String address)",
+      "commandData": {
+        "name": "SET_MAC_ADDRESS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "1B",
+          "commandValue": {
+            "type": "string",
+            "min": "00",
+            "max": "FF"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "1B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getSerialNumber",
+      "description": "28#获取机器sn码#getSerialNumber()",
+      "commandData": {
+        "name": "GET_SERIAL_NUMBER",
+        "commandHexCode": {
+          "type": "31",
+          "code": "1C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "1C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setSerialNumber",
+      "description": "29#设置机器sn码#setSerialNumber(String serialNumber)",
+      "commandData": {
+        "name": "SET_SERIAL_NUMBER",
+        "commandHexCode": {
+          "type": "31",
+          "code": "1D",
+          "commandValue": {
+            "type": "string",
+            "min": "00",
+            "max": "FF"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "1D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getBootTimeAmount",
+      "description": "30#获取系统总运行时间#getBootTimeAmount()todo",
+      "commandData": {
+        "name": "GET_BOOT_TIME_AMOUNT",
+        "commandHexCode": {
+          "type": "31",
+          "code": "1E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "1E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "setBootTimeAmount",
+      "description": "31#设置系统总运行时间#setBootTimeAmount(long time)",
+      "commandData": {
+        "name": "SET_BOOT_TIME_AMOUNT",
+        "commandHexCode": {
+          "type": "31",
+          "code": "1F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "100"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "1F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getTouchVersion",
+      "description": "32#获取触摸框版本#getTouchVersion()",
+      "commandData": {
+        "name": "GET_TOUCH_VERSION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "20",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "20",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getDeviceName",
+      "description": "33#获取设备名称#getDeviceName()",
+      "commandData": {
+        "name": "GET_DEVICE_NAME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "21",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "000"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "21",
+          "commandValue": {
+            "type": "string",
+            "min": "00",
+            "max": "FF"
+          }
+        }
+      }
+    },
+    {
+      "name": "setDeviceName",
+      "description": "34#设置设备名称#setDeviceName(String deviceName)",
+      "commandData": {
+        "name": "SET_DEVICE_NAME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "22",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "22",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getDeviceModel",
+      "description": "35#获取设备型号#getDeviceModel()",
+      "commandData": {
+        "name": "GET_DEVICE_MODEL",
+        "commandHexCode": {
+          "type": "31",
+          "code": "23",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "23",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getTouchDriveVersion",
+      "description": "36#获取触摸驱动版本#getTouchDriveVersion()",
+      "commandData": {
+        "name": "GET_TOUCH_DRIVE_VERSION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "24",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "24",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setEnergyWarningStatus",
+      "description": "37#ENERGY_WARNING_STATUS#setEnergyWarningStatus(boolean isOpen)",
+      "commandData": {
+        "name": "SET_ENERGY_WARNING_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "25",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "25",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getEnergyWarningStatus",
+      "description": "38#ENERGY_WARNING_STATUS#getEnergyWarningStatus()",
+      "commandData": {
+        "name": "GET_ENERGY_WARNING_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "26",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "26",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setEnergyWarningLevel",
+      "description": "39#ENERGY_WARNING_LEVEL#setEnergyWarningLevel(int level)",
+      "commandData": {
+        "name": "SET_ENERGY_WARNING_LEVEL",
+        "commandHexCode": {
+          "type": "31",
+          "code": "27",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "27",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getEnergyWarningLevel",
+      "description": "40#ENERGY_WARNING_LEVEL#getEnergyWarningLevel()",
+      "commandData": {
+        "name": "GET_ENERGY_WARNING_LEVEL",
+        "commandHexCode": {
+          "type": "31",
+          "code": "28",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "28",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getWakeUpSource",
+      "description": "41#获取信源唤醒开关标志位#getWakeUpSource()",
+      "commandData": {
+        "name": "GET_WAKE_UP_SOURCE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "29",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "29",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setWakeUpSource",
+      "description": "42#设置信源唤醒开关标志位#setWakeUpSource(int wkSource)",
+      "commandData": {
+        "name": "SET_WAKE_UP_SOURCE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "2A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "2A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getCommonBoardScreenInfo",
+      "description": "43#获取共版屏幕信息#getCommonBoardScreenInfo()",
+      "commandData": {
+        "name": "GET_COMMON_BOARD_SCREEN_INFO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "2B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "2B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setCommonBoardScreenInfo",
+      "description": "44#设置共版屏幕信息#setCommonBoardScreenInfo(String value)",
+      "commandData": {
+        "name": "SET_COMMON_BOARD_SCREEN_INFO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "2C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "2C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getUsbUpgrade",
+      "description": "45#获取USB升级标志位#getUsbUpgrade()",
+      "commandData": {
+        "name": "GET_USB_UPGRADE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "2D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "2D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setUsbUpgrade",
+      "description": "46#设置USB升级标志位#setUsbUpgrade(int UsbUpgrade_fg)",
+      "commandData": {
+        "name": "SET_USB_UPGRADE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "2E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "2E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getKSDANumber",
+      "description": "47#获取KSDA单号#getKSDANumber()",
+      "commandData": {
+        "name": "GET_K_S_D_A_NUMBER",
+        "commandHexCode": {
+          "type": "31",
+          "code": "2F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "2F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setCommonBoardMotherboardInfo",
+      "description": "48#设置共版公版信息#setCommonBoardMotherboardInfo(String value)",
+      "commandData": {
+        "name": "SET_COMMON_BOARD_MOTHERBOARD_INFO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "30",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "30",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getCommonBoardMotherboardInfo",
+      "description": "49#获取共版公版信息#getCommonBoardMotherboardInfo()",
+      "commandData": {
+        "name": "GET_COMMON_BOARD_MOTHERBOARD_INFO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "31",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "31",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setCommonBoardCustomInfo",
+      "description": "50#设置共版自定义信息#setCommonBoardCustomInfo(String value)",
+      "commandData": {
+        "name": "SET_COMMON_BOARD_CUSTOM_INFO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "32",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "32",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getCommonBoardCustomInfo",
+      "description": "51#设置共版自定义信息#getCommonBoardCustomInfo()",
+      "commandData": {
+        "name": "GET_COMMON_BOARD_CUSTOM_INFO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "33",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "33",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getPanelName",
+      "description": "52#获取屏参名字#getPanelName()",
+      "commandData": {
+        "name": "GET_PANEL_NAME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "34",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "34",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getBoardVersion",
+      "description": "53#获取主板版本#getBoardVersion(int type)",
+      "commandData": {
+        "name": "GET_BOARD_VERSION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "35",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "35",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getNoOperationStandbyTime",
+      "description": "54#获取无操作自动待机时间#getNoOperationStandbyTime()",
+      "commandData": {
+        "name": "GET_NO_OPERATION_STANDBY_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "36",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "36",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setNoOperationStandbyTime",
+      "description": "55#设置无操作自动待机时间#setNoOperationStandbyTime(int value)",
+      "commandData": {
+        "name": "SET_NO_OPERATION_STANDBY_TIME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "37",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "37",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getAudSpkConf",
+      "description": "56#获取喇叭立体音名#getAudSpkConf()",
+      "commandData": {
+        "name": "GET_AUD_SPK_CONF",
+        "commandHexCode": {
+          "type": "31",
+          "code": "38",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "38",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setAudSpkConf",
+      "description": "57#设置喇叭立体音名#setAudSpkConf(String AudSpkConf)",
+      "commandData": {
+        "name": "SET_AUD_SPK_CONF",
+        "commandHexCode": {
+          "type": "31",
+          "code": "39",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "39",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getAudSubConf",
+      "description": "58#获取喇叭低音炮名#getAudSubConf()",
+      "commandData": {
+        "name": "GET_AUD_SUB_CONF",
+        "commandHexCode": {
+          "type": "31",
+          "code": "3A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "3A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setAudSubConf",
+      "description": "59#设置喇叭低音炮名#setAudSubConf(String AudSubConf)",
+      "commandData": {
+        "name": "SET_AUD_SUB_CONF",
+        "commandHexCode": {
+          "type": "31",
+          "code": "3B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "3B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "isW62BBoard",
+      "description": "60#当前是否是w62b#isW62BBoard()",
+      "commandData": {
+        "name": "IS_W62_B_BOARD",
+        "commandHexCode": {
+          "type": "31",
+          "code": "3C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "3C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getScreenTranslation",
+      "description": "61#获取屏幕偏移#getScreenTranslation()",
+      "commandData": {
+        "name": "GET_SCREEN_TRANSLATION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "3D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "3D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setScreenTranslation",
+      "description": "62#设置屏幕相对于左上角的偏移量#setScreenTranslation(int horizontal, int vertical)",
+      "commandData": {
+        "name": "SET_SCREEN_TRANSLATION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "3E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "3E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getSoVersion",
+      "description": "63#获取底层.so接口版本#getSoVersion()",
+      "commandData": {
+        "name": "GET_SO_VERSION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "3F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "3F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setLogoConfig",
+      "description": "64#设置开机logo恢复#setLogoConfig(int config)",
+      "commandData": {
+        "name": "SET_LOGO_CONFIG",
+        "commandHexCode": {
+          "type": "31",
+          "code": "40",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "40",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getLogoDisplay",
+      "description": "65#获取开机logo显示开关#getLogoDisplay()",
+      "commandData": {
+        "name": "GET_LOGO_DISPLAY",
+        "commandHexCode": {
+          "type": "31",
+          "code": "41",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "41",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setLogoDisplay",
+      "description": "66#设置开机logo是否显示#setLogoDisplay(boolean status)",
+      "commandData": {
+        "name": "SET_LOGO_DISPLAY",
+        "commandHexCode": {
+          "type": "31",
+          "code": "42",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "42",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "changeLogo",
+      "description": "67#修改开机logo#changeLogo(String path)",
+      "commandData": {
+        "name": "CHANGE_LOGO",
+        "commandHexCode": {
+          "type": "31",
+          "code": "43",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "43",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setOtgPortChange",
+      "description": "68#设置OTG连接PORT接口#setOtgPortChange(int port)",
+      "commandData": {
+        "name": "SET_OTG_PORT_CHANGE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "44",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "44",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setLedStatus",
+      "description": "69#设置按键板上的LED灯#setLedStatus(int status)",
+      "commandData": {
+        "name": "SET_LED_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "45",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "45",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setPowerSaveMode",
+      "description": "70#设置电源模式#setPowerSaveMode(int mode)",
+      "commandData": {
+        "name": "SET_POWER_SAVE_MODE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "46",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "46",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getPowerSaveMode",
+      "description": "71#获取电源模式#getPowerSaveMode()",
+      "commandData": {
+        "name": "GET_POWER_SAVE_MODE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "47",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "47",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "rebootSystem",
+      "description": "72#重启系统#rebootSystem()",
+      "commandData": {
+        "name": "REBOOT_SYSTEM",
+        "commandHexCode": {
+          "type": "31",
+          "code": "48",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "48",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setUsbFollowMode",
+      "description": "73#设置USB跟随模式#setUsbFollowMode(int mode)",
+      "commandData": {
+        "name": "SET_USB_FOLLOW_MODE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "49",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "49",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getUsbFollowMode",
+      "description": "74#获取USB跟随模式#getUsbFollowMode()",
+      "commandData": {
+        "name": "GET_USB_FOLLOW_MODE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "4A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "4A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setSleepModeEnable",
+      "description": "75#设置休眠开关#setSleepModeEnable(boolean mode)",
+      "commandData": {
+        "name": "SET_SLEEP_MODE_ENABLE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "4B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "4B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "isSleepModeEnabled",
+      "description": "76#获取休眠状态#isSleepModeEnabled()",
+      "commandData": {
+        "name": "IS_SLEEP_MODE_ENABLED",
+        "commandHexCode": {
+          "type": "31",
+          "code": "4C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "4C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getBurnTimeAmount",
+      "description": "77#获取系统老化时间#getBurnTimeAmount()",
+      "commandData": {
+        "name": "GET_BURN_TIME_AMOUNT",
+        "commandHexCode": {
+          "type": "31",
+          "code": "4D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "4D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setBurnTimeAmount",
+      "description": "78#设置系统老化时间#setBurnTimeAmount(long time)",
+      "commandData": {
+        "name": "SET_BURN_TIME_AMOUNT",
+        "commandHexCode": {
+          "type": "31",
+          "code": "4E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "4E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setHDCPKey",
+      "description": "79#烧录HDCPKEY#setHDCPKey(int keyType)",
+      "commandData": {
+        "name": "SET_H_D_C_P_KEY",
+        "commandHexCode": {
+          "type": "31",
+          "code": "4F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "4F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getHDCPKeyExists",
+      "description": "80#获取hdcprxkey是否已烧录#getHDCPKeyExists(int keyType)",
+      "commandData": {
+        "name": "GET_H_D_C_P_KEY_EXISTS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "50",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "50",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "androidOPSContactOpen",
+      "description": "81#OPS串口通讯节点开启接口#androidOPSContactOpen(int baudrate)",
+      "commandData": {
+        "name": "ANDROID_O_P_S_CONTACT_OPEN",
+        "commandHexCode": {
+          "type": "31",
+          "code": "51",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "51",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "androidOPSContactClose",
+      "description": "82#OPS串口通讯节点关闭接口#androidOPSContactClose()",
+      "commandData": {
+        "name": "ANDROID_O_P_S_CONTACT_CLOSE",
+        "commandHexCode": {
+          "type": "31",
+          "code": "52",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "52",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getBoardTypecVersion",
+      "description": "83#获取Type-C版本#getBoardTypecVersion(int type)",
+      "commandData": {
+        "name": "GET_BOARD_TYPEC_VERSION",
+        "commandHexCode": {
+          "type": "31",
+          "code": "53",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "53",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "isFileExist",
+      "description": "84#路径是否存在#isFileExist(String path)",
+      "commandData": {
+        "name": "IS_FILE_EXIST",
+        "commandHexCode": {
+          "type": "31",
+          "code": "54",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "54",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getEthIoStatus",
+      "description": "85#单次获取以太网口插拔状态接口#getEthIoStatus(int id)",
+      "commandData": {
+        "name": "GET_ETH_IO_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "55",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "55",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setUart0SwitchFunc",
+      "description": "86#切换UART的DEBUG与RS232功能#setUart0SwitchFunc(int func)",
+      "commandData": {
+        "name": "SET_UART0_SWITCH_FUNC",
+        "commandHexCode": {
+          "type": "31",
+          "code": "56",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "56",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setEthernetReset",
+      "description": "87#复位以太网#setEthernetReset()",
+      "commandData": {
+        "name": "SET_ETHERNET_RESET",
+        "commandHexCode": {
+          "type": "31",
+          "code": "57",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "57",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "changeRS232Debug",
+      "description": "88#切换UART的DEBUG与RS232功能#changeRS232Debug(int mode)",
+      "commandData": {
+        "name": "CHANGE_R_S232_DEBUG",
+        "commandHexCode": {
+          "type": "31",
+          "code": "58",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "58",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getClockDateFormat",
+      "description": "89#获取日期的时间格式#getClockDateFormat()",
+      "commandData": {
+        "name": "GET_CLOCK_DATE_FORMAT",
+        "commandHexCode": {
+          "type": "31",
+          "code": "59",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "59",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setClockDateFormat",
+      "description": "90#设置日期的时间格式#setClockDateFormat(String format)",
+      "commandData": {
+        "name": "SET_CLOCK_DATE_FORMAT",
+        "commandHexCode": {
+          "type": "31",
+          "code": "5A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "5A",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setMicMixerInputAmplify",
+      "description": "91#设置混音芯片MIC输入增益#setMicMixerInputAmplify(int value)",
+      "commandData": {
+        "name": "SET_MIC_MIXER_INPUT_AMPLIFY",
+        "commandHexCode": {
+          "type": "31",
+          "code": "5B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "5B",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getEthMacAddress",
+      "description": "92#获取千兆网卡mac地址#getEthMacAddress()",
+      "commandData": {
+        "name": "GET_ETH_MAC_ADDRESS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "5C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "5C",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setEthMacAddress",
+      "description": "93#设置千兆网卡mac地址#setEthMacAddress(String address)",
+      "commandData": {
+        "name": "SET_ETH_MAC_ADDRESS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "5D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "5D",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setIcmpStatus",
+      "description": "94#设置ICMP状态#setIcmpStatus(int status)",
+      "commandData": {
+        "name": "SET_ICMP_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "5E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "5E",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getIcmpStatus",
+      "description": "95#获取ICMP状态#getIcmpStatus()",
+      "commandData": {
+        "name": "GET_ICMP_STATUS",
+        "commandHexCode": {
+          "type": "31",
+          "code": "5F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "5F",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "rebootSystemAfterDelay",
+      "description": "96#在指定延时后重启系统#rebootSystemAfterDelay(int delayMs)",
+      "commandData": {
+        "name": "REBOOT_SYSTEM_AFTER_DELAY",
+        "commandHexCode": {
+          "type": "31",
+          "code": "60",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "60",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getTopActivity",
+      "description": "97#获取栈顶activity的全限定名#getTopActivity()",
+      "commandData": {
+        "name": "GET_TOP_ACTIVITY",
+        "commandHexCode": {
+          "type": "31",
+          "code": "61",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "61",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "getEbswDeviceModel",
+      "description": "98#获取设备型号#getEbswDeviceModel()",
+      "commandData": {
+        "name": "GET_EBSW_DEVICE_MODEL",
+        "commandHexCode": {
+          "type": "31",
+          "code": "62",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "62",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setDeviceModel",
+      "description": "99#设置共版信息的设备型号#setDeviceModel(String deviceModel)",
+      "commandData": {
+        "name": "SET_DEVICE_MODEL",
+        "commandHexCode": {
+          "type": "31",
+          "code": "63",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "63",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    },
+    {
+      "name": "setPanelName",
+      "description": "100#设置共版信息的屏名#setPanelName(String panelName)",
+      "commandData": {
+        "name": "SET_PANEL_NAME",
+        "commandHexCode": {
+          "type": "31",
+          "code": "64",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        },
+        "replyHexCode": {
+          "type": "32",
+          "code": "64",
+          "commandValue": {
+            "type": "integer",
+            "min": "000",
+            "max": "001"
+          }
+        }
+      }
+    }
+  ]
+}

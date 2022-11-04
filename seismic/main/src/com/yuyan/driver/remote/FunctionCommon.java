@@ -8,6 +8,7 @@ import org.yuyan.command.model.Command;
 import org.yuyan.command.model.CommandRecv;
 import com.yuyan.utils.Log;
 import com.yuyan.web.model.SimpleStat;
+import org.yuyan.command.utils.CommandUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,11 +25,11 @@ public class FunctionCommon {
     public static void sendCommandRevReply(String commandDataName, byte[] buff, int readLen, HttpServletResponse response) {
         String reply = ByteUtils.hexBytesToString(buff, readLen);
         List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
-        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(reply, commandList, true);
+        List<CommandRecv> commandRecvList = CommandResolver.parse(reply, commandList, true);
 
         for (int i = 0; i < commandRecvList.size(); i++) {
             CommandRecv commandRecv = commandRecvList.get(i);
-            String replyValueString = CommandResolver.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
+            String replyValueString = CommandUtils.getValueString(commandRecv.commandData.replyHexCode, commandRecv.code);
             SimpleStat statMessage = new SimpleStat(commandRecv.commandData.name, replyValueString);
             Gson gson = new Gson();
             String stateString = gson.toJson(statMessage);

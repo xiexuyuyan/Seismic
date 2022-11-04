@@ -4,6 +4,7 @@ import org.yuyan.command.model.CommandRecv;
 import org.yuyan.command.utils.ByteUtils;
 import com.yuyan.driver.local.CommandRepository;
 import org.yuyan.command.utils.CommandResolver;
+import org.yuyan.command.utils.CommandUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class CommandRecvUnitTest {
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
 
-        List<CommandRecv> commandRecvList = CommandResolver.checkUnitRecv(randomHexCode, commandList, false);
+        List<CommandRecv> commandRecvList = CommandResolver.parse(randomHexCode, commandList, false);
         String[] matchedCommands = new String[commandRecvList.size()];
         for (int i = 0; i < commandRecvList.size(); i++) {
             matchedCommands[i] = commandRecvList.get(i).code;
@@ -53,9 +54,9 @@ public class CommandRecvUnitTest {
             String fillString;
             if (valueType.equals("integer")) {
                 int d = Integer.parseInt(valueReplyStr);
-                fillString = CommandResolver.valueFiller(recv.commandData.replyHexCode, d);
+                fillString = CommandUtils.valueFiller(recv.commandData.replyHexCode, d);
             } else {
-                fillString = CommandResolver.valueFiller(recv.commandData.replyHexCode, valueReplyStr);
+                fillString = CommandUtils.valueFiller(recv.commandData.replyHexCode, valueReplyStr);
             }
 
 //            System.out.println("fillString = " + fillString);
