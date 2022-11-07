@@ -2,7 +2,9 @@ import com.yuyan.driver.local.CommandRepository;
 import com.yuyan.utils.Log;
 import model.CommandResolver;
 import org.junit.jupiter.api.Test;
+import org.yuyan.command.model.CommandHexCode;
 import org.yuyan.command.model.CommandRecv;
+import org.yuyan.command.utils.CommandUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +14,7 @@ public class CommandParseTest {
 
     @Test
     public void t2() throws IOException {
-        String codeStr = "3E3031310B3538353232313130340D";
+        String codeStr = "383031311A3030300D";
 
         String defaultFilePath = "F:\\Users\\azxjq\\" +
                 "AndroidProjects\\A311D2\\" +
@@ -24,7 +26,12 @@ public class CommandParseTest {
                 codeStr
                 , CommandRepository.INSTANCE.commandList.commands
                 , false);
-
+        String valueStr = CommandUtils.valueFiller(
+                commandRecvs.get(0).commandData.replyHexCode, "11:22:33:AA:BB:cc");
+        CommandHexCode replyHexCode = commandRecvs.get(0).commandData.replyHexCode;
+        String replyString = CommandUtils.formatSimpleHexCodeString(replyHexCode, valueStr);
+        Log.i(TAG, "[Coder Wu] t2: replyString = " + replyString);
+        Log.i(TAG, "[Coder Wu] t2: valueStr = " + valueStr);
         Log.i(TAG, "[Coder Wu] t2: commandRecvs = " + commandRecvs.get(0));
     }
 }

@@ -652,8 +652,8 @@
           "code": "1A",
           "commandValue": {
             "type": "string",
-            "min": "00",
-            "max": "FF"
+            "min": "0000000000000000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -668,8 +668,8 @@
           "code": "1B",
           "commandValue": {
             "type": "string",
-            "min": "00",
-            "max": "FF"
+            "min": "0000000000000000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -701,9 +701,9 @@
           "type": "32",
           "code": "1C",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -719,7 +719,7 @@
           "commandValue": {
             "type": "string",
             "min": "00",
-            "max": "FF"
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -735,7 +735,7 @@
     },
     {
       "name": "getBootTimeAmount",
-      "description": "30#获取系统总运行时间#getBootTimeAmount()todo",
+      "description": "30#获取系统总运行时间#getBootTimeAmount()",
       "commandData": {
         "name": "GET_BOOT_TIME_AMOUNT",
         "commandHexCode": {
@@ -751,9 +751,9 @@
           "type": "32",
           "code": "1E",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "100"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -767,9 +767,9 @@
           "type": "31",
           "code": "1F",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "100"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -801,9 +801,9 @@
           "type": "32",
           "code": "20",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -828,7 +828,7 @@
           "commandValue": {
             "type": "string",
             "min": "00",
-            "max": "FF"
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -842,9 +842,9 @@
           "type": "31",
           "code": "22",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -869,16 +869,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "23",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -894,16 +894,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "24",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -944,7 +944,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -969,7 +969,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -994,7 +994,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1003,7 +1003,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1019,7 +1019,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1028,7 +1028,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1044,7 +1044,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1069,16 +1069,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "2B",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1092,9 +1092,9 @@
           "type": "31",
           "code": "2C",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1119,7 +1119,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1128,7 +1128,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1144,7 +1144,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1169,16 +1169,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "2F",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1192,9 +1192,9 @@
           "type": "31",
           "code": "30",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1219,16 +1219,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "31",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1242,9 +1242,9 @@
           "type": "31",
           "code": "32",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1269,16 +1269,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "33",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1294,16 +1294,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "34",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1319,7 +1319,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1328,7 +1328,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "1000"
           }
         }
       }
@@ -1344,7 +1344,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1353,7 +1353,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "65535"
           }
         }
       }
@@ -1369,7 +1369,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "65535"
           }
         },
         "replyHexCode": {
@@ -1394,16 +1394,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "38",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1417,9 +1417,9 @@
           "type": "31",
           "code": "39",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1444,16 +1444,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "3A",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1467,9 +1467,9 @@
           "type": "31",
           "code": "3B",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1494,7 +1494,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1519,16 +1519,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "3D",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1542,9 +1542,9 @@
           "type": "31",
           "code": "3E",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1569,16 +1569,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "3F",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1594,7 +1594,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "9999"
           }
         },
         "replyHexCode": {
@@ -1619,7 +1619,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1667,9 +1667,9 @@
           "type": "31",
           "code": "43",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1694,7 +1694,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1703,7 +1703,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1719,7 +1719,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1728,7 +1728,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1744,7 +1744,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1769,7 +1769,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1778,7 +1778,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1794,7 +1794,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1819,7 +1819,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -1844,7 +1844,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1853,7 +1853,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -1867,9 +1867,9 @@
           "type": "31",
           "code": "4B",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1894,7 +1894,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -1919,16 +1919,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "4D",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -1942,9 +1942,9 @@
           "type": "31",
           "code": "4E",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -1969,7 +1969,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "003"
           }
         },
         "replyHexCode": {
@@ -1994,7 +1994,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "003"
           }
         },
         "replyHexCode": {
@@ -2019,7 +2019,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -2028,7 +2028,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -2044,7 +2044,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -2076,9 +2076,9 @@
           "type": "32",
           "code": "53",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -2092,9 +2092,9 @@
           "type": "31",
           "code": "54",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -2169,7 +2169,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -2217,18 +2217,18 @@
           "type": "31",
           "code": "59",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+          "type": "integer",
+          "min": "000",
+          "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "59",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -2242,9 +2242,9 @@
           "type": "31",
           "code": "5A",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -2269,7 +2269,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "255"
           }
         },
         "replyHexCode": {
@@ -2294,16 +2294,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "5C",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "0000000000000000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -2317,9 +2317,9 @@
           "type": "31",
           "code": "5D",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "0000000000000000000000000000000000",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -2344,7 +2344,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         },
         "replyHexCode": {
@@ -2369,7 +2369,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -2394,7 +2394,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "65535"
           }
         },
         "replyHexCode": {
@@ -2419,16 +2419,16 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
           "type": "32",
           "code": "61",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         }
       }
@@ -2444,7 +2444,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "000"
           }
         },
         "replyHexCode": {
@@ -2453,7 +2453,7 @@
           "commandValue": {
             "type": "integer",
             "min": "000",
-            "max": "001"
+            "max": "100"
           }
         }
       }
@@ -2467,9 +2467,9 @@
           "type": "31",
           "code": "63",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
@@ -2492,9 +2492,9 @@
           "type": "31",
           "code": "64",
           "commandValue": {
-            "type": "integer",
-            "min": "000",
-            "max": "001"
+            "type": "string",
+            "min": "00",
+            "max": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
           }
         },
         "replyHexCode": {
