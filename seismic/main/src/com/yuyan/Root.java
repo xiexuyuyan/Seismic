@@ -1,9 +1,11 @@
 package com.yuyan;
 
+import com.yuyan.utils.Log;
 import org.yuyan.cat.handler.ServletHandler;
 import org.yuyan.cat.server.TomcatServer;
 import com.yuyan.driver.local.CommandRepository;
 import com.yuyan.web.ServletThreadMaintainer;
+import org.yuyan.command.model.CommandList;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -33,7 +35,11 @@ public class Root {
     }
 
     private void run() throws IOException {
-        CommandRepository.init();
+        String defaultFilePath = "F:\\Users\\azxjq\\" +
+                "AndroidProjects\\A311D2\\" +
+                "SkgCommandMultiple\\cell_pin\\main\\assets\\";
+        String defaultFileName = "A311D2_medium_skg_service_api.json";
+        CommandRepository.init(defaultFilePath + defaultFileName);
 
         TomcatServer tomcatServer = new TomcatServer();
 

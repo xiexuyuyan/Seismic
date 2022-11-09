@@ -20,7 +20,7 @@ public class CommandRecvUnitTest {
 
         CommandRepository.init("seismic/test/res/A311D2_medium_auto_test_command.json");
         List<Command> commandList = CommandRepository.INSTANCE.commandList.commands;
-        int sum = new Random().nextInt(max) + 1;
+        int sum = new Random().nextInt(1) + 1;
         String[] originCommands = new String[sum];
         String randomHexCode = RandomCommandFactory.createRandomCommands(commandList, sum, originCommands);
 

@@ -5,7 +5,7 @@ import com.yuyan.utils.Log;
 public class SerialportRepository {
     private static final String TAG = "SerialportRepository";
 
-    private static final String SERIALPORT_NAME = "COM6";
+    private static final String SERIALPORT_NAME = "COM7";
 
     public static void switchSerialport(boolean status) {
         Serialport serialport = Serialport.getInstance();
